@@ -14,13 +14,12 @@ public class User {
     private String name;
     private UserInfo info;
     private Role role;
-    private String identificationCard;
+    
 
     public User(String name, UserInfo info, Role role, String identificationCard) {
         this.name = name;
         this.info = info;
         this.role = role;
-        this.identificationCard = identificationCard;
     }
 
     public String getName() {
@@ -45,14 +44,6 @@ public class User {
 
     public void setRole(Role role) {
         this.role = role;
-    }
-
-    public String getIdentificationCard() {
-        return identificationCard;
-    }
-
-    public void setIdentificationCard(String identificationCard) {
-        this.identificationCard = identificationCard;
     }
 
     public boolean hasRole() {

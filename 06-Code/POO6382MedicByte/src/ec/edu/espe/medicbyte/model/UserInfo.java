@@ -12,7 +12,7 @@ import java.util.Date;
  * @author Michael Cobacango -ESPE -DCCO
  */
 public class UserInfo {
-
+    private String identificationCard;
     private String firstName;
     private String lastName;
     private Date birthday;
@@ -21,8 +21,9 @@ public class UserInfo {
     private String phone;
     private String address;
 
-    public UserInfo(String firstName, String lastName, Date birthday,
-            Gender gender, String email, String phone, String address) {
+
+    public UserInfo(String identificationCard, String firstName, String lastName, Date birthday, Gender gender, String email, String phone, String address) {
+        this.identificationCard = identificationCard;
         this.firstName = firstName;
         this.lastName = lastName;
         this.birthday = birthday;
@@ -31,6 +32,16 @@ public class UserInfo {
         this.phone = phone;
         this.address = address;
     }
+
+    public String getIdentificationCard() {
+        return identificationCard;
+    }
+
+    public void setIdentificationCard(String identificationCard) {
+        this.identificationCard = identificationCard;
+    }
+    
+   
 
     public String getFirstName() {
         return firstName;

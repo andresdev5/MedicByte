@@ -13,6 +13,10 @@ public class Patient extends User {
 
     private boolean hasSecure;
 
+    public Patient(String name, UserInfo info, Role role, String identificationCard) {
+        super(name, info, role, identificationCard);
+    }
+
     public boolean isHasSecure() {
         return hasSecure;
     }
@@ -21,10 +25,7 @@ public class Patient extends User {
         this.hasSecure = hasSecure;
     }
 
-    public Patient(boolean hasSecure, String name, UserInfo info, Role role, String identificationCard) {
-        super(name, info, role, identificationCard);
-        this.hasSecure = hasSecure;
-    }
+    
 
     public Appointment[] listAppointment() {
         //TODO
