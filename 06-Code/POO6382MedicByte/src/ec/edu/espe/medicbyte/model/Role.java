@@ -12,10 +12,10 @@ package ec.edu.espe.medicbyte.model;
 public class Role {
     private String name;
     private String displayName;
-    private Perimission Type[];
+    private Permission Type[];
     
     
-    public void addPermission(Perimission  permission){
+    public void addPermission(Permission  permission){
     
     }
     

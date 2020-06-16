@@ -20,11 +20,6 @@ public class Medic extends User {
         return null;
     }
 
-    public Report[] listReports() {
-        //TODO
-        return null;
-    }
-
     public void findPatient(int id) {
         //TODO
     }
