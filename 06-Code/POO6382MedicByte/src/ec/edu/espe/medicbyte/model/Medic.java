@@ -24,8 +24,8 @@ public class Medic extends User {
         //TODO
         return null;
     }
-    
-    public void findPatient(int id){
+
+    public void findPatient(int id) {
         //TODO
     }
 }

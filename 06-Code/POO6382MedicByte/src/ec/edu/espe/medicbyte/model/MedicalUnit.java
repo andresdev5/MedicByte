@@ -10,11 +10,10 @@ package ec.edu.espe.medicbyte.model;
  * @author Junior Stalin Jurado Peña - ESPE - DCCO
  */
 public enum MedicalUnit {
-Oncology,
-Odontology,
-Gynecology,
-Traumatology,
-Pediatric;
+    Oncology,
+    Odontology,
+    Gynecology,
+    Traumatology,
+    Pediatric;
 
-    
 }

@@ -5,16 +5,18 @@
  */
 package ec.edu.espe.medicbyte.model;
 
+import java.util.Date;
+
 /**
  *
  * @author Junior Stalin Jurado Peña - ESPE - DCCO
  */
 public class Appointment {
-    
+
     private Patient patient;
     private Medic medic;
     private Date scheduledAt;
     private MedicalUnit medicalUnit;
     private Hospital hospital;
-    
+
 }
