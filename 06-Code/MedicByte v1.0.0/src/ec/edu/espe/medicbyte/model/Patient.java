@@ -16,8 +16,16 @@ public class Patient extends User {
 
     private Date age;
 
+    public Date getAge() {
+        return age;
+    }
+
+    public void setAge(Date age) {
+        this.age = age;
+    }
+
     public void enterData() {
-        int age;
+
         Scanner dataEntry = new Scanner(System.in);
 
         System.out.print("Cédula: ");
@@ -30,15 +38,16 @@ public class Patient extends User {
         setName(dataEntry.nextLine());
 
         System.out.print("Edad: ");
-        age = dataEntry.nextInt();
+        setAge(age);
 
         System.out.print("Teléfono: ");
         setPhone(dataEntry.nextLine());
 
         System.out.print("Email: ");
         setEmail(dataEntry.nextLine());
+
         System.out.print("Género: ");
-        //setGender();
+        setGender(Gender.valueOf(dataEntry.nextLine()));
 
     }
 

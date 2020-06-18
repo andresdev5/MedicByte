@@ -10,15 +10,13 @@ package ec.edu.espe.medicbyte.model;
  * @author Junior Stalin Jurado Peña - ESPE - DCCO
  */
 public class User {
-    
-   private String identificationcard;
-   private String surname;
-   private String name; 
-   private String phone;
-   private String email;
-   private Gender gender;
-   
-   
+
+    private String identificationcard;
+    private String surname;
+    private String name;
+    private String phone;
+    private String email;
+    private Gender gender;
 
     public String getIdentificationcard() {
         return identificationcard;
@@ -67,9 +65,5 @@ public class User {
     public void setGender(Gender gender) {
         this.gender = gender;
     }
-   
-   
-   
-    
-    
+
 }

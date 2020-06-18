@@ -11,7 +11,11 @@ package ec.edu.espe.medicbyte.model;
  */
 public class Hospital {
     
+    
+    
     Pediatric pediatric;
+    Odontology odontology;
+    Traumatology traumatology;
     
     
 }
