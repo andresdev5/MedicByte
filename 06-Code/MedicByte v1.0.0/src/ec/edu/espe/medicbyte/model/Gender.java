@@ -7,8 +7,8 @@ package ec.edu.espe.medicbyte.model;
 
 /**
  *
- * @author Junior Stalin Jurado Peña - ESPE - DCCO
+ * @author Michael Cobacango -ESPE -DCCO
  */
-public class Gender {
-    
+public enum Gender {
+    FEMALE, MALE, UNIDENTIFIED;
 }
