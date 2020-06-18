@@ -9,8 +9,7 @@ package ec.edu.espe.medicbyte.model;
  *
  * @author Junior Stalin Jurado Peña - ESPE - DCCO
  */
-public class Odontology {
-    
+public class Appointment {
     
     
     
