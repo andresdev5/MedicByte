@@ -9,8 +9,6 @@ package ec.edu.espe.medicbyte.model;
  *
  * @author Junior Stalin Jurado Peña - ESPE - DCCO
  */
-public enum Gender {
-    Male, Female, Notspecified;
-    
+public class Traumatology {
     
 }
