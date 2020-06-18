@@ -13,9 +13,10 @@ public class Hospital {
     
     
     
-    Pediatric pediatric;
-    Odontology odontology;
-    Traumatology traumatology;
+    private Pediatric pediatric;
+    private Odontology odontology;
+    private Traumatology traumatology;
+    
     
     
 }

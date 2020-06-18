@@ -5,12 +5,14 @@
  */
 package ec.edu.espe.medicbyte.model;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author Junior Stalin Jurado Peña - ESPE - DCCO
  */
 public class Pediatric {
     
-    
+    ArrayList<String> listMedicPediatric = new ArrayList<String>();
     
 }

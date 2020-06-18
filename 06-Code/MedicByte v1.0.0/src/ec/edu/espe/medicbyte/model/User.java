@@ -18,6 +18,7 @@ public class User {
     private String email;
     private Gender gender;
 
+    
     public String getIdentificationcard() {
         return identificationcard;
     }
@@ -65,5 +66,5 @@ public class User {
     public void setGender(Gender gender) {
         this.gender = gender;
     }
-
+    
 }

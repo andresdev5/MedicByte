@@ -5,24 +5,22 @@
  */
 package ec.edu.espe.medicbyte.model;
 
-import java.time.Instant;
-import java.util.Date;
 import java.util.Scanner;
 
 /**
  *
  * @author Michael Cobacango -ESPE -DCCO
  */
-public class Patient extends User {
+public class Medic extends User {
 
-    private Date age;
+    private String speciality;
 
-    public Date getAge() {
-        return age;
+    public String getSpeciality() {
+        return speciality;
     }
 
-    public void setAge(Date age) {
-        this.age = age;
+    public void setSpeciality(String speciality) {
+        this.speciality = speciality;
     }
 
     public void enterData() {
@@ -38,8 +36,8 @@ public class Patient extends User {
         System.out.print("Nombres: ");
         setName(dataEntry.nextLine());
 
-        System.out.print("Edad: ");
-        //Corregir codigo setAge(Date.from(Instant.MIN));
+        System.out.print("Especialidad: ");
+        setSpeciality(dataEntry.nextLine());
 
         System.out.print("Teléfono: ");
         setPhone(dataEntry.nextLine());
