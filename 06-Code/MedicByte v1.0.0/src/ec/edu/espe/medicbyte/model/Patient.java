@@ -5,51 +5,27 @@
  */
 package ec.edu.espe.medicbyte.model;
 
-import java.time.Instant;
-import java.util.Date;
-import java.util.Scanner;
-
 /**
  *
  * @author Michael Cobacango -ESPE -DCCO
  */
 public class Patient extends User {
 
-    private Date age;
+    private String age;
 
-    public Date getAge() {
+    public String getAge() {
         return age;
     }
 
-    public void setAge(Date age) {
+    public void setAge(String age) {
         this.age = age;
     }
 
-    public void enterData() {
+    @Override
+    public String toString() {
+        System.out.print("PATIENT: ");
 
-        Scanner dataEntry = new Scanner(System.in);
-
-        System.out.print("Cédula: ");
-        setIdentificationcard(dataEntry.nextLine());
-
-        System.out.print("Apellidos: ");
-        setSurname(dataEntry.nextLine());
-
-        System.out.print("Nombres: ");
-        setName(dataEntry.nextLine());
-
-        System.out.print("Edad: ");
-        //Corregir codigo setAge(Date.from(Instant.MIN));
-
-        System.out.print("Teléfono: ");
-        setPhone(dataEntry.nextLine());
-
-        System.out.print("Email: ");
-        setEmail(dataEntry.nextLine());
-
-        System.out.print("Género: ");
-        setGender(Gender.valueOf(dataEntry.nextLine()));
-
+        return super.toString().concat("\nFecha de Nacimiento: " + age);
     }
 
 }

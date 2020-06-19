@@ -5,8 +5,6 @@
  */
 package ec.edu.espe.medicbyte.model;
 
-import java.util.Scanner;
-
 /**
  *
  * @author Michael Cobacango -ESPE -DCCO
@@ -14,6 +12,12 @@ import java.util.Scanner;
 public class Medic extends User {
 
     private String speciality;
+
+    public Medic(String identificationcard, String surname,
+            String name, String speciality, String phone, String email, Gender gender) {
+        super(identificationcard, surname, name, phone, email, gender);
+        this.speciality = speciality;
+    }
 
     public String getSpeciality() {
         return speciality;
@@ -23,31 +27,10 @@ public class Medic extends User {
         this.speciality = speciality;
     }
 
-    public void enterData() {
-
-        Scanner dataEntry = new Scanner(System.in);
-
-        System.out.print("Cédula: ");
-        setIdentificationcard(dataEntry.nextLine());
-
-        System.out.print("Apellidos: ");
-        setSurname(dataEntry.nextLine());
-
-        System.out.print("Nombres: ");
-        setName(dataEntry.nextLine());
-
-        System.out.print("Especialidad: ");
-        setSpeciality(dataEntry.nextLine());
-
-        System.out.print("Teléfono: ");
-        setPhone(dataEntry.nextLine());
-
-        System.out.print("Email: ");
-        setEmail(dataEntry.nextLine());
-
-        System.out.print("Género: ");
-        setGender(Gender.valueOf(dataEntry.nextLine()));
-
+    @Override
+    public String toString() {
+        System.out.print("\nMedic: ");
+        return super.toString().concat("\nSpeciality: " + speciality);
     }
 
 }

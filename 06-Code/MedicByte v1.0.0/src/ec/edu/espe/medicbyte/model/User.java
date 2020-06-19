@@ -18,7 +18,19 @@ public class User {
     private String email;
     private Gender gender;
 
-    
+    public User(String identificationcard, String surname, String name,
+            String phone, String email, Gender gender) {
+        this.identificationcard = identificationcard;
+        this.surname = surname;
+        this.name = name;
+        this.phone = phone;
+        this.email = email;
+        this.gender = gender;
+    }
+
+    public User() {
+    }
+
     public String getIdentificationcard() {
         return identificationcard;
     }
@@ -66,5 +78,13 @@ public class User {
     public void setGender(Gender gender) {
         this.gender = gender;
     }
-    
+
+    @Override
+    public String toString() {
+        return "\n" + "Cédula: " + identificationcard + "\nApellidos: " + surname
+                + "\nNombres: " + name + "\nTelefono: " + phone + "\nEmail: " + email
+                + "\nGender: " + gender;
+
+    }
+
 }
