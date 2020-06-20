@@ -6,6 +6,7 @@
 package ec.edu.espe.medicbyte.model;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  *
@@ -13,6 +14,15 @@ import java.util.ArrayList;
  */
 public class Pediatric {
     
-    ArrayList<String> listMedicPediatric = new ArrayList<String>();
+    Collection<ListMedic> listMedicPediatric = new ArrayList();
+    public void createListMedicPediatric(){
+        ListMedic listPediatric = new ListMedic();
+        listPediatric.saveMedicPediatric();
+        listMedicPediatric.add(listPediatric);
+        
+    }
+    public void showList(){
+        
+    }
     
 }

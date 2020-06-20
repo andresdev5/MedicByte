@@ -1,8 +1,11 @@
 package ec.edu.espe.medicbyte.view;
 
+import ec.edu.espe.medicbyte.model.Gender;
 import ec.edu.espe.medicbyte.model.ListMedic;
 import ec.edu.espe.medicbyte.model.ListPatient;
+import ec.edu.espe.medicbyte.model.Medic;
 import ec.edu.espe.medicbyte.model.Patient;
+import ec.edu.espe.medicbyte.model.Pediatric;
 import java.util.Scanner;
 
 /**
@@ -24,15 +27,21 @@ public class HospitalSystem {
         switch (option) {
             case 1:
                 listMedic.enterMedic();
-                listMedic.showListMedic();
+                //listMedic.showListMedic();
+                listMedic.saveMedicPediatric();
                 break;
             case 2:
                 listPatient.enterPatient(patient);
                 listPatient.showListPatient();
+                
+            case 3: Pediatric pediatric = new Pediatric();
+            pediatric.createListMedicPediatric();
                 break;
-            default:
-                System.out.println("No se encontraron coincidencias");
+            default: System.out.println("No se encontraron coincidencias");
+                
         }
+        Pediatric pediatric = new Pediatric();
+        pediatric.toString();
 
     }
 
