@@ -17,6 +17,6 @@ public class Hospital {
     private Odontology odontology;
     private Traumatology traumatology;
     
-    
+   
     
 }

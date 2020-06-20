@@ -1,0 +1,1 @@
+start "" "CMD.exe" /c %* ^& echo. ^& pause
