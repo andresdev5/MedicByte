@@ -55,24 +55,23 @@ public class ListMedic {
             }
         }
     }
-    
-    public void saveMedicOdontology(){
-        for (Medic medicsOdontology: listMedic){
-            if(medicsOdontology.getSpeciality()=="Odontology"){
+
+    public void saveMedicOdontology() {
+        for (Medic medicsOdontology : listMedic) {
+            if (medicsOdontology.getSpeciality() == "Odontology") {
                 listMedicOdontology.add(medicsOdontology);
                 System.out.println(medicsOdontology);
             }
         }
     }
-    
-    public void saveMedicTraumatology(){
-        for (Medic medicsTraumatology : listMedic){
-            if(medicsTraumatology.getSpeciality()=="Traumatology"){
+
+    public void saveMedicTraumatology() {
+        for (Medic medicsTraumatology : listMedic) {
+            if (medicsTraumatology.getSpeciality() == "Traumatology") {
                 listMedicTraumatology.add(medicsTraumatology);
                 System.out.println(medicsTraumatology);
             }
         }
     }
-    
-    
+
 }

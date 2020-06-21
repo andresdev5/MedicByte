@@ -10,9 +10,10 @@ package ec.edu.espe.medicbyte.model;
  * @author Junior Stalin Jurado Peña - ESPE - DCCO
  */
 public class Traumatology {
-    
+
     private String description;
     ListMedic listMedicTraumatology = new ListMedic();
+
     public String getDescription() {
         return description;
     }
@@ -21,9 +22,9 @@ public class Traumatology {
         this.description = description;
         description = "Es una Especialidad";
     }
-    public void medicTraumatology(){
+
+    public void medicTraumatology() {
         listMedicTraumatology.saveMedicTraumatology();
     }
-    
-    
+
 }

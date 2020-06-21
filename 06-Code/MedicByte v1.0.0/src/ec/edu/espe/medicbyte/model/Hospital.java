@@ -5,9 +5,6 @@
  */
 package ec.edu.espe.medicbyte.model;
 
-
-
-
 /**
  *
  * @author Junior Stalin Jurado Peña - ESPE - DCCO
@@ -17,7 +14,6 @@ public class Hospital {
     private String name;
     private String address; //Type Location 
     private ListMedic listMedic;
-
 
     public String getName() {
         return name;
@@ -41,6 +37,4 @@ public class Hospital {
         listMedic.showListMedic();
     }
 
-   
-   
 }

@@ -13,6 +13,7 @@ public class Pediatric {
 
     private String description;
     ListMedic listMedicPediatric = new ListMedic();
+
     public String getDescription() {
         return description;
     }
@@ -21,8 +22,9 @@ public class Pediatric {
         this.description = description;
         description = "Es una Especialidad";
     }
-    public void medicPediatric(){
+
+    public void medicPediatric() {
         listMedicPediatric.saveMedicPediatric();
     }
-    
+
 }

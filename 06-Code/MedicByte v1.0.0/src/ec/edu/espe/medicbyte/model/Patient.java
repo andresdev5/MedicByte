@@ -22,7 +22,7 @@ public class Patient extends User {
     public void setAge(String age) {
         this.age = age;
     }
-    
+
     public void enterPatient(Patient patient) {
         int option;
         Scanner dataEntry = new Scanner(System.in);
@@ -57,7 +57,7 @@ public class Patient extends User {
         }
 
     }
-   
+
     @Override
     public String toString() {
         System.out.println("\n\n***PACIENTE REGISTRADO***\nCON LOS SIGUIENTES DATOS:");

@@ -5,13 +5,12 @@
  */
 package ec.edu.espe.medicbyte.model;
 
-
-
 /**
  *
  * @author Junior Stalin Jurado Peña - ESPE - DCCO
  */
 public class Odontology {
+
     private String description;
 
     public String getDescripcion() {
@@ -22,13 +21,11 @@ public class Odontology {
         this.description = description;
         description = "Es una Especialidad";
     }
-    
-    
-    public void citaOdontologo(){
-      
-      Patient patient = new Patient();
-        
+
+    public void citaOdontologo() {
+
+        Patient patient = new Patient();
+
     }
-    
-    
+
 }

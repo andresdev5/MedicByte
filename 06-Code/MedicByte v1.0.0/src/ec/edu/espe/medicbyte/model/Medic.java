@@ -32,6 +32,5 @@ public class Medic extends User {
         System.out.print("\nMedic: ");
         return super.toString().concat("\nSpeciality: " + speciality);
     }
-    
 
 }
