@@ -14,9 +14,6 @@ import ec.edu.espe.medicbyte.utils.Menu;
  */
 public class Hospital {
       
-    
-
-   
     public void showSystem(){
         Menu menu = new Menu();
         menu.caratula();
