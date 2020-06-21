@@ -14,7 +14,7 @@ import ec.edu.espe.medicbyte.utils.Menu;
  */
 public class Hospital {
 
-     private String name;
+    private String name;
     private String address; //Type Location 
     private int capacity;
     private ListMedic listMedic;
