@@ -11,6 +11,29 @@ package ec.edu.espe.medicbyte.model;
  */
 public class Appointment {
     
+    private int code;
+    private Patient patient;
+    private Medic medic;
     
     
+    public void showAppointment(){
+        generaCode();
+        
+    }
+    
+    public void generaCode(){
+        for(int i=0; i<=1000;i++){
+            code=0;
+            code++;
+        }
+    }
+    
+    public void generarCita(){
+        System.out.println("Paciente: ");
+        patient.toString();
+        System.out.println("Medico: ");
+        medic.getName();
+        medic.getSpeciality();
+        
+    }
 }

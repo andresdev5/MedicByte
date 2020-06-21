@@ -11,16 +11,18 @@ package ec.edu.espe.medicbyte.model;
  */
 public class Pediatric {
 
-    //Collection<ListMedic> listMedicPediatric = new ArrayList();
-    public void createListMedicPediatric() {
-        ListMedic listMedicP = new ListMedic();
-        listMedicP.saveMedicPediatric();
-        System.out.println(listMedicP.toString());
-
+    private String description;
+    ListMedic listMedicPediatric = new ListMedic();
+    public String getDescription() {
+        return description;
     }
 
-    public void showList() {
-
+    public void setDescription(String description) {
+        this.description = description;
+        description = "Es una Especialidad";
     }
-
+    public void medicPediatric(){
+        listMedicPediatric.saveMedicPediatric();
+    }
+    
 }
