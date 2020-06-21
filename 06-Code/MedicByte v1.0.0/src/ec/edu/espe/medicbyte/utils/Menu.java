@@ -38,7 +38,7 @@ public class Menu {
    
     } 
     
-    public void menu(){
+    public void showMenu(){
         
         int option;
         Scanner scanner = new Scanner(System.in);
@@ -63,6 +63,7 @@ public class Menu {
                      break;
                      
                     case 2 :
+                        
                      break;
                      
                     case 3 : 
