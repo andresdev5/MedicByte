@@ -65,10 +65,7 @@ public class Menu {
                        
                      break;
                      
-<<<<<<< HEAD
-                    case 2 :
-                        
-=======
+                   
                     case 2 : 
                              listMedic.enterMedic();
                              listMedic.saveMedicPediatric();
@@ -84,12 +81,9 @@ public class Menu {
                              else{
                                  System.out.println(" ");
                              }
-                            
->>>>>>> 8d5d70443c7f9c2fc7706a44d26325b7613d5cdd
+                           
                      break;
-                     
-                    case 3 : 
-                     break;   
+                       
                        
                      
                 }
