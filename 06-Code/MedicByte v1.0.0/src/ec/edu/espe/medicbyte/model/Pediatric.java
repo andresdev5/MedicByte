@@ -5,24 +5,22 @@
  */
 package ec.edu.espe.medicbyte.model;
 
-import java.util.ArrayList;
-import java.util.Collection;
-
 /**
  *
  * @author Junior Stalin Jurado Peña - ESPE - DCCO
  */
 public class Pediatric {
-    
-    Collection<ListMedic> listMedicPediatric = new ArrayList();
-    public void createListMedicPediatric(){
-        ListMedic listPediatric = new ListMedic();
-        listPediatric.saveMedicPediatric();
-        listMedicPediatric.add(listPediatric);
-        
+
+    //Collection<ListMedic> listMedicPediatric = new ArrayList();
+    public void createListMedicPediatric() {
+        ListMedic listMedicP = new ListMedic();
+        listMedicP.saveMedicPediatric();
+        System.out.println(listMedicP.toString());
+
     }
-    public void showList(){
-        
+
+    public void showList() {
+
     }
-    
+
 }

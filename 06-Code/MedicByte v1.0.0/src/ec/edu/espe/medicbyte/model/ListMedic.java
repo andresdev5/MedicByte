@@ -15,6 +15,9 @@ import java.util.Collection;
 public class ListMedic {
 
     Collection<Medic> listMedic = new ArrayList();
+    Collection<Medic> listMedicPediatric = new ArrayList();
+    Collection<Medic> listMedicOdontology = new ArrayList();
+    
 
     Medic medic = new Medic("1722066956", "Michael", "Cobacango",
             "Odontologo", "0999082067", "michaelpm63@gmail.com", Gender.MALE);
@@ -23,7 +26,7 @@ public class ListMedic {
     Medic medic2 = new Medic("1714548846", "Juan", "Pardo",
             "Pediatric", "0958421365", "juanpa@gmail.com", Gender.MALE);
     Medic medic3 = new Medic("1711558915", "Maria", "Salazar",
-            "Odontologa", "0985474547", "mariasa@gmail.com", Gender.FEMALE);
+            "Pediatric", "0985474547", "mariasa@gmail.com", Gender.FEMALE);
     Medic medic4 = new Medic("1723658945", "Paola", "Suarez",
             "Pediatric", "0936541225", "paolasu@gmail.com", Gender.FEMALE);
     Medic medic5 = new Medic("1752684123", "Damaris", "Cartagena",
@@ -45,11 +48,21 @@ public class ListMedic {
     }
 
     public void saveMedicPediatric() {
-        for (Medic medics : listMedic) {
-            if (medics.getSpeciality() == "Pediatric") {
-                System.out.println(medics.toString());
+        for (Medic medicsPediatric : listMedic) {
+            if (medicsPediatric.getSpeciality() == "Pediatric") {
+                listMedicPediatric.add(medicsPediatric);
+                System.out.println(medicsPediatric);
             }
         }
     }
-
+    
+    public void saveMedicOdontology(){
+        for (Medic medicsOdontology: listMedic){
+            if(medicsOdontology.getSpeciality()=="Odontology"){
+                
+            }
+        }
+    }
+    
+    
 }

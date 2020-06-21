@@ -15,13 +15,13 @@ import java.util.Scanner;
  */
 public class ListPatient {
     
-    Scanner dataEntry = new Scanner(System.in);
     Collection<Patient> listPatient = new ArrayList();
     Patient patient = new Patient();
     Patient patient1 = new Patient();
     
     public void enterPatient(Patient patient) {
-        
+        int option;
+        Scanner dataEntry = new Scanner(System.in);
         System.out.println("\n**INGRESE SUS DATOS**");
         System.out.print("Cédula: ");
         patient.setIdentificationcard(dataEntry.nextLine());
@@ -35,8 +35,18 @@ public class ListPatient {
         patient.setPhone(dataEntry.nextLine());
         System.out.print("Email: ");
         patient.setEmail(dataEntry.nextLine());
-        System.out.print("Género: ");
-        patient.setGender(Gender.valueOf(dataEntry.nextLine()));
+        System.out.print("Género: \n1: Femenino\n2: Masculino\n3: No Especificado: "
+                + "\n: ");
+        option = dataEntry.nextInt();
+        switch(option){
+            case 1: patient.setGender(Gender.FEMALE);
+            break;
+            case 2: patient.setGender(Gender.MALE);
+            break;
+            case 3: patient.setGender(Gender.UNIDENTIFIED);
+            break;
+            default: System.out.println("No se Encontraron Coincidencias");
+        }
         
         listPatient.add(patient);
         

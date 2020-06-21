@@ -11,7 +11,9 @@ package ec.edu.espe.medicbyte.utils;
  */
 public class Menu {
     
-    public void caratula(){
+    public static void main(String[] args) {
+        
+    
         
         System.out.print("\n\t\t================================================================================== ");
     System.out.print("\n                                               || ****** ****** ****** ******   ");
