@@ -6,7 +6,7 @@
 package ec.edu.espe.medicbyte.model;
 
 
-import ec.edu.espe.medicbyte.utils.Menu;
+
 
 /**
  *
@@ -45,13 +45,5 @@ public class Hospital {
         listPatient.showListPatient();
     }
 
-    public void showSystem(){
-        Menu menu = new Menu();
-        menu.caratula();
-        menu.menu();
-        
-    }
    
-
-    
 }

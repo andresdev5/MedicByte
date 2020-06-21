@@ -59,6 +59,7 @@ public class Menu {
                     case 1 :
                        Odontology odontology = new Odontology();
                        odontology.citaOdontologo();
+                       
                      break;
                      
                     case 2 :
