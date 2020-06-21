@@ -14,7 +14,48 @@ import ec.edu.espe.medicbyte.utils.Menu;
  */
 public class Hospital {
 
+     private String name;
+    private String address; //Type Location 
+    private int capacity;
+    private ListMedic listMedic;
+    private ListPatient listPatient;
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+        name = "IESS";
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+        address = "La Ecuatoriana";
+    }
+
+    public int getCapacity() {
+        return capacity;
+    }
+
+    public void setCapacity(int capacity) {
+        this.capacity = capacity;
+        capacity = 45;
+    }
+
+    public void listMedic() {
+        listMedic.showListMedic();
+    }
+
+    public void listPatient() {
+        listPatient.showListPatient();
+    }
+
+      
    
     public void showSystem(){
         Menu menu = new Menu();
