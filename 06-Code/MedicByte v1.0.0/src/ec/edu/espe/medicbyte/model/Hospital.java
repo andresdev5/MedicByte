@@ -55,8 +55,6 @@ public class Hospital {
         listPatient.showListPatient();
     }
 
-      
-   
     public void showSystem(){
         Menu menu = new Menu();
         menu.caratula();
