@@ -25,6 +25,7 @@ public class Patient extends User {
 
     public void enterPatient(Patient patient) {
         int option;
+ 
         Scanner dataEntry = new Scanner(System.in);
         System.out.println("\n**INGRESE SUS DATOS**");
         System.out.print("Cédula: ");

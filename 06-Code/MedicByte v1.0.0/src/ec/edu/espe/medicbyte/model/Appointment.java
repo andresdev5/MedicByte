@@ -1,9 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ec.edu.espe.medicbyte.model;
+
+import ec.edu.espe.medicbyte.utils.FileManager;
 
 /**
  *
@@ -16,7 +13,10 @@ public class Appointment {
     private Medic medic;
 
     public void showAppointment() {
-        generaCode();
+        FileManager fileManager = new FileManager();
+        System.out.println("CITAS MEDICAS DISPONIBLES");
+        System.out.println("CODIGO\t FECHA\t HORA\t DOCTOR\t");
+        fileManager.readFile();
 
     }
 
