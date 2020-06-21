@@ -16,14 +16,9 @@ import java.util.Scanner;
  */
 public class Menu {
     
-<<<<<<< HEAD
+
     public void caratula(){
-=======
-    public void caratula() {
->>>>>>> 7def94a0563082b548ceeebfcbd4376ae3087448
-        
-    
-        
+
         System.out.print("\n\t\t================================================================================== ");
     System.out.print("\n                                               || ****** ****** ****** ******   ");
     System.out.print("\n                              UNIVERSIDAD   "+"   || *      *      *    * *      ");
