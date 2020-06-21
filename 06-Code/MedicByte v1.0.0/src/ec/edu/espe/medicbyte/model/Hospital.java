@@ -16,7 +16,6 @@ public class Hospital {
 
     private String name;
     private String address; //Type Location 
-    private int capacity;
     private ListMedic listMedic;
     private ListPatient listPatient;
 
@@ -36,15 +35,6 @@ public class Hospital {
     public void setAddress(String address) {
         this.address = address;
         address = "La Ecuatoriana";
-    }
-
-    public int getCapacity() {
-        return capacity;
-    }
-
-    public void setCapacity(int capacity) {
-        this.capacity = capacity;
-        capacity = 45;
     }
 
     public void listMedic() {
