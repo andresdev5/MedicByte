@@ -17,7 +17,7 @@ public class Hospital {
     private String name;
     private String address; //Type Location 
     private ListMedic listMedic;
-    private ListPatient listPatient;
+
 
     public String getName() {
         return name;
@@ -41,9 +41,6 @@ public class Hospital {
         listMedic.showListMedic();
     }
 
-    public void listPatient() {
-        listPatient.showListPatient();
-    }
-
+   
    
 }

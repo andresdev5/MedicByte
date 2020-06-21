@@ -5,7 +5,9 @@
  */
 package ec.edu.espe.medicbyte.utils;
 
+import ec.edu.espe.medicbyte.model.ListMedic;
 import ec.edu.espe.medicbyte.model.Odontology;
+import ec.edu.espe.medicbyte.model.Patient;
 import java.util.Scanner;
 
 
@@ -42,6 +44,7 @@ public class Menu {
         
         int option;
         Scanner scanner = new Scanner(System.in);
+        ListMedic listMedic = new ListMedic();
         System.out.println("HOSPITAL SYSTEM");
         System.out.println("1.- Solicitar cita medica");
         System.out.print("Ingrese una opcion: ");
@@ -62,8 +65,27 @@ public class Menu {
                        
                      break;
                      
+<<<<<<< HEAD
                     case 2 :
                         
+=======
+                    case 2 : 
+                             listMedic.enterMedic();
+                             listMedic.saveMedicPediatric();
+                             int opcion;
+                             System.out.println("Digite codigo de cita: ");
+                             opcion = scanner.nextInt();
+                             if(opcion==123){
+                                Patient patient = new Patient();
+                                patient.enterPatient(patient);
+                                patient.toString();
+                     
+                             }
+                             else{
+                                 System.out.println(" ");
+                             }
+                            
+>>>>>>> 8d5d70443c7f9c2fc7706a44d26325b7613d5cdd
                      break;
                      
                     case 3 : 

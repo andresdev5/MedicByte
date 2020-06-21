@@ -11,5 +11,19 @@ package ec.edu.espe.medicbyte.model;
  */
 public class Traumatology {
     
+    private String description;
+    ListMedic listMedicTraumatology = new ListMedic();
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+        description = "Es una Especialidad";
+    }
+    public void medicTraumatology(){
+        listMedicTraumatology.saveMedicTraumatology();
+    }
+    
     
 }

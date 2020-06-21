@@ -51,7 +51,7 @@ public class ListMedic {
         for (Medic medicsPediatric : listMedic) {
             if (medicsPediatric.getSpeciality() == "Pediatric") {
                 listMedicPediatric.add(medicsPediatric);
-                System.out.println(medicsPediatric);
+                System.out.println(medicsPediatric.toString());
             }
         }
     }
