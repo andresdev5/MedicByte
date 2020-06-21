@@ -1,6 +1,7 @@
 package ec.edu.espe.medicbyte.view;
 
 import ec.edu.espe.medicbyte.model.Gender;
+import ec.edu.espe.medicbyte.model.Hospital;
 import ec.edu.espe.medicbyte.model.ListMedic;
 import ec.edu.espe.medicbyte.model.ListPatient;
 import ec.edu.espe.medicbyte.model.Medic;
@@ -15,7 +16,7 @@ import java.util.Scanner;
 public class HospitalSystem {
 
     public static void main(String[] args) {
-        Scanner dataEntry = new Scanner(System.in);
+        /*Scanner dataEntry = new Scanner(System.in);
         int option;
         ListMedic listMedic = new ListMedic();
         ListPatient listPatient = new ListPatient();
@@ -41,7 +42,10 @@ public class HospitalSystem {
                 
         }
         Pediatric pediatric = new Pediatric();
-        pediatric.toString();
+        pediatric.toString();*/
+        Hospital hospital = new Hospital();
+        hospital.showSystem();
+        
 
     }
 
