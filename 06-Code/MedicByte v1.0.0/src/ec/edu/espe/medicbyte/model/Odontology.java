@@ -5,13 +5,20 @@
  */
 package ec.edu.espe.medicbyte.model;
 
+
+
 /**
  *
  * @author Junior Stalin Jurado Peña - ESPE - DCCO
  */
 public class Odontology {
+   
     
-    
+    public void citaOdontologo(){
+      ListPatient listPatient = new ListPatient();
+      Patient patient = new Patient();
+        listPatient.enterPatient(patient);
+    }
     
     
 }
