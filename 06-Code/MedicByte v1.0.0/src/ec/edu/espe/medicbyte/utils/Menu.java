@@ -8,7 +8,7 @@ package ec.edu.espe.medicbyte.utils;
 import ec.edu.espe.medicbyte.model.Appointment;
 import ec.edu.espe.medicbyte.model.ListMedic;
 import ec.edu.espe.medicbyte.model.Odontology;
-import ec.edu.espe.medicbyte.model.Patient;
+import java.io.IOException;
 import java.util.Scanner;
 
 /**
@@ -40,7 +40,6 @@ public class Menu {
     public void showMenuUser() {
         int option;
         Scanner scanner = new Scanner(System.in);
-        ListMedic listMedic = new ListMedic();
         System.out.println("HOSPITAL SYSTEM");
         System.out.println("1.- Solicitar cita medica");
         System.out.print("Ingrese una opcion: ");
@@ -58,61 +57,19 @@ public class Menu {
                     case 1:
                         Odontology odontology = new Odontology();
                         odontology.citaOdontologo();
-                        break;
+                     break;
 
                     case 2:
-                        listMedic.enterMedic();
-                        listMedic.saveMedicPediatric();
-                        int opcion;
-                        System.out.println("Digite codigo de cita: ");
-                        opcion = scanner.nextInt();
-                        if (opcion == 123) {
-                            Patient patient = new Patient();
-                            patient.enterPatient(patient);
-                            patient.toString();
-
-                        } else {
-                            System.out.println(" ");
-                        }
-
-                        break;
+                     break;
 
                     case 3:
-                        break;
+                     break;
                 }
-                switch (optionOne) {
-                    case 1:
-                        Odontology odontology = new Odontology();
-                        odontology.citaOdontologo();
-
-                        break;
-
-                    case 2:
-                        listMedic.enterMedic();
-                        listMedic.saveMedicPediatric();
-                        int opcion;
-                        System.out.println("Digite codigo de cita: ");
-                        opcion = scanner.nextInt();
-                        if (opcion == 123) {
-                            Patient patient = new Patient();
-                            patient.enterPatient(patient);
-                            patient.toString();
-
-                        } else {
-                            System.out.println(" ");
-                        }
-
-                        break;
-
-                }
-
-                break;
-
-        }
+         }
 
     }
     
-    public void showMenuAdmin(){
+    public void showMenuAdmin() throws IOException{
         int option;
         Scanner scanner = new Scanner(System.in);
         Appointment appointment = new Appointment();
@@ -126,7 +83,8 @@ public class Menu {
                 + "\nDigite su Opción: ");
         option = scanner.nextInt();
         switch(option){
-            case 1: appointment.createAppointment();
+            case 1: 
+                appointment.createAppointment();
                 break;
             case 2: //Appoinment
                 break;

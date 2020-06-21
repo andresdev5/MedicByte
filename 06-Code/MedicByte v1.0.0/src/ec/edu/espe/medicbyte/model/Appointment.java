@@ -1,6 +1,7 @@
 package ec.edu.espe.medicbyte.model;
 
 import ec.edu.espe.medicbyte.utils.FileManager;
+import java.io.IOException;
 import java.util.Scanner;
 
 /**
@@ -13,18 +14,16 @@ public class Appointment {
     private String date;
     private String hour;
     
-    public void createAppointment() {
+    public void createAppointment()   {
+       
         Scanner dataEntry = new Scanner(System.in);
-        ListMedic listMedic = new ListMedic();
-        listMedic.showListMedic();
         System.out.println("CREAR CITA");
-        System.out.print("\n\nIngrese Codigo: ");
+        System.out.print("\nIngrese Codigo: ");
         code = dataEntry.nextLine();
-        System.out.print("\nIngrese la Fecha: ");
+        System.out.print("Ingrese la Fecha: ");
         date = dataEntry.nextLine();
-        System.out.print("\nIngrese la Hora: ");
+        System.out.print("Ingrese la Hora: ");
         hour = dataEntry.nextLine();
-        
+       
     }
-
 }

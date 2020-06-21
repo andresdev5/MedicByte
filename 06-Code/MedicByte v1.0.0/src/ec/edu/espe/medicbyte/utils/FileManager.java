@@ -11,12 +11,13 @@ import java.util.Scanner;
  */
 public class FileManager {
 
-      /* File  file;
+       /*File  file;
        Appointment appointment = new Appointment();
-       Book books = new Book();
+       
+       
        
     public void createFile() throws IOException {
-        file = new File("booksRecord.txt");
+        file = new File("Appointment.txt");
         if (!file.exists()) {
             file.createNewFile();
             writeFile();
@@ -26,14 +27,14 @@ public class FileManager {
     }
     
     public void writeFile() throws IOException{
-          books = appointment.generarCita()
+         
       try (FileWriter toWriter = new FileWriter(file, true);
                 PrintWriter toWriterLine = new PrintWriter(toWriter)) {
             
-            toWriterLine.print("--->  " + books.getNameBooks());
-            toWriterLine.print("; " + books.getCode() );
-            toWriterLine.print("; " + books.getTopic());
-            toWriterLine.print("; " + books.getAuthor());
+            toWriterLine.print("--->  " + appointment.getCode());
+            toWriterLine.print("; " + appointment.getDate() );
+            toWriterLine.print("; " + appointment.getHour());
+            //toWriterLine.print("; " + books.getAuthor());
             toWriterLine.print(".");
             toWriterLine.print("\n");
             toWriterLine.close();
