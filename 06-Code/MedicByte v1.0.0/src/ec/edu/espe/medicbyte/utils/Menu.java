@@ -5,6 +5,7 @@
  */
 package ec.edu.espe.medicbyte.utils;
 
+import ec.edu.espe.medicbyte.model.Appointment;
 import ec.edu.espe.medicbyte.model.ListMedic;
 import ec.edu.espe.medicbyte.model.Odontology;
 import ec.edu.espe.medicbyte.model.Patient;
@@ -15,7 +16,6 @@ import java.util.Scanner;
  * @author Junior Stalin Jurado Peña - ESPE - DCCO
  */
 public class Menu {
-
     public void caratula() {
 
         System.out.print("\n\t\t================================================================================== ");
@@ -37,28 +37,7 @@ public class Menu {
 
     }
 
-    public void menu() {
-
-        System.out.print("\n                                               || ****** ****** ****** ******   ");
-        System.out.print("\n                              UNIVERSIDAD   " + "   || *      *      *    * *      ");
-        System.out.print("\n                              DE LAS FUERZAS" + "   || ****** ****** ****** ****** ");
-        System.out.print("\n                              ARMADAS       " + "   || *           * *      *      ");
-        System.out.print("\n                                               || ****** ****** *      ******   ");
-        System.out.print("\n\t\t=================================================================================== ");
-        System.out.print("\n\n");
-        System.out.print("                      INTEGRANTES: Junior Jurado                     MATERIA: PROGRAMACION A      ");
-        System.out.print("\n                                 Michael Cobacango                             OBJETOS     ");
-        System.out.print("\n\n");
-        System.out.print("                      NRC:     6382                                  ING. EDISON LASCANO");
-        System.out.print("\n");
-        System.out.print("                      CARRERA: SOFTWARE\n");
-        System.out.print("                      TEMA: CITAS MEDICAS");
-        System.out.print("\n\n");
-
-    }
-
-    public void showMenu() {
-
+    public void showMenuUser() {
         int option;
         Scanner scanner = new Scanner(System.in);
         ListMedic listMedic = new ListMedic();
@@ -132,5 +111,29 @@ public class Menu {
         }
 
     }
+    
+    public void showMenuAdmin(){
+        int option;
+        Scanner scanner = new Scanner(System.in);
+        Appointment appointment = new Appointment();
+        System.out.print("Menú: "
+                + "\n1: Crear cita"
+                + "\n2: Eliminar cita"
+                + "\n3: Agregar Médico"
+                + "\n4: Mostrar Citas Medicas"
+                + "\n5: Mostrar Médicos"
+                + "\n6: Agregar nueva Especialidad"
+                + "\nDigite su Opción: ");
+        option = scanner.nextInt();
+        switch(option){
+            case 1: appointment.createAppointment();
+                break;
+            case 2: //Appoinment
+                break;
+        }
+        
+       
+    }
+   
 
 }

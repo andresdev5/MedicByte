@@ -1,6 +1,7 @@
 package ec.edu.espe.medicbyte.model;
 
 import ec.edu.espe.medicbyte.utils.FileManager;
+import java.util.Scanner;
 
 /**
  *
@@ -8,31 +9,22 @@ import ec.edu.espe.medicbyte.utils.FileManager;
  */
 public class Appointment {
 
-    private int code;
-    private Patient patient;
-    private Medic medic;
-
-    public void showAppointment() {
-        FileManager fileManager = new FileManager();
-        System.out.println("CITAS MEDICAS DISPONIBLES");
-        System.out.println("CODIGO\t FECHA\t HORA\t DOCTOR\t");
-        fileManager.readFile();
-
+    private String code;
+    private String date;
+    private String hour;
+    
+    public void createAppointment() {
+        Scanner dataEntry = new Scanner(System.in);
+        ListMedic listMedic = new ListMedic();
+        listMedic.showListMedic();
+        System.out.println("CREAR CITA");
+        System.out.print("\n\nIngrese Codigo: ");
+        code = dataEntry.nextLine();
+        System.out.print("\nIngrese la Fecha: ");
+        date = dataEntry.nextLine();
+        System.out.print("\nIngrese la Hora: ");
+        hour = dataEntry.nextLine();
+        
     }
 
-    public void generaCode() {
-        for (int i = 1; i <= 7; i++) {
-            code = 1;
-            code++;
-        }
-    }
-
-    public void generarCita() {
-        System.out.println("Paciente: ");
-        patient.toString();
-        System.out.println("Medico: ");
-        medic.getName();
-        medic.getSpeciality();
-
-    }
 }

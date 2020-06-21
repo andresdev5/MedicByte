@@ -16,7 +16,7 @@ public class HospitalAppointment {
         Menu menu = new Menu();
     
         menu.caratula();
-        menu.showMenu();
+        menu.showMenuUser();
      
         
         
