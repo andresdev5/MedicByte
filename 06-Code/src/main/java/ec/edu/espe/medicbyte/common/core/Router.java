@@ -1,5 +1,7 @@
 package ec.edu.espe.medicbyte.common.core;
 
+import com.google.inject.Inject;
+import ec.edu.espe.medicbyte.Application;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -9,10 +11,11 @@ import java.util.logging.Logger;
  * @author Andres Jonathan J.
  */
 public class Router {
-    private final Container container;
+    private final Application container;
     private final ArrayList<Route> routes = new ArrayList<>();
     
-    public Router(Container container) {
+    @Inject
+    public Router(Application container) {
         this.container = container;    
     }
     
@@ -25,8 +28,10 @@ public class Router {
             Route route = new Route(key, controllerClass);
             
             if (initialize) {
-                route.setController(container.resolve(controllerClass));
+                Controller controller = container.resolve(controllerClass);
+                route.setController(controller);
                 route.setResolved(true);
+                controller.setAccessors();
             }
             
             routes.add(route);
@@ -43,22 +48,30 @@ public class Router {
         add(controllerClass, null, false);
     }
     
-    public void run(Class<? extends Controller> controllerClass) {
-        if (controllerClass == null || !has(controllerClass)) {
-            return;
-        }
-        
-        Route route = get(controllerClass);
-        runController(route);
-    }
-    
-    public void run(String key) {
+    public void run(String key, String accessor) {
         if (key == null || !has(key)) {
             return;
         }
         
         Route route = get(key);
-        runController(route);
+        runController(route, accessor);
+    }
+    
+    public void run(Class<? extends Controller> controllerClass, String accessor) {
+        if (controllerClass == null || !has(controllerClass)) {
+            return;
+        }
+        
+        Route route = get(controllerClass);
+        runController(route, accessor);
+    }
+    
+    public void run(String key) {
+        run(key, null);
+    }
+    
+    public void run(Class<? extends Controller> controllerClass) {
+        run(controllerClass, null);
     }
     
     public Route get(String key) {
@@ -91,19 +104,26 @@ public class Router {
         });
     }
     
-    private void runController(Route route) {
+    private void runController(Route route, String accessor) {
         if (route == null) {
             return;
         }
         
         if (!route.isResolved()) {
-            route.setController(container.resolve(route.getControllerClass()));
+            Controller controller = container.resolve(route.getControllerClass());
+            route.setResolved(true);
+            route.setController(controller);
+            controller.setAccessors();
         }
         
         Controller controller = route.getController();
         
         if (controller != null) {
-            controller.doInit();
+            if (accessor == null) {
+                controller.doInit();
+            } else {
+                controller.runAccessor(accessor);
+            }
         }
     }
 }

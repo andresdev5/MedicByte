@@ -2,7 +2,7 @@ package ec.edu.espe.medicbyte.util;
 
 /**
  *
- * @author jon_m
+ * @author Andres Jonathan J.
  */
 public class StringUtils {
     public static String repeat(String sequence, int times) {

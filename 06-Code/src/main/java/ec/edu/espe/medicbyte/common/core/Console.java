@@ -11,6 +11,7 @@ import org.jline.terminal.Terminal;
 import org.jline.terminal.TerminalBuilder;
 import org.jline.utils.InfoCmp.Capability;
 import ec.edu.espe.medicbyte.util.StringUtils;
+import org.jline.terminal.Attributes;
 
 import static org.fusesource.jansi.Ansi.ansi;
 
@@ -107,6 +108,41 @@ public class Console {
         }
     }
     
+    public int read() {
+        int captured = -2;
+        
+        Attributes attributes = terminal.getAttributes();
+        terminal.enterRawMode();
+        
+        while (true) {
+            try {
+                int c = terminal.reader().read(1000L);
+                
+                if (c == 27) {
+                    if (terminal.reader().read(1000) == 79) {
+                        captured = terminal.reader().read(1000);
+                    }
+                } else {
+                    captured = c;
+                }
+                
+                terminal.flush();
+                terminal.reader().reset();
+                terminal.reader().skip(999);
+                terminal.writer().flush();
+            } catch (Exception exception) {}
+            
+            if (captured != -2 && captured != -1) {
+                break;
+            }
+        }
+        
+        terminal.resume();
+        terminal.setAttributes(attributes);
+        
+        return captured;
+    }
+    
     public Console echo(String template, Object ...args) {
         terminal.writer().printf(template, args);
         return this;
@@ -150,9 +186,10 @@ public class Console {
         return echo(StringUtils.repeat(System.lineSeparator(), repeat));
     }
 
-    public void clear() {
+    public Console clear() {
         terminal.puts(Capability.clear_screen);
         terminal.flush();
+        return this;
     }
 
     public void close() {
@@ -177,6 +214,7 @@ public class Console {
         
         terminal = TerminalBuilder.builder()
             .encoding(Charset.forName("UTF-8"))
+            .jna(true)
             .jansi(true)
             .streams(System.in, System.out)
             .system(true)

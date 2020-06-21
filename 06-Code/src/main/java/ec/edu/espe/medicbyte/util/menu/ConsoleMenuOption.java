@@ -9,6 +9,7 @@ import java.util.function.Consumer;
 public class ConsoleMenuOption {
     private String key;
     private String label;
+    private boolean enabled = true;
     private Runnable runnableCallback;
     private Consumer<ConsoleMenuOption> consumerCallback;
     private boolean await;
@@ -48,6 +49,14 @@ public class ConsoleMenuOption {
         } else {
             runnableCallback.run();
         }
+    }
+    
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+    
+    public boolean isEnabled() {
+        return enabled;
     }
     
     public boolean hasKey() {

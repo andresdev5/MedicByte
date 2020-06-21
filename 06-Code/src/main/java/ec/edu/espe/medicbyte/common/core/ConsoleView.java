@@ -1,8 +1,6 @@
 package ec.edu.espe.medicbyte.common.core;
 
 import com.google.inject.Inject;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Map.Entry;
 import java.util.function.Consumer;
 
@@ -10,29 +8,36 @@ import java.util.function.Consumer;
  *
  * @author Andres Jonathan J.
  */
-public abstract class ConsoleView implements View {
-    @Inject private Console console;
-    private final Map<String, String> templateVars = new HashMap<>();
+public abstract class ConsoleView extends BaseView {
+    @Inject protected Console console;
     private Consumer<String> printer;
+    
+    @Override
+    public void init() {}
     
     @Override
     public void display() {
         console.echoln(render());
     }
     
-    @Override
-    public void set(String key, Object value) {
-        templateVars.put(key, String.valueOf(value));
+    public void set(String key, String value) {
+        super.set(key, value);
     }
     
-    private String render() {
-        String rendered = template();
-        
-        for (Entry<String, String> entry : templateVars.entrySet()) {
-            rendered = rendered.replace("${" + entry.getKey() + "}", entry.getValue());
+    @Override
+    public String render() {
+        return parse(template());
+    }
+    
+    public String parse(String template) {
+        for (Entry<String, Object> entry : getVars().entrySet()) {
+            String key = entry.getKey();
+            String value = entry.getValue().toString();
+            
+            template = template.replace("${" + key + "}", value);
         }
         
-        return rendered;
+        return template;
     }
     
     protected abstract String template();
