@@ -25,9 +25,11 @@ public class Odontology {
     
     
     public void citaOdontologo(){
-      
+      Appointment appointment = new Appointment();
       Patient patient = new Patient();
-        
+      appointment.showAppointment();
+      patient.enterPatient(patient);
+      
     }
     
     

@@ -1,28 +1,27 @@
 
 package ec.edu.espe.medicbyte.model;
 
-import java.util.ArrayList;
-import java.util.Collection;
+import ec.edu.espe.medicbyte.utils.FileManager;
+
 
 /**
  *
  * @author Junior Stalin Jurado Peña - ESPE - DCCO
  */
 public class Appointment {
-<<<<<<< HEAD
-   
 
-=======
+
     
     private int code;
     private Patient patient;
     private Medic medic;
+ 
     
->>>>>>> 8d5d70443c7f9c2fc7706a44d26325b7613d5cdd
-    
-    public void showAppointment(){
-        generaCode();
-        
+    public void showAppointment(){ 
+        FileManager fileManager = new FileManager();
+        System.out.println("CITAS MEDICAS DISPONIBLES");
+        System.out.println("CODIGO\t FECHA\t HORA\t DOCTOR\t");
+        fileManager.readFile();
     }
     
     public void generaCode(){
