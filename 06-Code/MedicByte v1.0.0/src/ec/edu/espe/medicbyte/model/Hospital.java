@@ -14,7 +14,7 @@ import ec.edu.espe.medicbyte.utils.Menu;
  */
 public class Hospital {
 
-     private String name;
+    private String name;
     private String address; //Type Location 
     private int capacity;
     private ListMedic listMedic;
@@ -55,8 +55,6 @@ public class Hospital {
         listPatient.showListPatient();
     }
 
-      
-   
     public void showSystem(){
         Menu menu = new Menu();
         menu.caratula();
