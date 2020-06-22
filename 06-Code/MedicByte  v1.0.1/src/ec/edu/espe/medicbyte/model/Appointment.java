@@ -1,6 +1,5 @@
 package ec.edu.espe.medicbyte.model;
 
-
 /**
  *
  * @author Junior Stalin Jurado Peña - ESPE - DCCO
@@ -40,7 +39,7 @@ public class Appointment {
     public Medic getMedic() {
         return medic;
     }
-    
+
     public void setMedic(Medic medic) {
         this.medic = medic;
     }
@@ -51,12 +50,12 @@ public class Appointment {
 
     public void setTaken(boolean taken) {
         this.taken = taken;
-    }    
-    
+    }
+
     @Override
     public String toString() {
         // code, date, hour, medic
-        return code + "," + "\"" + date + "\"," + "\"" + hour + "\"," 
-            + medic.getId() + "," + (taken ? 1: 0);
+        return code + "," + "\"" + date + "\"," + "\"" + hour + "\","
+                + medic.getId() + "," + (taken ? 1 : 0);
     }
 }

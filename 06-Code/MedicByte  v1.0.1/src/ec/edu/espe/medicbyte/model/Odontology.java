@@ -11,6 +11,4 @@ package ec.edu.espe.medicbyte.model;
  */
 public class Odontology {
 
- 
-
 }

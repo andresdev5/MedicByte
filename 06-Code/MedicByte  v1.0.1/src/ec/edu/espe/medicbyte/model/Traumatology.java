@@ -11,5 +11,4 @@ package ec.edu.espe.medicbyte.model;
  */
 public class Traumatology {
 
-   
 }

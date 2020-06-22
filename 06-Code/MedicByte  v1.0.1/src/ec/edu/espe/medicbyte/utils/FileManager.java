@@ -21,6 +21,7 @@ public class FileManager {
         createFile();
 
     }
+
     public void createFile() {
         file = new File(fileName);
         if (!file.exists()) {
@@ -31,13 +32,14 @@ public class FileManager {
             }
         }
     }
-    
+
     public void clear() {
         PrintWriter pw;
         try {
             pw = new PrintWriter(fileName);
             pw.close();
-        } catch (FileNotFoundException ex) {}
+        } catch (FileNotFoundException ex) {
+        }
     }
 
     public void writeFile(String content) {
@@ -72,7 +74,7 @@ public class FileManager {
         } catch (FileNotFoundException e) {
             System.out.println("An error occurred.");
             e.printStackTrace();
-            
+
         }
         return output;
     }
