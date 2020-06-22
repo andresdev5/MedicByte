@@ -112,22 +112,24 @@ public class Menu {
                 if (doCreate) {
                     DataEntry dataEntry = new DataEntry();
                     Patient patient = dataEntry.addPatient();
-
-                    System.out.print("Ingrese el codigo de la cita: ");
-
                     String selectedCode;
-
+                    
                     do {
+                        System.out.print("Ingrese el codigo de la cita: ");
                         String code = scanner.nextLine().trim().toLowerCase();
-                        boolean exists = appointments.stream()
+                        Appointment found = appointments.stream()
                                 .filter(appointment -> {
                                     return appointment.getCode().trim()
                                             .equalsIgnoreCase(code);
-                                }).count() > 0;
-
-                        if (exists) {
+                                }).findFirst().orElse(null);
+                            
+                        if (found != null && !found.isTaken()) {
                             selectedCode = code;
                             break;
+                        }
+                        
+                        if (found != null && found.isTaken()) {
+                            System.out.println("\n[cita no disponible]");
                         }
                     } while (true);
 
