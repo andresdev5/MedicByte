@@ -100,7 +100,7 @@ public class Menu {
                 boolean doCreate = false;
 
                 do {
-                    System.out.println("Desea crear una cita? [y/n]: ");
+                    System.out.println("Desea crear una cita? [s/n]: ");
                     String choosed = scanner.nextLine().toLowerCase();
 
                     if (choosed.equals("y") || choosed.equals("n")) {
