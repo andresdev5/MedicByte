@@ -8,7 +8,7 @@ public enum Speciality {
     Pediatry("pediatria", 1),
     Traumatology("traumatologia", 2),
     Odontology("odontologia", 3);
-    
+
     private String label;
     private int id;
 
@@ -16,7 +16,12 @@ public enum Speciality {
         this.label = label;
         this.id = id;
     }
-    
-    public int getId() { return id; }
-    public String getLabel() { return label; }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getLabel() {
+        return label;
+    }
 }

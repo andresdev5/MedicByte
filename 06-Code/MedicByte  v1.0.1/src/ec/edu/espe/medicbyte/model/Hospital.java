@@ -13,7 +13,7 @@ public class Hospital {
 
     private String name;
     private String address; //Type Location 
-    
+
     public String getName() {
         return name;
     }

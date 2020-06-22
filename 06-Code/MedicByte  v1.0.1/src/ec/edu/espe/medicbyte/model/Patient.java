@@ -26,8 +26,6 @@ public class Patient {
     public void setAge(int age) {
         this.age = age;
     }
-    
-
 
     public String getIdentificationcard() {
         return identificationcard;
@@ -79,9 +77,9 @@ public class Patient {
 
     @Override
     public String toString() {
-        return "\"" + identificationcard + "\",\"" + surname + "\",\"" 
-                    + name + "\",\"" + phone + "\",\"" + email + "\",\""
-                    + gender.name() + "\"," + age;
+        return "\"" + identificationcard + "\",\"" + surname + "\",\""
+                + name + "\",\"" + phone + "\",\"" + email + "\",\""
+                + gender.name() + "\"," + age;
 
     }
 
