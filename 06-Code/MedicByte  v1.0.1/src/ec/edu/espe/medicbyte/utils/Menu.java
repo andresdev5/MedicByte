@@ -112,11 +112,16 @@ public class Menu {
                 if (doCreate) {
                     DataEntry dataEntry = new DataEntry();
                     Patient patient = dataEntry.addPatient();
-                    String selectedCode;
+                    String selectedCode = "-1";
                     
                     do {
-                        System.out.print("Ingrese el codigo de la cita: ");
+                        System.out.print("Ingrese el codigo de la cita o -1 para salir: ");
                         String code = scanner.nextLine().trim().toLowerCase();
+                        
+                        if (code.trim().equals("-1")) {
+                            break;
+                        }
+                        
                         Appointment found = appointments.stream()
                                 .filter(appointment -> {
                                     return appointment.getCode().trim()
@@ -132,6 +137,10 @@ public class Menu {
                             System.out.println("\n[cita no disponible]");
                         }
                     } while (true);
+                    
+                    if (selectedCode.equals("-1")) {
+                        return;
+                    }
 
                     FileManager fileManager = new FileManager("user_appointments.txt");
                     fileManager.writeFile(String.format(
