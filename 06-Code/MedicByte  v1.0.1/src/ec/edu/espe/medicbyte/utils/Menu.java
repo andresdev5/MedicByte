@@ -31,9 +31,9 @@ public class Menu {
         System.out.print("\n                                               || ****** ****** *      ******   ");
         System.out.print("\n\t\t=================================================================================== ");
         System.out.print("\n\n");
-        System.out.print("                      INTEGRANTES: Junior Jurado                     MATERIA: PROGRAMACION A      ");
-        System.out.print("\n                                  Michael Cobacango                             OBJETOS     ");
-        System.out.print("\n\n");
+        System.out.print("                      INTEGRANTES: JUNIOR JURADO                    MATERIA: PROGRAMACION A      ");
+        System.out.print("\n                                 MICHAEL COBACANDO                           OBJETOS     ");
+        System.out.print("\n                                 ANDRES JACOME \n");
         System.out.print("                      NRC:     6382                                  ING. EDISON LASCANO");
         System.out.print("\n");
         System.out.print("                      CARRERA: SOFTWARE\n");
