@@ -58,6 +58,7 @@ public class FileManager {
             try (Scanner scanner = new Scanner(file)) {
                 while (scanner.hasNext()) {
                     output = output + scanner.nextLine();
+                    output += "\n";
                 }
             }
         } catch (FileNotFoundException e) {

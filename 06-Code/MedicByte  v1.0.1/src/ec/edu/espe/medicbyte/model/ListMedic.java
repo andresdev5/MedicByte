@@ -7,7 +7,9 @@ package ec.edu.espe.medicbyte.model;
 
 import ec.edu.espe.medicbyte.utils.FileManager;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 
 /**
  *
@@ -25,7 +27,11 @@ public class ListMedic {
         String content;
         FileManager fileManager = new FileManager("ListMedic.txt");
         content = fileManager.readFile();
-        System.out.println(content);
+        List<String> medics = Arrays.asList(content.split("\n"));
+        
+        for(String medic : medics){
+            System.out.println(medic);
+        }
         }
     }
 

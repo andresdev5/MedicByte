@@ -5,6 +5,7 @@
  */
 package ec.edu.espe.medicbyte.utils;
 
+import ec.edu.espe.medicbyte.model.Appointment;
 import ec.edu.espe.medicbyte.model.Gender;
 import ec.edu.espe.medicbyte.model.ListMedic;
 import ec.edu.espe.medicbyte.model.Medic;
@@ -63,9 +64,6 @@ public class DataEntry {
         fileManager.writeFile(medic.toString());
     }
 
-    public void showAppointment() {
-
-    }
 
     public void showMedic() {
         int option;
@@ -101,4 +99,22 @@ public class DataEntry {
         }
     }
 
+    public void createAppointment(){
+        Scanner scanner = new Scanner(System.in);
+        Appointment appointment = new Appointment();
+        ListMedic listMedic = new ListMedic();
+        
+        System.out.println("MEDICOS DISPONIBLES");
+        listMedic.showListMedic();
+       
+        System.out.println("Ingrese un codigo: ");
+        appointment.setCode(scanner.nextLine());
+        
+        System.out.println("Ingrese la fecha: ");
+        appointment.setDate(scanner.nextLine());
+        
+        System.out.println("Ingrese la Hora: ");
+        appointment.setHour(scanner.nextLine());
+    
+    }
 }

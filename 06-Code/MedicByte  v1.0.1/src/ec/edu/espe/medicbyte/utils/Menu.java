@@ -84,8 +84,9 @@ public class Menu {
                 + "\nDigite su Opción: ");
         option = scanner.nextInt();
         switch (option) {
-            case 1:
-                break;
+            case 1:  
+              dataEntry.createAppointment();
+             break;
 
             case 2:
                 break;
