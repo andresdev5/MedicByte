@@ -19,7 +19,7 @@ public class AppointmentsController {
         
         // code,date,hour,id_medic
         for (String line : content.split("\n")) {
-            String tokens[] = line.split(",");
+            String tokens[] = line.split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)");
             Appointment appointment = new Appointment();
             appointment.setCode(tokens[0]);
             appointment.setDate(tokens[1]);

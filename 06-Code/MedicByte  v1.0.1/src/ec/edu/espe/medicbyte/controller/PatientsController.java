@@ -25,7 +25,7 @@ public class PatientsController {
         
         // code,date,hour,id_medic
         for (String line : content.split("\n")) {
-            String tokens[] = line.split(",");
+            String tokens[] = line.split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)");
             Patient patient = new Patient();
             
             // cedula, surname, name, phone, email. gender, age
