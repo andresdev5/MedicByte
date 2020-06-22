@@ -16,6 +16,7 @@ import java.util.Scanner;
  * @author Junior Stalin Jurado Peña - ESPE - DCCO
  */
 public class Menu {
+
     public void caratula() {
 
         System.out.print("\n\t\t================================================================================== ");
@@ -55,22 +56,23 @@ public class Menu {
                 optionOne = scanner.nextInt();
                 switch (optionOne) {
                     case 1:
-                      
-                     break;
+
+                        break;
 
                     case 2:
-                     break;
+                        break;
 
                     case 3:
-                     break;
+                        break;
                 }
-         }
+        }
 
     }
-    
-    public void showMenuAdmin() throws IOException{
+
+    public void showMenuAdmin() throws IOException {
         int option;
         Scanner scanner = new Scanner(System.in);
+        DataEntry dataEntry = new DataEntry();
         Appointment appointment = new Appointment();
         System.out.print("Menú: "
                 + "\n1: Crear cita"
@@ -81,20 +83,23 @@ public class Menu {
                 + "\n6: Agregar nueva Especialidad"
                 + "\nDigite su Opción: ");
         option = scanner.nextInt();
-        switch(option){
-            case 1:          
-            break;
-            
-            case 2: 
-            break;
-            
+        switch (option) {
+            case 1:
+                break;
+
+            case 2:
+                break;
+
             case 3:
-                DataEntry dataEntry = new DataEntry();
                 dataEntry.dataMedic();
-                
-            break;
+                break;
+            case 4: 
+                break;
+            case 5:
+                dataEntry.showMedic();
+                break;
         }
-          
-    }  
+
+    }
 
 }
