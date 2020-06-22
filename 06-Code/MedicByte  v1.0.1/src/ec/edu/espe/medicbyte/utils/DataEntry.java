@@ -5,11 +5,15 @@
  */
 package ec.edu.espe.medicbyte.utils;
 
+import ec.edu.espe.medicbyte.controller.PatientsController;
 import ec.edu.espe.medicbyte.model.Appointment;
 import ec.edu.espe.medicbyte.model.Gender;
 import ec.edu.espe.medicbyte.model.ListMedic;
 import ec.edu.espe.medicbyte.model.Medic;
 import ec.edu.espe.medicbyte.model.Patient;
+import ec.edu.espe.medicbyte.model.Speciality;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -18,7 +22,7 @@ import java.util.Scanner;
  */
 public class DataEntry {
 
-    public void dataPatient() {
+    public Patient addPatient() {
         int option;
         Scanner scanner = new Scanner(System.in);
         Patient patient = new Patient();
@@ -30,7 +34,8 @@ public class DataEntry {
         System.out.print("Apellidos: ");
         patient.setSurname(scanner.nextLine());
         System.out.print("Fecha de Nacimiento: ");
-        patient.setAge(scanner.nextLine());
+        patient.setAge(20); // TODO: cambiar luego
+        scanner.nextLine();
         System.out.print("Telefono: ");
         patient.setPhone(scanner.nextLine());
         System.out.print("Email: ");
@@ -51,16 +56,47 @@ public class DataEntry {
             default:
                 System.out.println("No se Encontraron Coincidencias");
         }
+        
+        PatientsController patients = new PatientsController();
+        patients.savePatient(patient);
+        
+        return patient;
     }
 
-    public void dataMedic() {
+    public void addMedic() {
         Scanner scanner = new Scanner(System.in);
+        FileManager fileManager = new FileManager("ListMedic.txt");
         Medic medic = new Medic();
+        
         System.out.println("Ingrese el nombre del medico");
         medic.setName(scanner.nextLine());
-        System.out.println("Ingrese la especialidad");
-        medic.setSpeciality(scanner.nextLine());
-        FileManager fileManager = new FileManager("ListMedic.txt");
+                
+        int index = 0;
+        int selected = 0;
+        
+        System.out.println("seleccione la especialidad: ");
+        
+        for (Speciality speciality : Speciality.values()) {
+            System.out.printf("%d: %s\n", index + 1, speciality.getLabel());
+            index++;
+        }
+        
+        do {
+            System.out.print("especialidad: ");
+            selected = scanner.nextInt();
+            scanner.nextLine();
+        } while (selected <= 0 || selected > Speciality.values().length);
+        
+        Speciality speciality = Speciality.values()[selected - 1];
+        medic.setSpeciality(speciality);
+        
+        String content = fileManager.readFile();
+        int count = (int) Arrays.asList(content.split("\n"))
+                .stream()
+                .filter(line -> !line.isEmpty())
+                .count();
+        
+        medic.setId(count + 1);
         fileManager.writeFile(medic.toString());
     }
 
@@ -73,15 +109,17 @@ public class DataEntry {
                 + "\nDigite su Opción: ");
         option = scanner.nextInt();
         switch (option) {
-            case 1: ListMedic listMedic = new ListMedic();
-                    listMedic.showListMedic();
-                break;
+            case 1: 
+                ListMedic listMedic = new ListMedic();
+                listMedic.showListMedic();
+            break;
             case 2:
                 System.out.print("1: Pediatric"
                         + "\n2: Odontologo"
                         + "\n3: Traumatologo"
                         + "\nDigite su Opción: ");
                 option = scanner.nextInt();
+                
                 switch (option) {
                     case 1: //Pediatric
                         break;
@@ -92,21 +130,39 @@ public class DataEntry {
                     default:
                         System.out.println("No se Encontraron Coincidencias");
                 }
-                break;
+            break;
             default:
                 System.out.println("No se Encontraron Coincidencias");
+            break;
 
         }
     }
-
+    
+    public void scheduleAppointment() {
+        
+    }
+    
+    // id, fecha, hora, id_medico
     public void createAppointment(){
         Scanner scanner = new Scanner(System.in);
         Appointment appointment = new Appointment();
         ListMedic listMedic = new ListMedic();
         
         System.out.println("MEDICOS DISPONIBLES");
+        List<Medic> medics = listMedic.getAllMedics();
+        int selected;
+
         listMedic.showListMedic();
-       
+        
+        do {
+            System.out.println("Seleccione el medico: ");
+            selected = scanner.nextInt();
+            scanner.nextLine();
+        } while (selected <= 0 || selected > medics.size());
+        
+        Medic medic = medics.get(selected - 1);
+        appointment.setMedic(medic);
+        
         System.out.println("Ingrese un codigo: ");
         appointment.setCode(scanner.nextLine());
         
@@ -115,6 +171,8 @@ public class DataEntry {
         
         System.out.println("Ingrese la Hora: ");
         appointment.setHour(scanner.nextLine());
-    
+        
+        FileManager fileManager = new FileManager("Appointments.txt");
+        fileManager.writeFile(appointment.toString());
     }
 }

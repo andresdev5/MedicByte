@@ -31,6 +31,14 @@ public class FileManager {
             }
         }
     }
+    
+    public void clear() {
+        PrintWriter pw;
+        try {
+            pw = new PrintWriter(fileName);
+            pw.close();
+        } catch (FileNotFoundException ex) {}
+    }
 
     public void writeFile(String content) {
         try (FileWriter toWriter = new FileWriter(file, true);

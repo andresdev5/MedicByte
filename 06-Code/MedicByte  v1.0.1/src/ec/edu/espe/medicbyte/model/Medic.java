@@ -1,19 +1,22 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ec.edu.espe.medicbyte.model;
 
 /**
  *
  * @author Michael Cobacango -ESPE -DCCO
  */
-public class Medic {
-
+public class Medic {    
+    private int id;
     private String name;
-    private String speciality;
-
+    private Speciality speciality;
+    
+    public int getId() {
+        return id;
+    }
+    
+    public void setId(int id) {
+        this.id = id;
+    }
+    
     public String getName() {
         return name;
     }
@@ -22,17 +25,17 @@ public class Medic {
         this.name = name;
     }
 
-    public String getSpeciality() {
+    public Speciality getSpeciality() {
         return speciality;
     }
 
-    public void setSpeciality(String speciality) {
+    public void setSpeciality(Speciality speciality) {
         this.speciality = speciality;
     }
 
     @Override
     public String toString() {
-        return speciality + ", Dr. " + name +".";
+        return id + "," + speciality.getId() + ",\"" + name + "\"";
     }
 
 }

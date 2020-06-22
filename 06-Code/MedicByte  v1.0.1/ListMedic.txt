@@ -1,6 +1,7 @@
-
-Odontologo, Dr. Michael Cobacango.
-
-Cirujano, Dr. Junior Jurado.
-Odontologo, Dr. 3.
-Odontologo, Dr. Michael Cobacango.
+1,1,"test1"
+2,1,"medico 2"
+3,3,"medico 3"
+4,1,"medico 4"
+5,2,"medico 5"
+6,3,"medico 6"
+7,1,"medico 7"

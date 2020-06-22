@@ -9,7 +9,7 @@ import ec.edu.espe.medicbyte.utils.Menu;
  *
  * @author Junior Stalin Jurado Peña - ESPE - DCCO
  */
-public class HospitalAppointment {
+public class HospitalUser {
 
     public static void main(String[] args) {
        

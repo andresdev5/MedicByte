@@ -17,13 +17,13 @@ public class Patient {
     private String phone;
     private String email;
     private Gender gender;
-    private String age;
+    private int age;
 
-    public String getAge() {
+    public int getAge() {
         return age;
     }
 
-    public void setAge(String age) {
+    public void setAge(int age) {
         this.age = age;
     }
     
@@ -79,9 +79,9 @@ public class Patient {
 
     @Override
     public String toString() {
-        return "\n" + "Cédula: " + identificationcard + "\nApellidos: " + surname
-                + "\nNombres: " + name + "\nTelefono: " + phone + "\nEmail: " + email
-                + "\nGender: " + gender;
+        return "\"" + identificationcard + "\",\"" + surname + "\",\"" 
+                    + name + "\",\"" + phone + "\",\"" + email + "\",\""
+                    + gender.name() + "\"," + age;
 
     }
 
