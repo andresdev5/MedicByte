@@ -4,19 +4,20 @@ package ec.edu.espe.medicbyte.model;
  *
  * @author Michael Cobacango -ESPE -DCCO
  */
-public class Medic {    
+public class Medic {
+
     private int id;
     private String name;
     private Speciality speciality;
-    
+
     public int getId() {
         return id;
     }
-    
+
     public void setId(int id) {
         this.id = id;
     }
-    
+
     public String getName() {
         return name;
     }

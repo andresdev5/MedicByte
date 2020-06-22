@@ -10,7 +10,6 @@ import ec.edu.espe.medicbyte.model.Appointment;
 import ec.edu.espe.medicbyte.model.Patient;
 import ec.edu.espe.medicbyte.model.Speciality;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
@@ -68,89 +67,89 @@ public class Menu {
                 } while (selected <= 0 || selected > Speciality.values().length);
 
                 Speciality speciality = Speciality.values()[selected - 1];
-                
+
                 AppointmentsController controller = new AppointmentsController();
                 List<Appointment> appointments = controller.getAllAppointments()
-                    .stream()
-                    .filter(appointment -> {
-                        return appointment.getMedic().getSpeciality() == speciality;
-                    }).collect(Collectors.toList());
-                
+                        .stream()
+                        .filter(appointment -> {
+                            return appointment.getMedic().getSpeciality() == speciality;
+                        }).collect(Collectors.toList());
+
                 if (appointments.isEmpty()) {
                     System.out.println("No existen citas medicas en esa especialidad");
                     return;
                 }
-                
+
                 for (Appointment appointment : appointments) {
                     String code = appointment.getCode();
                     String date = appointment.getDate();
                     String doctor = appointment.getMedic().getName();
-                    
+
                     System.out.printf(
-                        "------------------------\n" +
-                        "codigo: %s\n" +
-                        "fecha: %s\n" +
-                        "doctor: %s\n" +
-                        "disponibilidad: %s\n" +
-                        "------------------------\n",
-                        code, date, doctor,
-                        (appointment.isTaken() ? "no disponible" : "disponible")
+                            "------------------------\n"
+                            + "codigo: %s\n"
+                            + "fecha: %s\n"
+                            + "doctor: %s\n"
+                            + "disponibilidad: %s\n"
+                            + "------------------------\n",
+                            code, date, doctor,
+                            (appointment.isTaken() ? "no disponible" : "disponible")
                     );
                 }
-                
+
                 boolean doCreate = false;
-                
+
                 do {
                     System.out.println("Desea crear una cita? [y/n]: ");
                     String choosed = scanner.nextLine().toLowerCase();
-                    
+
                     if (choosed.equals("y") || choosed.equals("n")) {
                         doCreate = choosed.equals("y");
                         break;
                     }
                 } while (true);
-                
+
                 if (doCreate) {
                     DataEntry dataEntry = new DataEntry();
                     Patient patient = dataEntry.addPatient();
-                    
+
                     System.out.print("Ingrese el codigo de la cita: ");
-                    
+
                     String selectedCode;
-                    
+
                     do {
                         String code = scanner.nextLine().trim().toLowerCase();
                         boolean exists = appointments.stream()
-                            .filter(appointment -> {
-                                return appointment.getCode().trim()
-                                        .equalsIgnoreCase(code);
-                            }).count() > 0;
-                        
+                                .filter(appointment -> {
+                                    return appointment.getCode().trim()
+                                            .equalsIgnoreCase(code);
+                                }).count() > 0;
+
                         if (exists) {
                             selectedCode = code;
                             break;
                         }
                     } while (true);
-                    
+
                     FileManager fileManager = new FileManager("user_appointments.txt");
                     fileManager.writeFile(String.format(
-                        "%s, %s", selectedCode, patient.getIdentificationcard()));
-                    
+                            "%s, %s", selectedCode, patient.getIdentificationcard()));
+
                     FileManager fileManager2 = new FileManager("Appointments.txt");
                     List<Appointment> appointments2 = controller.getAllAppointments();
-                    
+
                     fileManager2.clear();
-                    
+
                     for (Appointment appointment : appointments2) {
                         if (appointment.getCode().trim().equalsIgnoreCase(selectedCode)) {
                             appointment.setTaken(true);
                         }
-                        
+
                         fileManager2.writeFile(appointment.toString());
                     }
                 }
-                
-            break;
+
+                break;
         }
 
     }
@@ -170,9 +169,9 @@ public class Menu {
                 + "\nDigite su Opción: ");
         option = scanner.nextInt();
         switch (option) {
-            case 1:  
-              dataEntry.createAppointment();
-             break;
+            case 1:
+                dataEntry.createAppointment();
+                break;
 
             case 2:
                 break;
@@ -180,7 +179,7 @@ public class Menu {
             case 3:
                 dataEntry.addMedic();
                 break;
-            case 4: 
+            case 4:
                 break;
             case 5:
                 dataEntry.showMedic();
