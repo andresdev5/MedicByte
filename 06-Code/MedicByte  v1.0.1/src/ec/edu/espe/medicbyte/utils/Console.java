@@ -75,9 +75,20 @@ public class Console {
     }
     
     public int readInt(String label) {
-        System.out.print(label);        
-        int input = reader.nextInt();
-        reader.nextLine();
+        int input;
+        
+        do {
+            System.out.print(label);
+            
+            try {
+                input = reader.nextInt();
+                reader.nextLine();
+                break;
+            } catch (Exception exception) {
+                reader.next();
+            }
+        } while (true);
+        
         return input;
     }
     

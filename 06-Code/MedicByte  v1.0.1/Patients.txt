@@ -6,3 +6,4 @@
 "888888","bbbbb","aaaaa","5555","email","MALE",20
 >>>>>>> aeec733854d90f3d7d666a2f78adb14fa0e61b17
 "1710379346","Cadena","Alfonso","0981564124","alfonso@gmail.com","MALE",20
+"1708167935","Jonathan","Andres","5555","ksprwhite@gmail.com","MALE",20
