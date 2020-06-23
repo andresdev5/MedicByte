@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package ec.edu.espe.medicbyte.utils;
 
 import ec.edu.espe.medicbyte.controller.PatientsController;
@@ -74,7 +70,7 @@ public class DataEntry {
         int index = 0;
         int selected = 0;
 
-        System.out.println("seleccione la especialidad: ");
+        System.out.println("Seleccione la especialidad: ");
 
         for (Speciality speciality : Speciality.values()) {
             System.out.printf("%d: %s\n", index + 1, speciality.getLabel());
@@ -82,7 +78,7 @@ public class DataEntry {
         }
 
         do {
-            System.out.print("especialidad: ");
+            System.out.print("Especialidad: ");
             selected = scanner.nextInt();
             scanner.nextLine();
         } while (selected <= 0 || selected > Speciality.values().length);

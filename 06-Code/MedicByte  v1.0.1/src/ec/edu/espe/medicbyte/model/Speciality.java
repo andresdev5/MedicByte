@@ -5,9 +5,9 @@ package ec.edu.espe.medicbyte.model;
  * @author Andres Jonathan J.
  */
 public enum Speciality {
-    Pediatry("pediatria", 1),
-    Traumatology("traumatologia", 2),
-    Odontology("odontologia", 3);
+    Pediatry("Pediatria", 1),
+    Traumatology("Traumatologia", 2),
+    Odontology("Odontologia", 3);
 
     private String label;
     private int id;
