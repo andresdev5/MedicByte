@@ -1,11 +1,17 @@
 package ec.edu.espe.medicbyte.utils;
 
+import java.awt.AWTException;
+import java.awt.Robot;
 import java.io.BufferedOutputStream;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
+import java.util.Locale;
 import java.util.Scanner;
 import java.util.function.Function;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -94,6 +100,32 @@ public class Console {
     
     public int readInt() {
         return readInt("");
+    }
+    
+    public void clear() {
+        String os = System
+            .getProperty("os.name", "generic")
+            .toLowerCase(Locale.ENGLISH);
+        
+        try {
+            if (System.console() == null) {
+                Robot pressbot = new Robot();
+                pressbot.keyPress(17);
+                pressbot.keyPress(76);
+                pressbot.keyRelease(17);
+                pressbot.keyRelease(76);
+            }
+            
+            if (os.contains("windows")) {
+                new ProcessBuilder("cmd", "/c", "cls")
+                    .inheritIO().start().waitFor();
+            } else {
+                Runtime.getRuntime().exec("clear");
+            }
+        } catch (Exception exception) {
+            echo("\033[H\033[2J");
+            printer.flush();
+        }
     }
     
     private void setupIO() {

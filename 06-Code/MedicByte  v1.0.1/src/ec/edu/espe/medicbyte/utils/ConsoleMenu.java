@@ -60,12 +60,8 @@ public class ConsoleMenu {
             int selected;
             int index = 1;
             
-            try {
-                new ProcessBuilder("cmd", "/c", "cls")
-                    .inheritIO()
-                    .start().waitFor();
-            } catch (Exception exception) {}
-            
+            console.clear();
+            console.newLine();
             content.get("top").forEach(console::echoln);
             
             for (MenuOption opt : options) {

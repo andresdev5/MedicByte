@@ -38,6 +38,10 @@ public class ListMedic {
         List<Medic> medics = new ArrayList<>();
 
         for (String line : lines) {
+            if (line.isEmpty()) {
+                continue;
+            }
+            
             Medic medic = new Medic();
 
             String tokens[] = line.split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)");
