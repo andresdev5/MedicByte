@@ -1,4 +1,4 @@
-package ec.edu.espe.medicbyte.model;
+package ec.edu.espe.medicbyte.utils;
 
 import java.util.ArrayList;
 import java.util.List;

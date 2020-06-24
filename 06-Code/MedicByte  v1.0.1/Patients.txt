@@ -1,9 +1,0 @@
-"1726744293","Jonathan","Andres","555555","ksprwhite@gmail.com","MALE",20
-"99999","bbbbb","aaaaa","5555","email","MALE",20
-<<<<<<< HEAD
-"1722066956","Cobacango","Michael","0999082067","michaelpm63@gmail.com","MALE",20
-=======
-"888888","bbbbb","aaaaa","5555","email","MALE",20
->>>>>>> aeec733854d90f3d7d666a2f78adb14fa0e61b17
-"1710379346","Cadena","Alfonso","0981564124","alfonso@gmail.com","MALE",20
-"1708167935","Jonathan","Andres","5555","ksprwhite@gmail.com","MALE",20

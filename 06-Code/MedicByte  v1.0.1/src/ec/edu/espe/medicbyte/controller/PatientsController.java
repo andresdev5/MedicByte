@@ -2,54 +2,51 @@ package ec.edu.espe.medicbyte.controller;
 
 import ec.edu.espe.medicbyte.model.Gender;
 import ec.edu.espe.medicbyte.model.Patient;
-import ec.edu.espe.medicbyte.utils.FileManager;
-import java.util.ArrayList;
-import java.util.List;
+import ec.edu.espe.medicbyte.service.PatientService;
+import ec.edu.espe.medicbyte.service.PatientServiceImpl;
+import java.util.Scanner;
 
 /**
  *
  * @author Andres Jonathan J.
  */
 public class PatientsController {
-
-    public void savePatient(Patient patient) {
-        FileManager fileManager = new FileManager("Patients.txt");
-        fileManager.writeFile(patient.toString());
-    }
-
-    public List<Patient> getPatients() {
-        FileManager fileManager = new FileManager("Patients.txt");
-        List<Patient> patients = new ArrayList<>();
-        String content = fileManager.readFile();
-
-        // code,date,hour,id_medic
-        for (String line : content.split("\n")) {
-            String tokens[] = line.split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)");
-            Patient patient = new Patient();
-
-            // cedula, surname, name, phone, email. gender, age
-            patient.setIdentificationcard(tokens[0]);
-            patient.setSurname(tokens[1]);
-            patient.setName(tokens[2]);
-            patient.setPhone(tokens[3]);
-            patient.setEmail(tokens[4]);
-
-            Gender gender = Gender.UNIDENTIFIED;
-
-            if (tokens[5].equals("FEMALE")) {
-                gender = Gender.FEMALE;
-            } else if (tokens[5].equals("MALE")) {
-                gender = Gender.MALE;
-            }
-
-            patient.setGender(gender);
-
-            int age = Integer.parseInt(tokens[6]);
-            patient.setAge(age);
-
-            patients.add(patient);
+    public void createPatient() {
+        int option;
+        Scanner scanner = new Scanner(System.in);
+        Patient patient = new Patient();
+        System.out.println("\n**INGRESE SUS DATOS**");
+        System.out.print("Cédula: ");
+        patient.setIdentificationcard(scanner.nextLine());
+        System.out.print("Nombres: ");
+        patient.setName(scanner.nextLine());
+        System.out.print("Apellidos: ");
+        patient.setSurname(scanner.nextLine());
+        System.out.print("Fecha de Nacimiento: ");
+        patient.setAge(20); // TODO: cambiar luego
+        scanner.nextLine();
+        System.out.print("Telefono: ");
+        patient.setPhone(scanner.nextLine());
+        System.out.print("Email: ");
+        patient.setEmail(scanner.nextLine());
+        System.out.print("Género: \n1: Femenino\n2: Masculino\n3: No Especificado: "
+                + "\n: ");
+        option = scanner.nextInt();
+        switch (option) {
+            case 1:
+                patient.setGender(Gender.FEMALE);
+                break;
+            case 2:
+                patient.setGender(Gender.MALE);
+                break;
+            case 3:
+                patient.setGender(Gender.UNIDENTIFIED);
+                break;
+            default:
+                System.out.println("No se Encontraron Coincidencias");
         }
 
-        return patients;
+        PatientService patientService = new PatientServiceImpl();
+        patientService.savePatient(patient);
     }
 }

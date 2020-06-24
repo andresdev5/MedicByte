@@ -1,6 +1,5 @@
 package ec.edu.espe.medicbyte.utils;
 
-import ec.edu.espe.medicbyte.model.MenuOption;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -18,7 +17,7 @@ public class ConsoleMenu {
     private final Map<String, List<String>> content;
     private AtomicBoolean running = new AtomicBoolean(true);
     private MenuOption lastSelectedOption;
-    private String prompt = "seleccione una opcion: ";
+    private String prompt = "Seleccione una opcion: ";
     
     public ConsoleMenu() {
         console = Console.getInstance();
@@ -76,9 +75,17 @@ public class ConsoleMenu {
             } while (selected < 1 || selected > options.size());
             
             lastSelectedOption = options.get(selected - 1);
+            
+            if (lastSelectedOption == null) {
+                continue;
+            }
+            
             lastSelectedOption.run();
             
+            // TODO: improve this
             if (!keepAlive) {
+                console.newLine().echoln("Press <enter> to continue");
+                console.read();
                 exit();
             }
         }

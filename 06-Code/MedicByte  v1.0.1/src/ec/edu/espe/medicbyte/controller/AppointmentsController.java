@@ -1,18 +1,19 @@
 package ec.edu.espe.medicbyte.controller;
 
 import ec.edu.espe.medicbyte.model.Appointment;
-import ec.edu.espe.medicbyte.model.Gender;
-import ec.edu.espe.medicbyte.model.ListMedic;
 import ec.edu.espe.medicbyte.model.Medic;
-import ec.edu.espe.medicbyte.model.MenuOption;
 import ec.edu.espe.medicbyte.model.Patient;
+import ec.edu.espe.medicbyte.utils.MenuOption;
 import ec.edu.espe.medicbyte.model.Speciality;
+import ec.edu.espe.medicbyte.service.AppointmentService;
+import ec.edu.espe.medicbyte.service.AppointmentServiceImpl;
+import ec.edu.espe.medicbyte.service.MedicService;
+import ec.edu.espe.medicbyte.service.MedicServiceImpl;
+import ec.edu.espe.medicbyte.service.PatientService;
+import ec.edu.espe.medicbyte.service.PatientServiceImpl;
 import ec.edu.espe.medicbyte.utils.Console;
 import ec.edu.espe.medicbyte.utils.ConsoleMenu;
-import ec.edu.espe.medicbyte.utils.FileManager;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 import java.util.stream.Collectors;
 
 /**
@@ -20,43 +21,66 @@ import java.util.stream.Collectors;
  * @author Andres Jonathan J.
  */
 public class AppointmentsController {
-    public void showAppointments() {}
+    private final Console console;
+    private final AppointmentService appointmentService;
     
-    public void createAppointment() {
-        Scanner scanner = new Scanner(System.in);
-        Appointment appointment = new Appointment();
-        ListMedic listMedic = new ListMedic();
-
-        System.out.println("MEDICOS DISPONIBLES");
-        List<Medic> medics = listMedic.getAllMedics();
-        int selected;
-
-        listMedic.showListMedic();
-
-        do {
-            System.out.println("Seleccione el medico: ");
-            selected = scanner.nextInt();
-            scanner.nextLine();
-        } while (selected <= 0 || selected > medics.size());
-
-        Medic medic = medics.get(selected - 1);
-        appointment.setMedic(medic);
-
-        System.out.println("Ingrese un codigo: ");
-        appointment.setCode(scanner.nextLine());
-
-        System.out.println("Ingrese la fecha: ");
-        appointment.setDate(scanner.nextLine());
-
-        System.out.println("Ingrese la Hora: ");
-        appointment.setHour(scanner.nextLine());
-
-        FileManager fileManager = new FileManager("Appointments.txt");
-        fileManager.writeFile(appointment.toString());
+    public AppointmentsController() {
+        this.console = Console.getInstance();
+        this.appointmentService = new AppointmentServiceImpl();
     }
     
+    public void showAppointments() {
+        List<Appointment> appointments = appointmentService.getAllAppointments();
+        
+        for (Appointment appointment : appointments) {
+            console.echoln("---------------------------------------");
+            console.echofmt("id: %d\n", appointment.getId());
+            console.echofmt("date: %s\n", appointment.getDate());
+            console.echofmt("hour: %s\n", appointment.getHour());
+            console.echofmt("medic: %s\n", appointment.getMedic().getName());
+            console.echofmt("medic: %s\n", appointment.getMedic().getSpeciality().getLabel());
+        }
+        
+        console.pause();
+    }
+    
+    /**
+     * Crear una cita medica
+     * 
+     */
+    public void createAppointment() {
+        Appointment appointment = new Appointment();
+        ConsoleMenu medicsMenu = new ConsoleMenu();
+        MedicService medicService = new MedicServiceImpl();
+        List<Medic> medics = medicService.getAllMedics();
+        
+        if (medics.isEmpty()) {
+            console.echoln("No hay medicos disponibles");
+            return;
+        }
+        
+        for (Medic medic : medics) {
+            medicsMenu.addOption(medic.getName()).addArgument(medic);
+        }
+        
+        medicsMenu.setPrompt("Choose a medic: ");
+        Medic selected = (Medic) medicsMenu.readOption().getArguments().get(0);
+        
+        appointment.setId(appointmentService.getTotalAppointments() + 1);
+        appointment.setMedic(selected);
+        appointment.setDate(console.read("Ingrese la fecha: "));
+        appointment.setHour(console.read("Ingrese la hora: "));
+        
+        appointmentService.saveAppointment(appointment);
+        
+        console.echoln("Successfully created appointment!");
+        console.pause();
+    }
+    
+    /**
+     * Solicitar una cita medica
+     */
     public void takeAppointment() {
-        Console console = Console.getInstance();
         ConsoleMenu specialityMenu = new ConsoleMenu();
         
         for (Speciality speciality : Speciality.values()) {
@@ -71,11 +95,11 @@ public class AppointmentsController {
         MenuOption lastOption = specialityMenu.readOption();
         Speciality speciality = (Speciality) lastOption.getArguments().get(0);
         AppointmentsController controller = new AppointmentsController();
-        List<Appointment> appointments = controller.getAllAppointments()
-                .stream()
-                .filter(appointment -> {
-                    return appointment.getMedic().getSpeciality() == speciality;
-                }).collect(Collectors.toList());
+        List<Appointment> appointments = appointmentService.getAllAppointments()
+            .stream()
+            .filter(appointment -> {
+                return appointment.getMedic().getSpeciality() == speciality;
+            }).collect(Collectors.toList());
 
         if (appointments.isEmpty()) {
             console.echoln("No existen citas medicas en esa especialidad");
@@ -83,18 +107,18 @@ public class AppointmentsController {
         }
         
         appointments.forEach((appointment) -> {
-            String code = appointment.getCode();
+            int id = appointment.getId();
             String date = appointment.getDate();
             String doctor = appointment.getMedic().getName();
 
             console.echofmt(
                 "------------------------\n"
-                        + "codigo: %s\n"
+                        + "id: %d\n"
                         + "fecha: %s\n"
                         + "doctor: %s\n"
                         + "disponibilidad: %s\n"
                         + "------------------------\n",
-                code, date, doctor,
+                id, date, doctor,
                 (appointment.isTaken() ? "no disponible" : "disponible")
             );
         });
@@ -107,8 +131,8 @@ public class AppointmentsController {
         
         if (doCreate) {
             String selectedCode = "-1";
-            String code = console.read(
-                "Ingrese el codigo de la cita o -1 para salir: ",
+            String id = console.read(
+                "Ingrese el id de la cita o -1 para salir: ",
                 (input) -> {
                     if (input.equals("-1")) {
                         return true;
@@ -116,14 +140,13 @@ public class AppointmentsController {
 
                     Appointment found = appointments.stream()
                         .filter((appointment) -> {
-                            return appointment.getCode().trim()
-                                    .equalsIgnoreCase(input);
+                            return appointment.getId() == Integer.parseInt(input);
                         }).findFirst().orElse(null);
                     
                     boolean valid = found != null && !found.isTaken();
                     
                     if (found == null) {
-                        console.newLine().echoln("codigo incorrecto o la cita no existe");
+                        console.newLine().echoln("id incorrecto o la cita no existe");
                     } else if (!valid) {
                         console.newLine().echoln("cita no disponible");
                     }
@@ -132,97 +155,51 @@ public class AppointmentsController {
                 }
             );
 
-            if (code.equals("-1")) {
-                return;
-            }
-            
-            Patient patient = createPatient();
-
-            FileManager fileManager = new FileManager("user_appointments.txt");
-            fileManager.writeFile(String.format(
-                    "%s, %s", selectedCode, patient.getIdentificationcard()));
-
-            FileManager fileManager2 = new FileManager("Appointments.txt");
-            List<Appointment> appointments2 = controller.getAllAppointments();
-
-            fileManager2.clear();
-
-            for (Appointment appointment : appointments2) {
-                if (appointment.getCode().trim().equalsIgnoreCase(selectedCode)) {
-                    appointment.setTaken(true);
+            if (!id.equals("-1")) {
+                // TODO: validate CI
+                String identification = console.read("ingrese su cedula: ");
+                PatientService patientService = new PatientServiceImpl();
+                Patient patient = patientService.getPatient(identification);
+                
+                if (patient == null) {
+                    console.echoln("Paciente no encontrado");
+                    
+                    String option = console.read("Desea registrarse? (y/n): ", (input) -> {
+                        return input.trim().equalsIgnoreCase("y")
+                            || input.trim().equalsIgnoreCase("n");
+                    });
+                    
+                    if (option.equals("y")) {
+                        PatientsController patientsController;
+                        patientsController = new PatientsController();
+                        patientsController.createPatient();
+                    }
+                    
+                    int count = patientService.getTotalPatients();
+                    patient = patientService.getAllPatients().get(count - 1);
                 }
+                
+                int appointmentID = Integer.parseInt(id);
+                appointmentService.addPatientToAppointment(
+                        patient.getIdentificationcard(), appointmentID);
+                Appointment appointment = appointmentService.getAppointment(appointmentID);
 
-                fileManager2.writeFile(appointment.toString());
+                appointment.setTaken(true);
+                appointmentService.updateAppointment(appointment);
             }
         }
     }
     
-    public void deleteAppointment() {}
-    
-    public List<Appointment> getAllAppointments() {
-        FileManager fileManager = new FileManager("Appointments.txt");
-        List<Appointment> appointments = new ArrayList<>();
-        ListMedic listmedic = new ListMedic();
-        String content = fileManager.readFile();
-
-        // code,date,hour,id_medic
-        for (String line : content.split("\n")) {
-            String tokens[] = line.split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)");
-            Appointment appointment = new Appointment();
-            appointment.setCode(tokens[0]);
-            appointment.setDate(tokens[1]);
-            appointment.setHour(tokens[2]);
-
-            int medicId = Integer.parseInt(tokens[3]);
-            appointment.setMedic(listmedic.getMedic(medicId));
-
-            boolean isTaken = Integer.parseInt(tokens[4]) != 0;
-            appointment.setTaken(isTaken);
-
-            appointments.add(appointment);
+    public void deleteAppointment() {
+        int id = console.readInt("Enter appointment id to delete: ");
+        Appointment appointment = appointmentService.getAppointment(id);
+        
+        if (appointment == null) {
+            console.echoln("appointment not found");
+        } else {
+            appointmentService.deleteAppointment(appointment);
         }
-
-        return appointments;
-    }
-    
-    private Patient createPatient() {
-        int option;
-        Scanner scanner = new Scanner(System.in);
-        Patient patient = new Patient();
-        System.out.println("\n**INGRESE SUS DATOS**");
-        System.out.print("Cédula: ");
-        patient.setIdentificationcard(scanner.nextLine());
-        System.out.print("Nombres: ");
-        patient.setName(scanner.nextLine());
-        System.out.print("Apellidos: ");
-        patient.setSurname(scanner.nextLine());
-        System.out.print("Fecha de Nacimiento: ");
-        patient.setAge(20); // TODO: cambiar luego
-        scanner.nextLine();
-        System.out.print("Telefono: ");
-        patient.setPhone(scanner.nextLine());
-        System.out.print("Email: ");
-        patient.setEmail(scanner.nextLine());
-        System.out.print("Género: \n1: Femenino\n2: Masculino\n3: No Especificado: "
-                + "\n: ");
-        option = scanner.nextInt();
-        switch (option) {
-            case 1:
-                patient.setGender(Gender.FEMALE);
-                break;
-            case 2:
-                patient.setGender(Gender.MALE);
-                break;
-            case 3:
-                patient.setGender(Gender.UNIDENTIFIED);
-                break;
-            default:
-                System.out.println("No se Encontraron Coincidencias");
-        }
-
-        PatientsController patients = new PatientsController();
-        patients.savePatient(patient);
-
-        return patient;
+        
+        console.pause();
     }
 }
