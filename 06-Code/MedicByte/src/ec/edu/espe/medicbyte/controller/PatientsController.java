@@ -3,7 +3,7 @@ package ec.edu.espe.medicbyte.controller;
 import ec.edu.espe.medicbyte.model.Gender;
 import ec.edu.espe.medicbyte.model.Patient;
 import ec.edu.espe.medicbyte.service.PatientService;
-import ec.edu.espe.medicbyte.service.PatientServiceImpl;
+import ec.edu.espe.medicbyte.service.impl.PatientServiceImpl;
 import java.util.Scanner;
 
 /**

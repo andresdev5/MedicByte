@@ -6,11 +6,11 @@ import ec.edu.espe.medicbyte.model.Patient;
 import ec.edu.espe.medicbyte.utils.MenuOption;
 import ec.edu.espe.medicbyte.model.Speciality;
 import ec.edu.espe.medicbyte.service.AppointmentService;
-import ec.edu.espe.medicbyte.service.AppointmentServiceImpl;
+import ec.edu.espe.medicbyte.service.impl.AppointmentServiceImpl;
 import ec.edu.espe.medicbyte.service.MedicService;
-import ec.edu.espe.medicbyte.service.MedicServiceImpl;
+import ec.edu.espe.medicbyte.service.impl.MedicServiceImpl;
 import ec.edu.espe.medicbyte.service.PatientService;
-import ec.edu.espe.medicbyte.service.PatientServiceImpl;
+import ec.edu.espe.medicbyte.service.impl.PatientServiceImpl;
 import ec.edu.espe.medicbyte.utils.Console;
 import ec.edu.espe.medicbyte.utils.ConsoleMenu;
 import java.util.List;
@@ -32,16 +32,15 @@ public class AppointmentsController {
     public void showAppointments() {
         List<Appointment> appointments = appointmentService.getAllAppointments();
         
-        for (Appointment appointment : appointments) {
+        appointments.stream().forEach((appointment) -> {
             console.echoln("---------------------------------------");
             console.echofmt("id: %d\n", appointment.getId());
             console.echofmt("date: %s\n", appointment.getDate());
             console.echofmt("hour: %s\n", appointment.getHour());
             console.echofmt("medic: %s\n", appointment.getMedic().getName());
-            console.echofmt("medic: %s\n", appointment.getMedic().getSpeciality().getLabel());
-        }
-        
-        console.pause();
+            console.echofmt("medic: %s\n", 
+                    appointment.getMedic().getSpeciality().getLabel());
+        });
     }
     
     /**
@@ -59,12 +58,12 @@ public class AppointmentsController {
             return;
         }
         
-        for (Medic medic : medics) {
+        medics.forEach((medic) -> {
             medicsMenu.addOption(medic.getName()).addArgument(medic);
-        }
+        });
         
         medicsMenu.setPrompt("Choose a medic: ");
-        Medic selected = (Medic) medicsMenu.readOption().getArguments().get(0);
+        Medic selected = (Medic) medicsMenu.process().getArgument(0);
         
         appointment.setId(appointmentService.getTotalAppointments() + 1);
         appointment.setMedic(selected);
@@ -72,9 +71,7 @@ public class AppointmentsController {
         appointment.setHour(console.read("Ingrese la hora: "));
         
         appointmentService.saveAppointment(appointment);
-        
         console.echoln("Successfully created appointment!");
-        console.pause();
     }
     
     /**
@@ -92,7 +89,7 @@ public class AppointmentsController {
         console.newLine();
         specialityMenu.setPrompt("Seleccione la especialidad: ");
         
-        MenuOption lastOption = specialityMenu.readOption();
+        MenuOption lastOption = specialityMenu.process();
         Speciality speciality = (Speciality) lastOption.getArguments().get(0);
         AppointmentsController controller = new AppointmentsController();
         List<Appointment> appointments = appointmentService.getAllAppointments()
@@ -199,7 +196,5 @@ public class AppointmentsController {
         } else {
             appointmentService.deleteAppointment(appointment);
         }
-        
-        console.pause();
     }
 }

@@ -1,9 +1,12 @@
-package ec.edu.espe.medicbyte.service;
+package ec.edu.espe.medicbyte.service.impl;
 
 import ec.edu.espe.medicbyte.model.Appointment;
 import ec.edu.espe.medicbyte.model.Medic;
-import ec.edu.espe.medicbyte.utils.tinyio.FileManager;
-import ec.edu.espe.medicbyte.utils.tinyio.FileLine;
+import ec.edu.espe.medicbyte.service.AppointmentService;
+import ec.edu.espe.medicbyte.service.MedicService;
+import ec.edu.espe.tinyio.FileManager;
+import ec.edu.espe.tinyio.FileLine;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -16,14 +19,13 @@ import java.util.stream.Collectors;
  */
 public class AppointmentServiceImpl implements AppointmentService {
     private FileManager fileManager;
+    private static final String DATA_FILENAME = "appointments.csv";
     
     public AppointmentServiceImpl() {
         try {
-            this.fileManager = new FileManager("appointments.csv");
-            this.fileManager.create();
-        } catch (Exception ex) {
-            // TODO: fatal error, exit application
-            System.err.println(ex.getMessage());
+            this.fileManager = new FileManager(DATA_FILENAME, true);
+        } catch (IOException ex) {
+            System.err.println(ex);
         }
     }
     

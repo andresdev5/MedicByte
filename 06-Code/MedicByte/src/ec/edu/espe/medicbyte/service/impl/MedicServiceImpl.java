@@ -1,9 +1,11 @@
-package ec.edu.espe.medicbyte.service;
+package ec.edu.espe.medicbyte.service.impl;
 
 import ec.edu.espe.medicbyte.model.Medic;
 import ec.edu.espe.medicbyte.model.Speciality;
-import ec.edu.espe.medicbyte.utils.tinyio.FileLine;
-import ec.edu.espe.medicbyte.utils.tinyio.FileManager;
+import ec.edu.espe.medicbyte.service.MedicService;
+import ec.edu.espe.tinyio.FileLine;
+import ec.edu.espe.tinyio.FileManager;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,12 +15,14 @@ import java.util.List;
  */
 public class MedicServiceImpl implements MedicService {
     private FileManager fileManager;
+    private final String DATA_FILENAME = "medics.csv";
     
     public MedicServiceImpl() {
         try {
-            this.fileManager = new FileManager("medics.csv");
-            this.fileManager.create();
-        } catch (Exception ex) {}
+            this.fileManager = new FileManager(DATA_FILENAME, true);
+        } catch (IOException ex) {
+            System.err.println(ex.getMessage());
+        }
     }
     
     @Override

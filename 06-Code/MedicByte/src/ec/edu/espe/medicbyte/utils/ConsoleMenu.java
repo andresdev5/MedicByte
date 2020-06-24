@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Consumer;
 
 /**
@@ -15,16 +14,15 @@ public class ConsoleMenu {
     private final Console console;
     private final List<MenuOption> options;
     private final Map<String, List<String>> content;
-    private AtomicBoolean running = new AtomicBoolean(true);
+    private boolean running = true;
     private MenuOption lastSelectedOption;
     private String prompt = "Seleccione una opcion: ";
     
     public ConsoleMenu() {
         console = Console.getInstance();
         options = new ArrayList<>();
-        content = new HashMap<>(3);
+        content = new HashMap<>(2);
         content.put("top", new ArrayList<>()); // top menu content
-        content.put("middle", new ArrayList<>()); // middle menu content
         content.put("bottom", new ArrayList<>()); // bottom menu content
     }
     
@@ -54,61 +52,65 @@ public class ConsoleMenu {
         content.get("bottom").add(text);
     }
     
-    public void display(boolean keepAlive) {
-        while (running.get()) {
-            int selected;
-            int index = 1;
-            
-            console.clear();
-            console.newLine();
-            content.get("top").forEach(console::echoln);
-            
-            for (MenuOption opt : options) {
-                console.echofmt("%d: %s\n", index++, opt.getLabel());
-            }
-            
-            content.get("bottom").forEach(console::echoln);
-            console.newLine();
-            
-            do {
-                selected = console.readInt(prompt);
-            } while (selected < 1 || selected > options.size());
-            
-            lastSelectedOption = options.get(selected - 1);
-            
-            if (lastSelectedOption == null) {
-                continue;
-            }
-            
-            lastSelectedOption.run();
-            
-            // TODO: improve this
-            if (!keepAlive) {
-                console.newLine().echoln("Press <enter> to continue");
-                console.read();
-                exit();
-            }
+    public void run() {        
+        while (running) {
+            display();
+            requestOption();
         }
     }
     
-    public void display() {
-        display(true);
-    }
-    
-    public MenuOption getLastOption() {
-        return lastSelectedOption;
-    }
-    
-    public MenuOption readOption() {
-        display(false);
-        return lastSelectedOption;
+    public MenuOption process() {
+        display();
+        return requestOption();
     }
     
     public void exit() {
-        running.set(false);
+        running = false;
     }
     
     public void setPrompt(String prompt) {
         this.prompt = prompt;
+    }
+    
+    private void display() {
+        int selected;
+        int index = 1;
+
+        console.clear();
+        console.newLine();
+        content.get("top").forEach(console::echoln);
+
+        for (MenuOption opt : options) {
+            console.echofmt("%d: %s\n", index++, opt.getLabel());
+        }
+
+        content.get("bottom").forEach(console::echoln);
+        console.newLine();
+    }
+    
+    private MenuOption requestOption() {
+        int selected;
+        MenuOption option;
+        
+        do {
+            selected = console.readInt(prompt);
+        } while (selected < 1 || selected > options.size());
+
+        option = options.get(selected - 1);
+
+        if (option == null) {
+            return null;
+        }
+
+        option.run();
+
+        if (option.shouldAwait()) {
+            console
+                .newLine()
+                .echoln("Press <enter> to continue")
+                .read();
+        }
+        
+        return option;
     }
 }

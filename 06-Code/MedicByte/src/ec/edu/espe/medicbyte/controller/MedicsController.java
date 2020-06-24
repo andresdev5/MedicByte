@@ -4,7 +4,7 @@ import ec.edu.espe.medicbyte.model.Medic;
 import ec.edu.espe.medicbyte.utils.MenuOption;
 import ec.edu.espe.medicbyte.model.Speciality;
 import ec.edu.espe.medicbyte.service.MedicService;
-import ec.edu.espe.medicbyte.service.MedicServiceImpl;
+import ec.edu.espe.medicbyte.service.impl.MedicServiceImpl;
 import ec.edu.espe.medicbyte.utils.Console;
 import ec.edu.espe.medicbyte.utils.ConsoleMenu;
 import java.util.List;
@@ -37,7 +37,7 @@ public class MedicsController {
         console.newLine();
         specialityMenu.setPrompt("Choose an speciality: ");
         
-        MenuOption lastOption = specialityMenu.readOption();
+        MenuOption lastOption = specialityMenu.process();
         Speciality speciality = (Speciality) lastOption.getArguments().get(0);
         medic.setSpeciality(speciality);
 
@@ -55,12 +55,10 @@ public class MedicsController {
            return;
         }
         
-        for (Medic medic : medics) {
+        medics.forEach((medic) -> {
             console.echofmt(
-                    "nombre: %s\nspeciality: %s", 
-                    medic.getName(), medic.getSpeciality().getLabel());
-        }
-        
-        console.pause();
+                "nombre: %s\nspeciality: %s", 
+                medic.getName(), medic.getSpeciality().getLabel());
+        });
     }
 }

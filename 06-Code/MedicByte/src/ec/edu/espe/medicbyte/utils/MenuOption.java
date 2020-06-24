@@ -10,6 +10,7 @@ import java.util.function.Consumer;
  */
 public class MenuOption {
     private final String label;
+    private boolean await = true;
     private Runnable callback;
     private Consumer<MenuOption> callback2;
     private final List<Object> arguments = new ArrayList<>();
@@ -36,9 +37,17 @@ public class MenuOption {
             callback.run();
         }
     }
-
+    
     public String getLabel() {
         return label;
+    }
+    
+    public void setAwait(boolean await) {
+        this.await = await;
+    }
+    
+    public boolean shouldAwait() {
+        return await;
     }
 
     public void addArgument(Object argument) {
@@ -47,5 +56,9 @@ public class MenuOption {
 
     public List<Object> getArguments() {
         return arguments;
+    }
+    
+    public Object getArgument(int index) {
+        return arguments.get(index);
     }
 }
