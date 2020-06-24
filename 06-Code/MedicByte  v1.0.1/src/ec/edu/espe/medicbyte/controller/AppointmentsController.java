@@ -20,36 +20,32 @@ import java.util.stream.Collectors;
  * @author Andres Jonathan J.
  */
 public class AppointmentsController {
-    public void showAppointments() {}
+    public void showAppointments() {
+    
+        
+    }
     
     public void createAppointment() {
         Scanner scanner = new Scanner(System.in);
         Appointment appointment = new Appointment();
         ListMedic listMedic = new ListMedic();
-
-        System.out.println("MEDICOS DISPONIBLES");
+        Console console =  Console.getInstance();
+        console.echoln("MEDICOS DISPONIBLES");
         List<Medic> medics = listMedic.getAllMedics();
         int selected;
 
         listMedic.showListMedic();
 
         do {
-            System.out.println("Seleccione el medico: ");
-            selected = scanner.nextInt();
-            scanner.nextLine();
+            selected = console.readInt("Choose a medic: ");
         } while (selected <= 0 || selected > medics.size());
 
         Medic medic = medics.get(selected - 1);
         appointment.setMedic(medic);
 
-        System.out.println("Ingrese un codigo: ");
-        appointment.setCode(scanner.nextLine());
-
-        System.out.println("Ingrese la fecha: ");
-        appointment.setDate(scanner.nextLine());
-
-        System.out.println("Ingrese la Hora: ");
-        appointment.setHour(scanner.nextLine());
+        appointment.setCode(console.read("Ingrese un codigo: "));
+        appointment.setDate(console.read("Ingrese la fecha: "));
+        appointment.setHour(console.read("Ingrese la fecha: "));
 
         FileManager fileManager = new FileManager("Appointments.txt");
         fileManager.writeFile(appointment.toString());

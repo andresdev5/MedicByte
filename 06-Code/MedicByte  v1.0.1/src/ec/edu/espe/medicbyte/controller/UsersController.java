@@ -1,6 +1,7 @@
 package ec.edu.espe.medicbyte.controller;
 
 import ec.edu.espe.medicbyte.model.Gender;
+import ec.edu.espe.medicbyte.model.ListMedic;
 import ec.edu.espe.medicbyte.model.Medic;
 import ec.edu.espe.medicbyte.model.Patient;
 import ec.edu.espe.medicbyte.model.Speciality;
@@ -16,11 +17,7 @@ public class UsersController {
     // TODO: use provider and develop this code
     public void createMedic() {
         
-    }
-    
-    // TODO: use provider and clean this code
-    public void showMedics() {
-        Scanner scanner = new Scanner(System.in);
+       Scanner scanner = new Scanner(System.in);
         FileManager fileManager = new FileManager("ListMedic.txt");
         Medic medic = new Medic();
 
@@ -53,6 +50,16 @@ public class UsersController {
                 .count();
 
         medic.setId(count + 1);
-        fileManager.writeFile(medic.toString());
+        fileManager.writeFile(medic.toString()); 
+        
+    }
+    
+    // TODO: use provider and clean this code
+    public void showMedics() {
+        int option;
+        Scanner scanner = new Scanner(System.in);
+        ListMedic listMedic = new ListMedic();
+        listMedic.showListMedic();
+        
     }
 }

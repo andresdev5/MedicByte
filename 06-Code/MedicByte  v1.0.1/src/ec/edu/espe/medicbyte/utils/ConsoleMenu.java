@@ -18,7 +18,7 @@ public class ConsoleMenu {
     private final Map<String, List<String>> content;
     private AtomicBoolean running = new AtomicBoolean(true);
     private MenuOption lastSelectedOption;
-    private String prompt = "seleccione una opcion: ";
+    private String prompt = "Seleccione una opcion: ";
     
     public ConsoleMenu() {
         console = Console.getInstance();
