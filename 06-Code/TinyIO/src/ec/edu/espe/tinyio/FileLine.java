@@ -8,6 +8,6 @@ package ec.edu.espe.tinyio;
  */
 public interface FileLine {
     public String text();    
-    public int position();    
-    public String[] splitAsCSVLine();
+    public int position();
+    public CsvRecord csv();
 }
