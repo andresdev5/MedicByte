@@ -6,18 +6,18 @@ package ec.edu.espe.medicbyte.model;
  */
 public class Appointment {
 
-    private String code;
+    private int id;
     private String date;
     private String hour;
     private Medic medic;
     private boolean taken = false;
 
-    public String getCode() {
-        return code;
+    public int getId() {
+        return id;
     }
 
-    public void setCode(String code) {
-        this.code = code;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getDate() {
@@ -55,7 +55,7 @@ public class Appointment {
     @Override
     public String toString() {
         // code, date, hour, medic
-        return code + "," + "\"" + date + "\"," + "\"" + hour + "\","
+        return id + "," + "\"" + date + "\"," + "\"" + hour + "\","
                 + medic.getId() + "," + (taken ? 1 : 0);
     }
 }

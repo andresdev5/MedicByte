@@ -1,17 +1,13 @@
 package ec.edu.espe.medicbyte.utils;
 
-import java.awt.AWTException;
 import java.awt.Robot;
 import java.io.BufferedOutputStream;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
 import java.util.Locale;
 import java.util.Scanner;
 import java.util.function.Function;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -59,7 +55,10 @@ public class Console {
     }
     
     public String read(String label) {
-        System.out.print(label);
+        if (label != null) {
+            System.out.print(label);
+        }
+        
         String input = reader.nextLine();
         return input;
     }
@@ -100,6 +99,13 @@ public class Console {
     
     public int readInt() {
         return readInt("");
+    }
+    
+    public void pause() {
+        newLine();
+        echoln("press <enter> to continue...");
+        newLine();
+        read();
     }
     
     public void clear() {
