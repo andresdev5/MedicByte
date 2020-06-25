@@ -47,8 +47,14 @@ public class AppointmentServiceImpl implements AppointmentService {
     
     @Override
     public int getLastId() {
-        Appointment appointment = getAllAppointments()
-            .get(getTotalAppointments()-1);
+        List<Appointment> list = getAllAppointments();
+        int lastIndex = getTotalAppointments() - 1;
+        
+        if (list == null || list.isEmpty() || lastIndex < 0) {
+            return 0;
+        }
+        
+        Appointment appointment = list.get(lastIndex);
         
         return appointment.getId();
     }
