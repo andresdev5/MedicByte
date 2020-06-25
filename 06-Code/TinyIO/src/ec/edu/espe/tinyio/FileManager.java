@@ -41,7 +41,7 @@ public final class FileManager {
         Stream<String> rawLines;
         
         try {
-            rawLines = Files.lines(file.toPath());
+            rawLines = Files.lines(file.toPath()).filter(line -> !line.isEmpty());
         } catch (IOException | InvalidPathException exception) {
             return lines;
         }
@@ -55,39 +55,30 @@ public final class FileManager {
         return lines;
     }
     
-    public FileLine write(String line) {
+    public void write(String line) {
         if (!file.canWrite()) {
-            return null;
+            return;
         }
         
         try (PrintWriter writer = new PrintWriter(new OutputStreamWriter(
             new FileOutputStream(file, true), Charset.forName("UTF-8")))) {
             writer.println(line);
             writer.close();
-        } catch (Exception exception) {
-            return null;
-        }
-        
-        return new FileLineImpl(line, countLines());
+        } catch (Exception exception) {}
     }
     
-    public List<FileLine> write(List<Object> lines) {
-        List<FileLine> writedLines = new ArrayList<>();
-        
+    public void write(List<String> lines) {
         try (PrintWriter writer = new PrintWriter(new OutputStreamWriter(
             new FileOutputStream(file, true), Charset.forName("UTF-8")))) {
             lines.forEach((line -> {
-                writedLines.add(new FileLineImpl(line.toString(), countLines()));
                 writer.println(line);
             }));
             writer.close();
         } catch (Exception exception) {}
-        
-        return writedLines;
     }
     
-    public List<FileLine> write(Object... lines) {
-        return write(Arrays.asList(lines));
+    public void write(String... lines) {
+        Arrays.asList(lines).forEach(this::write);
     }
     
     public List<FileLine> find(Function<FileLine, Boolean> comparable) {
@@ -115,6 +106,21 @@ public final class FileManager {
         lines.forEach((line) -> write(line.text()));
         
         return lines;
+    }
+    
+    public List<FileLine> remove(int position) {
+        List<FileLine> lines = read().stream().filter(line -> {
+            return position != line.position();
+        }).collect(Collectors.toList());
+        
+        clear();
+        lines.forEach((line) -> write(line.text()));
+        
+        return lines;
+    }
+    
+    public List<FileLine> remove(FileLine line) {
+        return remove(line.position());
     }
     
     public void clear() {

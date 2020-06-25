@@ -3,6 +3,7 @@ package ec.edu.espe.tinyio;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -54,8 +55,25 @@ class CsvRecordImpl implements CsvRecord {
     }
     
     @Override
+    public String getColumnValue(String columnName) {
+        return getColumn(columnName).getValue();
+    }
+    
+    @Override
+    public String getColumnValue(int index) {
+        return getColumn(index).getValue();
+    }
+    
+    @Override
     public List<CsvColumn> getColumns() {
         return columns;
+    }
+    
+    @Override
+    public List<String> getColumnValues() {
+        return getColumns().stream()
+            .map(column -> column.getValue())
+            .collect(Collectors.toList());
     }
     
     @Override

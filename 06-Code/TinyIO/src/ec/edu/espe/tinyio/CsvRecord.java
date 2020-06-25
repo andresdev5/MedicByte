@@ -9,7 +9,10 @@ import java.util.List;
 public interface CsvRecord {
     public CsvColumn getColumn(int index);
     public CsvColumn getColumn(String name);
+    public String getColumnValue(int index);
+    public String getColumnValue(String name);
     public List<CsvColumn> getColumns();
+    public List<String> getColumnValues();
     public int count();
     public FileLine getLine();
 }

@@ -1,5 +1,8 @@
 package ec.edu.espe.tinyio;
 
+import ec.edu.espe.tinyio.FileManager;
+import java.util.List;
+
 /**
  *
  * @author Andres Jonathan J.
@@ -7,21 +10,16 @@ package ec.edu.espe.tinyio;
 class TestTinyIO {
     public static void main(String[] args) {
         FileManager file = new FileManager("users.csv");
+        file.create();
         
-        file.create(true);
-        file.write(
-            "\"Andres\", \"Jonathan\", 27, \"ksprwhite@gmail.com\"",
-            "\"Jhon\", \"doe\", 17, \"dummy_email_1@gmail.com\"",
-            "\"Joe\", \"doe\", 19, \"dummy_email_2@gmail.com\"",
-            "\"Anna\", \"doe\", 25, \"dummy_email_3@gmail.com\"",
-            "\"Luke\", \"doe\", 28, \"dummy_email_4@gmail.com\""
-        );
+        // escritura de datos
+        file.write("linea 1", "linea 2", "linea 3");
         
-        file.remove(line -> line.csv().getColumn(0).getValue().equals("Joe"));
+        // leer datos
+        List<FileLine> lines = file.read();
         
-        CsvFile csv = file.toCsv("name", "surname", "age", "email");
-        CsvRecord record = csv.getRecord(2);
+        FileLine linea1 = lines.get(0);
         
-        System.out.println(record.getColumn("name"));
+        System.out.println("linea 1 -> " + linea1.text());
     }
 }
