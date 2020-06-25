@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ec.edu.espe.medicbyte.model;
 
 /**
@@ -19,20 +14,20 @@ public class Patient {
     private Gender gender;
     private int age;
 
-    public int getAge() {
-        return age;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
-    }
-
     public String getIdentificationcard() {
         return identificationcard;
     }
 
     public void setIdentificationcard(String identificationcard) {
         this.identificationcard = identificationcard;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
     }
 
     public String getSurname() {
@@ -80,7 +75,5 @@ public class Patient {
         return "\"" + identificationcard + "\",\"" + surname + "\",\""
                 + name + "\",\"" + phone + "\",\"" + email + "\",\""
                 + gender.name() + "\"," + age;
-
     }
-
 }

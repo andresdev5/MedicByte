@@ -12,7 +12,6 @@ import java.nio.file.InvalidPathException;
 import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -29,7 +28,7 @@ public final class FileManager {
         this.file = new File(filename);
     }
     
-    public FileManager(String filename, boolean creates) throws IOException {
+    public FileManager(String filename, boolean creates) {
         this.file = new File(filename);
         
         if (creates) {
@@ -72,13 +71,13 @@ public final class FileManager {
         return new FileLineImpl(line, countLines());
     }
     
-    public List<FileLine> write(List<String> lines) {
-        List<FileLine> writedLines = Collections.emptyList();
+    public List<FileLine> write(List<Object> lines) {
+        List<FileLine> writedLines = new ArrayList<>();
         
         try (PrintWriter writer = new PrintWriter(new OutputStreamWriter(
             new FileOutputStream(file, true), Charset.forName("UTF-8")))) {
             lines.forEach((line -> {
-                writedLines.add(new FileLineImpl(line, countLines()));
+                writedLines.add(new FileLineImpl(line.toString(), countLines()));
                 writer.println(line);
             }));
             writer.close();
@@ -87,7 +86,7 @@ public final class FileManager {
         return writedLines;
     }
     
-    public List<FileLine> write(String... lines) {
+    public List<FileLine> write(Object... lines) {
         return write(Arrays.asList(lines));
     }
     
@@ -140,15 +139,27 @@ public final class FileManager {
         }
     }
     
-    public void create() throws IOException {
+    public void create() {
         create(false);
     }
     
-    public void create(boolean overwrite) throws IOException {
-        if (overwrite) {
-            file.delete();
+    public void create(boolean overwrite) {
+        try {
+            if (overwrite) {
+                file.delete();
+            }
+            
+            file.createNewFile();
+        } catch (Exception exception) {
+            System.err.println(exception);
         }
-        
-        file.createNewFile();
+    }
+    
+    public CsvFile toCsv() {
+        return new CsvFileImpl(read());
+    }
+    
+    public CsvFile toCsv(String... columnNames) {
+        return new CsvFileImpl(read(), Arrays.asList(columnNames));
     }
 }

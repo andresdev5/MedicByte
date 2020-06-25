@@ -24,15 +24,8 @@ class FileLineImpl implements FileLine {
     }
     
     @Override
-    public String[] splitAsCSVLine() {
-        String[] fields = text().split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)");
-        int fieldIndex = 0;
-        
-        for (String field : fields) {
-            fields[fieldIndex++] = field.replaceAll("^\"|\"$", "");
-        }
-        
-        return fields;
+    public CsvRecord csv() {
+        return new CsvRecordImpl(this);
     }
     
     @Override

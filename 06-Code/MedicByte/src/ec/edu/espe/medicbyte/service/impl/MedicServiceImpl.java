@@ -3,9 +3,9 @@ package ec.edu.espe.medicbyte.service.impl;
 import ec.edu.espe.medicbyte.model.Medic;
 import ec.edu.espe.medicbyte.model.Speciality;
 import ec.edu.espe.medicbyte.service.MedicService;
-import ec.edu.espe.tinyio.FileLine;
+import ec.edu.espe.tinyio.CsvFile;
+import ec.edu.espe.tinyio.CsvRecord;
 import ec.edu.espe.tinyio.FileManager;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,15 +14,11 @@ import java.util.List;
  * @author Andres Jonathan J.
  */
 public class MedicServiceImpl implements MedicService {
-    private FileManager fileManager;
+    private final FileManager fileManager;
     private final String DATA_FILENAME = "medics.csv";
     
     public MedicServiceImpl() {
-        try {
-            this.fileManager = new FileManager(DATA_FILENAME, true);
-        } catch (IOException ex) {
-            System.err.println(ex.getMessage());
-        }
+        this.fileManager = new FileManager(DATA_FILENAME, true);
     }
     
     @Override
@@ -44,25 +40,16 @@ public class MedicServiceImpl implements MedicService {
 
     @Override
     public List<Medic> getAllMedics() {
-        List<FileLine> lines = fileManager.read();
+        CsvFile csv = fileManager.toCsv();
         List<Medic> medics = new ArrayList<>();
 
-        for (FileLine line : lines) {
-            if (line.text().isEmpty()) {
-                continue;
-            }
-            
+        for (CsvRecord record : csv.getRecords()) {            
             Medic medic = new Medic();
+            List<String> values = record.getColumnValues();
 
-            String tokens[] = line.text().split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)");
-
-            if (tokens.length == 0) {
-                continue;
-            }
-
-            medic.setId(Integer.parseInt(tokens[0]));
-            medic.setSpeciality(Speciality.values()[Integer.parseInt(tokens[1]) - 1]);
-            medic.setName(tokens[2].replace("\"", ""));
+            medic.setId(Integer.parseInt(values.get(0)));
+            medic.setSpeciality(Speciality.values()[Integer.parseInt(values.get(1)) - 1]);
+            medic.setName(values.get(2));
             medics.add(medic);
         }
 

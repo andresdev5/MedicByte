@@ -25,26 +25,29 @@ public class MedicsController {
     public void createMedic() {
         ConsoleMenu specialityMenu = new ConsoleMenu();
         Medic medic = new Medic();
-
+        
         medic.setName(console.read("Enter medic full name: "));
         
         for (Speciality speciality : Speciality.values()) {
             specialityMenu
                 .addOption(speciality.getLabel())
+                .setAwait(false)
                 .addArgument(speciality);
         }
         
         console.newLine();
         specialityMenu.setPrompt("Choose an speciality: ");
         
+        specialityMenu.setPreClear(false);
         MenuOption lastOption = specialityMenu.process();
         Speciality speciality = (Speciality) lastOption.getArguments().get(0);
         medic.setSpeciality(speciality);
-
         
         int count = medicService.getTotalMedics();
         medic.setId(count + 1);
         medicService.saveMedic(medic);
+        
+        console.echoln("registered medic!");
     }
     
     public void showMedics() {
@@ -57,7 +60,8 @@ public class MedicsController {
         
         medics.forEach((medic) -> {
             console.echofmt(
-                "nombre: %s\nspeciality: %s", 
+                "nombre: %s\nspeciality: %s\n" +
+                "---------------------------\n", 
                 medic.getName(), medic.getSpeciality().getLabel());
         });
     }

@@ -4,9 +4,10 @@ import ec.edu.espe.medicbyte.model.Appointment;
 import ec.edu.espe.medicbyte.model.Medic;
 import ec.edu.espe.medicbyte.service.AppointmentService;
 import ec.edu.espe.medicbyte.service.MedicService;
+import ec.edu.espe.tinyio.CsvFile;
+import ec.edu.espe.tinyio.CsvRecord;
 import ec.edu.espe.tinyio.FileManager;
 import ec.edu.espe.tinyio.FileLine;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -18,15 +19,11 @@ import java.util.stream.Collectors;
  * @author Andres Jonathan J.
  */
 public class AppointmentServiceImpl implements AppointmentService {
-    private FileManager fileManager;
+    private final FileManager fileManager;
     private static final String DATA_FILENAME = "appointments.csv";
     
     public AppointmentServiceImpl() {
-        try {
-            this.fileManager = new FileManager(DATA_FILENAME, true);
-        } catch (IOException ex) {
-            System.err.println(ex);
-        }
+        this.fileManager = new FileManager(DATA_FILENAME, true);
     }
     
     @Override
@@ -59,7 +56,7 @@ public class AppointmentServiceImpl implements AppointmentService {
         
         // code,date,hour,id_medic
         for (FileLine line : lines) {
-            Appointment appointment = csvLineToAppointment(line.text());
+            Appointment appointment = csvRecordToAppointment(line.csv());
             appointments.add(appointment);
         }
 
@@ -68,27 +65,18 @@ public class AppointmentServiceImpl implements AppointmentService {
     
     @Override
     public Appointment getAppointment(int appointmentID) {
-        FileLine foundLine = fileManager.findFirst((line) -> {
-            String columns[] = line.text().split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)");
-            int id = Integer.parseInt(columns[0]);
+        CsvFile csv = fileManager.toCsv();
+        
+        List<CsvRecord> foundLine = csv.find((record) -> {
+            int id = Integer.parseInt(record.getColumnValue(0));
             return id == appointmentID;
         });
         
-        if (foundLine == null) {
+        if (foundLine.isEmpty()) {
             return null;
         }
         
-        MedicService medicService = new MedicServiceImpl();
-        
-        String columns[] = foundLine.text().split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)");
-        
-        if (columns.length < 5) {
-            return null;
-        }
-        
-        Appointment appointment = csvLineToAppointment(foundLine.text());
-        
-        return appointment;
+        return csvRecordToAppointment(foundLine.get(0));
     }
     
     @Override
@@ -103,7 +91,7 @@ public class AppointmentServiceImpl implements AppointmentService {
         fileManager.clear();
         
         for (FileLine line : lines) {
-            Appointment parsed = csvLineToAppointment(line.text());
+            Appointment parsed = csvRecordToAppointment(line.csv());
             
             if (parsed.getId() == appointment.getId()) {
                 parsed.setTaken(true);
@@ -125,19 +113,20 @@ public class AppointmentServiceImpl implements AppointmentService {
         fileManager.write(lines);
     }
     
-    public Appointment csvLineToAppointment(String line) {
-        String tokens[] = line.split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)");
+    public Appointment csvRecordToAppointment(CsvRecord record) {
         Appointment appointment = new Appointment();
-        appointment.setId(Integer.parseInt(tokens[0]));
-        appointment.setDate(tokens[1]);
-        appointment.setHour(tokens[2]);
+        List<String> values = record.getColumnValues();
+        
+        appointment.setId(Integer.parseInt(values.get(0)));
+        appointment.setDate(values.get(1));
+        appointment.setHour(values.get(2));
 
-        int medicId = Integer.parseInt(tokens[3]);
+        int medicId = Integer.parseInt(values.get(3));
         MedicService medicService = new MedicServiceImpl();
         Medic medic = medicService.getMedic(medicId);
         appointment.setMedic(medic);
 
-        boolean isTaken = Integer.parseInt(tokens[4]) != 0;
+        boolean isTaken = Integer.parseInt(values.get(4)) != 0;
         appointment.setTaken(isTaken);
         
         return appointment;

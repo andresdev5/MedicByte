@@ -19,9 +19,9 @@ public class HomeController {
         ConsoleMenu menu = new ConsoleMenu();
         
         menu.prepend(" MedicByte v1.0.1 \n");
-        menu.addOption("Admin Menu", this::showAdminMenu);
-        menu.addOption("Users Menu", this::showUsersMenu);
-        menu.addOption("Exit", menu::exit);
+        menu.addOption("Admin Menu", this::showAdminMenu).setAwait(false);
+        menu.addOption("Users Menu", this::showUsersMenu).setAwait(false);
+        menu.addOption("Exit", menu::exit).setAwait(false);
         menu.run();
     }
     
@@ -30,7 +30,7 @@ public class HomeController {
         
         menu.prepend(" MedicByte v1.0 \n");
         menu.addOption("Solicitar Cita", appointmentsController::takeAppointment);
-        menu.addOption("Volver al menu principal", menu::exit);
+        menu.addOption("Volver al menu principal", menu::exit).setAwait(false);
         menu.run();
     }
     
@@ -39,10 +39,10 @@ public class HomeController {
         
         menu.prepend(" MedicByte v1.0 \n");
         menu.addOption("Create Appointment", appointmentsController::createAppointment);
-        menu.addOption("Show Medical Appointments", appointmentsController::showAppointments);
+        menu.addOption("Show Appointments", appointmentsController::showAppointments);
         menu.addOption("Add Medic", usersController::createMedic);
         menu.addOption("Show Medics", usersController::showMedics);
-        menu.addOption("Back To Main Menu", menu::exit);
+        menu.addOption("Back To Main Menu", menu::exit).setAwait(false);
         menu.run();
     }
 }

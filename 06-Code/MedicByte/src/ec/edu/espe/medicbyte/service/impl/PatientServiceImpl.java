@@ -3,9 +3,10 @@ package ec.edu.espe.medicbyte.service.impl;
 import ec.edu.espe.medicbyte.model.Gender;
 import ec.edu.espe.medicbyte.model.Patient;
 import ec.edu.espe.medicbyte.service.PatientService;
+import ec.edu.espe.tinyio.CsvFile;
+import ec.edu.espe.tinyio.CsvRecord;
 import ec.edu.espe.tinyio.FileLine;
 import ec.edu.espe.tinyio.FileManager;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,15 +15,11 @@ import java.util.List;
  * @author Andres Jonathan J.
  */
 public class PatientServiceImpl implements PatientService {
-    private FileManager fileManager;
+    private final FileManager fileManager;
     private final String DATA_FILENAME = "patients.csv";
     
     public PatientServiceImpl() {
-        try {
-            this.fileManager = new FileManager(DATA_FILENAME, true);
-        } catch (IOException ex) {
-            System.err.println(ex);
-        }
+        this.fileManager = new FileManager(DATA_FILENAME, true);
     }
     
     @Override
@@ -33,12 +30,14 @@ public class PatientServiceImpl implements PatientService {
     @Override
     public List<Patient> getAllPatients() {
         List<Patient> patients = new ArrayList<>();
-        List<FileLine> lines = fileManager.read();
-
+        CsvFile csv = fileManager.toCsv(
+            "identificationcard", "firstName", "lastName", 
+            "phone", "email", "gender", "age"
+        );
+        
         // code,date,hour,id_medic
-        for (FileLine line : lines) {
-            Patient patient = csvLineToPatient(line.text());
-            patients.add(patient);
+        for (CsvRecord record : csv.getRecords()) {
+            patients.add(csvRecordToPatient(record));
         }
 
         return patients;
@@ -52,7 +51,7 @@ public class PatientServiceImpl implements PatientService {
     @Override
     public Patient getPatient(String identification) {
         FileLine found = fileManager.findFirst((line) -> {
-            Patient patient = csvLineToPatient(line.text());
+            Patient patient = csvRecordToPatient(line.csv());
             return patient.getIdentificationcard()
                 .trim().equalsIgnoreCase(identification);
         });
@@ -61,31 +60,31 @@ public class PatientServiceImpl implements PatientService {
             return null;
         }
         
-        return csvLineToPatient(found.text());
+        return csvRecordToPatient(found.csv());
     }
     
-    public Patient csvLineToPatient(String line) {
-        String tokens[] = line.split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)");
+    public Patient csvRecordToPatient(CsvRecord record) {
         Patient patient = new Patient();
-
+        List<String> values = record.getColumnValues();
+        
         // cedula, surname, name, phone, email. gender, age
-        patient.setIdentificationcard(tokens[0]);
-        patient.setSurname(tokens[1]);
-        patient.setName(tokens[2]);
-        patient.setPhone(tokens[3]);
-        patient.setEmail(tokens[4]);
+        patient.setIdentificationcard(values.get(0));
+        patient.setSurname(values.get(1));
+        patient.setName(values.get(2));
+        patient.setPhone(values.get(3));
+        patient.setEmail(values.get(4));
 
         Gender gender = Gender.UNIDENTIFIED;
 
-        if (tokens[5].equals("FEMALE")) {
+        if (values.get(5).equals("FEMALE")) {
             gender = Gender.FEMALE;
-        } else if (tokens[5].equals("MALE")) {
+        } else if (values.get(5).equals("MALE")) {
             gender = Gender.MALE;
         }
 
         patient.setGender(gender);
 
-        int age = Integer.parseInt(tokens[6]);
+        int age = Integer.parseInt(values.get(6));
         patient.setAge(age);
         
         return patient;
