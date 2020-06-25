@@ -125,7 +125,6 @@ public class AppointmentServiceImpl implements AppointmentService {
     @Override
     public void updateAppointment(Appointment appointment) {
         List<FileLine> lines = fileManager.read();
-        List<String> updatedLines = Collections.emptyList();
         
         if (lines.isEmpty()) {
             return;

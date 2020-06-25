@@ -1,9 +1,9 @@
 package ec.edu.espe.medicbyte.util;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
-import ec.edu.espe.medicbyte.util.StringUtils;
 import java.util.function.Consumer;
 import org.fusesource.jansi.Ansi;
 
@@ -14,28 +14,6 @@ import static org.fusesource.jansi.Ansi.ansi;
  * @author Andres Jonathan J.
  */
 public class ConsoleMenu {
-    private enum Keys {
-        ArrowUp(65),
-        ArrowDown(66),
-        ArrowRight(67),
-        ArrowLeft(68),
-        Enter(13),
-        Backspace(8),
-        CntrlQ(17),
-        Space(32),
-        Tab(9);
-        
-        private final int value;
-        
-        Keys(int value) {
-           this.value = value;
-        }
-        
-        public int getValue() {
-            return value;
-        }
-    };
-    
     public static enum MenuMode {
         Classic,
         Interactive
@@ -45,8 +23,8 @@ public class ConsoleMenu {
     private final Console console;
     private String prompt = "Enter an option: ";
     private final AtomicBoolean isRunning;
-    private final ArrayList<ConsoleMenuOption> options;
-    private final ArrayList<String> prependMenuText = new ArrayList<>();
+    private final List<ConsoleMenuOption> options;
+    private final List<String> prependMenuText = new ArrayList<>();
     private boolean preClear = true;
     
     public ConsoleMenu() {
@@ -139,23 +117,33 @@ public class ConsoleMenu {
 
             console.echoln(header);
 
-            for (ConsoleMenuOption option : options) {
-                if (!option.isEnabled()) {
-                    continue;
-                }
-                
-                String optionText = String.format(
-                    "%s: %s",
-                    ansi().bold().fgCyan().a(Integer.toString(index + 1)).reset(),
-                    option.getLabel()
-                );
-                
-                if (mode == MenuMode.Interactive && selected == index) {
-                    optionText = ansi().bold().fgBlack().bg(Ansi.Color.WHITE).a(String.format(
-                        " %s: %s",
-                        Integer.toString(index + 1),
+            List<ConsoleMenuOption> enabledOptions = options
+                .stream()
+                .filter(option -> option.isEnabled())
+                .collect(Collectors.toList());
+
+            for (ConsoleMenuOption option : enabledOptions) {
+                String optionText = "";
+
+                if (mode == MenuMode.Classic) {
+                    optionText = String.format(
+                        "%s: %s",
+                        ansi().bold().fgCyan().a(Integer.toString(index + 1)).reset(),
                         option.getLabel()
-                    )).reset().toString();
+                    );
+                } else {
+                    optionText = String.format(
+                        " %s",
+                        ansi().bold().a(" " + option.getLabel() + " ").reset()
+                    );
+
+                    if (selected == index) {
+                        optionText = String.format(
+                            "%s%s",
+                            ansi().bold().bg(Ansi.Color.WHITE).a(" ").reset(),
+                            ansi().bold().bg(Ansi.Color.BLUE).a(" " + option.getLabel() + " ").reset()
+                        );
+                    }
                 }
                 
                 console.echoln(" " + optionText);
@@ -198,22 +186,22 @@ public class ConsoleMenu {
             } else {
                 int pressed = console.read();
                 
-                while (pressed != Keys.ArrowUp.getValue()
-                    && pressed != Keys.ArrowDown.getValue()
-                    && pressed != Keys.Enter.getValue()) {
+                while (pressed != Console.Keys.ArrowUp.getValue()
+                    && pressed != Console.Keys.ArrowDown.getValue()
+                    && pressed != Console.Keys.Enter.getValue()) {
                     pressed = console.read();
                 }
                 
-                if (pressed == Keys.ArrowUp.getValue()) {
+                if (pressed == Console.Keys.ArrowUp.getValue()) {
                     selected--;
-                    selected = (selected < 0 ? options.size() - 1 : selected);
+                    selected = (selected < 0 ? enabledOptions.size() - 1 : selected);
                     continue;
-                } else if (pressed == Keys.ArrowDown.getValue()) {
+                } else if (pressed == Console.Keys.ArrowDown.getValue()) {
                     selected++;
-                    selected = (selected > options.size() - 1 ? 0 : selected);
+                    selected = (selected > enabledOptions.size() - 1 ? 0 : selected);
                     continue;
                 } else {
-                    choosed = options.get(selected);
+                    choosed = enabledOptions.get(selected);
                 }
             }
             

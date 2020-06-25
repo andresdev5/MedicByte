@@ -112,7 +112,6 @@ public class AppointmentsController {
         Speciality speciality = (Speciality) specialityChooser
             .choose("Seleccione la especialidad: ")
             .getArgument(0);
-        AppointmentsController controller = new AppointmentsController();
         List<Appointment> appointments = appointmentService.getAllAppointments()
             .stream()
             .filter(appointment -> {
@@ -121,7 +120,7 @@ public class AppointmentsController {
             }).collect(Collectors.toList());
 
         if (appointments.isEmpty()) {
-            console.echoln("No existen citas disponibles en esa especialidad");
+            console.newLine().echoln("No existen citas disponibles en esa especialidad");
             return;
         }
         
@@ -155,7 +154,6 @@ public class AppointmentsController {
         boolean createAppointment = Console.confirm("Desea crear una cita?");
         
         if (createAppointment) {
-            String selectedCode = "-1";
             String id = console.input(
                 "Ingrese el id de la cita o -1 para salir: ",
                 (input) -> {
@@ -254,7 +252,7 @@ public class AppointmentsController {
             .getPatientAppointments(id);
         
         if (appointments.isEmpty()) {
-            console.echoln("No se encontraron citas");
+            console.newLine().echoln("No se encontraron citas");
             return;
         }
         

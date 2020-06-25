@@ -10,7 +10,6 @@ import org.jline.reader.LineReader.Option;
 import org.jline.terminal.Terminal;
 import org.jline.terminal.TerminalBuilder;
 import org.jline.utils.InfoCmp.Capability;
-import ec.edu.espe.medicbyte.util.StringUtils;
 import java.awt.Robot;
 import java.util.Locale;
 import org.jline.reader.EndOfFileException;
@@ -24,9 +23,32 @@ import static org.fusesource.jansi.Ansi.ansi;
  * @author jon_m
  */
 public class Console {
+    public static enum Keys {
+        ArrowUp(65),
+        ArrowDown(66),
+        ArrowRight(67),
+        ArrowLeft(68),
+        Enter(13),
+        Backspace(8),
+        CntrlQ(17),
+        Space(32),
+        Tab(9);
+        
+        private final int value;
+        
+        Keys(int value) {
+           this.value = value;
+        }
+        
+        public int getValue() {
+            return value;
+        }
+    };
+    
     private static Console instance;
     private LineReader reader;
     private Terminal terminal;
+    private boolean maskLastInput = false;
     
     private Console() {
         try {
@@ -46,11 +68,19 @@ public class Console {
         return instance;
     }
     
+    @SuppressWarnings({"unchecked", "unused"})
     public <T extends Object> T input(Class<T> type, String label) {
         Object value = new Object();
         
         while(true) {
-            String line = reader.readLine(label);
+            String line;
+            
+            if (maskLastInput) {
+                line = reader.readLine(label, '*');
+                maskLastInput = false;
+            } else {
+                line = reader.readLine(label);
+            }
             
             if (line.trim().isEmpty()) {
                 continue;
@@ -122,7 +152,13 @@ public class Console {
         
         do {
             try {
-                value = reader.readLine(label);
+                if (maskLastInput) {
+                    value = reader.readLine(label, '*');
+                    maskLastInput = false;
+                } else {
+                    value = reader.readLine(label);
+                }
+
                 terminal.flush();
             } catch (EndOfFileException | UserInterruptException exception) {}
             
@@ -138,7 +174,15 @@ public class Console {
     
     public String input() {
         try {
-            String line = reader.readLine();
+            String line;
+            
+            if (maskLastInput) {
+                line = reader.readLine('*');
+                maskLastInput = false;
+            } else {
+                line = reader.readLine();
+            }
+
             terminal.flush();
             return line;
         } catch (EndOfFileException | UserInterruptException exception) {
@@ -179,6 +223,11 @@ public class Console {
         terminal.setAttributes(attributes);
         
         return captured;
+    }
+
+    public Console mask() {
+        maskLastInput = true;
+        return this;
     }
     
     public Console echo(String template, Object ...args) {
@@ -271,6 +320,13 @@ public class Console {
         });
         
         return value.equals("y");
+    }
+
+    public Console pause() {
+        newLine(2);
+        echo("Press any key to continue...");
+        read();
+        return this;
     }
     
     public Terminal getTerminal() {
