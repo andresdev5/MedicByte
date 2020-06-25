@@ -33,6 +33,10 @@ public class ChooserOption {
         this.key = key;
         return this;
     }
+
+    public String getKey() {
+        return key;
+    }
     
     public ChooserOption addArgument(Object argument) {
         arguments.add(argument);

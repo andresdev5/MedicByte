@@ -1,5 +1,7 @@
 package ec.edu.espe.medicbyte.util;
 
+import java.math.BigInteger;
+import java.security.MessageDigest;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalTime;
@@ -111,5 +113,18 @@ public class StringUtils {
     
     public static boolean isValidEmail(String email) {
         return email.matches(EMAIL_REGEX);
+    }
+
+    public static String sha256(String text) {
+        String hash = "";
+
+        try {
+            MessageDigest digest = MessageDigest.getInstance("SHA-512");
+            digest.reset();
+            digest.update(text.getBytes("utf8"));
+            hash = String.format("%0128x", new BigInteger(1, digest.digest()));
+        } catch (Exception exception) {}
+
+        return hash;
     }
 }

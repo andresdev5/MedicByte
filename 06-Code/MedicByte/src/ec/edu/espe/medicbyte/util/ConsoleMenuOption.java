@@ -2,6 +2,7 @@ package ec.edu.espe.medicbyte.util;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.Callable;
 import java.util.function.Consumer;
 
 /**
@@ -16,6 +17,7 @@ public class ConsoleMenuOption {
     private Consumer<ConsoleMenuOption> consumerCallback;
     private boolean await;
     private List<Object> arguments;
+    private Callable<Boolean> enabledCallback = null;
 
     public ConsoleMenuOption(String label, Runnable callback) {
         this.label = label;
@@ -28,24 +30,24 @@ public class ConsoleMenuOption {
         this.consumerCallback = callback;
         this.await = true;
     }
-    
+
     public ConsoleMenuOption(String label, Runnable callback, boolean await) {
         this.label = label;
         this.runnableCallback = callback;
         this.await = await;
     }
-    
+
     public ConsoleMenuOption(String label, Consumer<ConsoleMenuOption> callback, boolean await) {
         this.label = label;
         this.consumerCallback = callback;
         this.await = await;
     }
-    
+
     public ConsoleMenuOption withKey(String key) {
         this.key = key;
         return this;
     }
-    
+
     public void execute() {
         if (consumerCallback != null) {
             consumerCallback.accept(this);
@@ -53,12 +55,24 @@ public class ConsoleMenuOption {
             runnableCallback.run();
         }
     }
-    
+
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
     }
-    
+
+    public void setEnabled(Callable<Boolean> callback) {
+        this.enabledCallback = callback;
+    }
+
     public boolean isEnabled() {
+        if (enabledCallback != null) {
+            try {
+                return enabledCallback.call();
+            } catch (Exception e) {
+                return enabled;
+            }
+        }
+        
         return enabled;
     }
     
