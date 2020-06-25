@@ -16,4 +16,5 @@ public interface AppointmentService {
     public void updateAppointment(Appointment appointment);
     public void deleteAppointment(Appointment appointment);
     public int getLastId();
+    public List<Appointment> getPatientAppointments(String patientId);
 }

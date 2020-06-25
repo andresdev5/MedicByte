@@ -1,8 +1,11 @@
 package ec.edu.espe.medicbyte.controller;
 
+import ec.edu.espe.medicbyte.model.Appointment;
 import ec.edu.espe.medicbyte.model.Gender;
 import ec.edu.espe.medicbyte.model.Patient;
+import ec.edu.espe.medicbyte.service.AppointmentService;
 import ec.edu.espe.medicbyte.service.PatientService;
+import ec.edu.espe.medicbyte.service.impl.AppointmentServiceImpl;
 import ec.edu.espe.medicbyte.service.impl.PatientServiceImpl;
 import ec.edu.espe.medicbyte.util.Console;
 import ec.edu.espe.medicbyte.util.ConsoleChooser;
@@ -14,9 +17,11 @@ import ec.edu.espe.medicbyte.util.StringUtils;
  */
 public class PatientsController {
     private final Console console;
+    private final AppointmentService appointmentService;
     
     public PatientsController() {
         this.console = Console.getInstance();
+        appointmentService = new AppointmentServiceImpl();
     }
     
     public void createPatient() {

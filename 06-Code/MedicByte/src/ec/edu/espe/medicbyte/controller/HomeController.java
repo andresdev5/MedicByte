@@ -27,7 +27,8 @@ public class HomeController {
     public void showUsersMenu() {
         ConsoleMenu menu = new ConsoleMenu();
         
-        menu.addOption("Solicitar Cita", appointmentsController::takeAppointment);
+        menu.addOption("Solicitar cita", appointmentsController::takeAppointment);
+        menu.addOption("ver citas", appointmentsController::showScheduledAppointments);
         menu.addOption("Volver al menu principal", menu::exit, false);
         menu.display(" MedicByte ");
     }

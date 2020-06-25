@@ -238,4 +238,34 @@ public class AppointmentsController {
             console.newLine().echoln("Appointment deleted");
         }
     }
+    
+    public void showScheduledAppointments() {
+        String id = console.input("Cedula de identidad: ", (input) -> {
+            boolean valid = StringUtils.isValidCI(input);
+            
+            if (!valid) {
+                console.newLine().echoln("[Cedula incorrecta]");
+            }
+            
+            return valid;
+        });
+        
+        List<Appointment> appointments = appointmentService
+            .getPatientAppointments(id);
+        
+        if (appointments.isEmpty()) {
+            console.echoln("No se encontraron citas");
+            return;
+        }
+        
+        appointments.stream().forEach((appointment) -> {
+            console.echoln("---------------------------------------");
+            console.echoln("id: %d", appointment.getId());
+            console.echoln("fecha: %s", appointment.getFormatDate());
+            console.echoln("hora: %s", appointment.getHour());
+            console.echoln("medico: %s", appointment.getMedic().getName());
+            console.echoln("especialidad: %s", 
+                    appointment.getMedic().getSpeciality().getLabel());
+        });
+    }
 }

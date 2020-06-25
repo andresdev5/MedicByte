@@ -33,11 +33,39 @@ public class AppointmentServiceImpl implements AppointmentService {
         
         try {
             patientAppointments.create();
-            patientAppointments.write(String.format("%s, %d", userCI, appointmentId));
+            patientAppointments.write(String.format("\"%s\",%d", userCI, appointmentId));
             return true;
         } catch (Exception ex) {
             return false;
         }
+    }
+    
+    @Override
+    public List<Appointment> getPatientAppointments(String patientId) {        
+        FileManager patientAppointments = new FileManager("patient_appointments.csv");
+        
+        if (patientAppointments.countLines() == 0) {
+            return Collections.emptyList();
+        }
+        
+        CsvFile csv = patientAppointments.toCsv();
+        List<CsvRecord> found = csv.find((record) -> {
+            return record.getColumn(0).getValue()
+                .trim().equalsIgnoreCase(patientId);
+        });
+        
+        if (found.isEmpty()) {
+            return Collections.emptyList();
+        }
+        
+        List<Appointment> appointments = new ArrayList<>();
+        
+        for (CsvRecord record : found) {
+            int id = Integer.parseInt(record.getColumn(1).getValue().trim());
+            appointments.add(this.getAppointment(id));
+        }
+        
+        return appointments;
     }
     
     @Override
