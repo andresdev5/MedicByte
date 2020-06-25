@@ -10,9 +10,8 @@ package ec.edu.espe.medicbyte.model;
  * @author Junior Stalin Jurado Peña - ESPE - DCCO
  */
 public class Hospital {
-
     private String name;
-    private String address; //Type Location 
+    private String address;
 
     public String getName() {
         return name;
@@ -20,7 +19,6 @@ public class Hospital {
 
     public void setName(String name) {
         this.name = name;
-        name = "IESS";
     }
 
     public String getAddress() {
@@ -29,7 +27,6 @@ public class Hospital {
 
     public void setAddress(String address) {
         this.address = address;
-        address = "La Ecuatoriana";
     }
 
 }

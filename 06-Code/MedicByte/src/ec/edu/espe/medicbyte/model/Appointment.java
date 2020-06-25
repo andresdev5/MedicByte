@@ -1,5 +1,9 @@
 package ec.edu.espe.medicbyte.model;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalTime;
+import java.util.Date;
+
 /**
  *
  * @author Junior Stalin Jurado Peña - ESPE - DCCO
@@ -7,8 +11,8 @@ package ec.edu.espe.medicbyte.model;
 public class Appointment {
 
     private int id;
-    private String date;
-    private String hour;
+    private Date date;
+    private LocalTime hour;
     private Medic medic;
     private boolean taken = false;
 
@@ -20,19 +24,19 @@ public class Appointment {
         this.id = id;
     }
 
-    public String getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 
-    public String getHour() {
+    public LocalTime getHour() {
         return hour;
     }
 
-    public void setHour(String hour) {
+    public void setHour(LocalTime hour) {
         this.hour = hour;
     }
 
@@ -52,10 +56,18 @@ public class Appointment {
         this.taken = taken;
     }
 
+    public String getFormatDate(String format) {
+        SimpleDateFormat formatter = new SimpleDateFormat(format);
+        return formatter.format(date);
+    }
+
+    public String getFormatDate() {
+        return getFormatDate("dd/MM/yyyy");
+    }
+
     @Override
-    public String toString() {
-        // code, date, hour, medic
-        return id + "," + "\"" + date + "\"," + "\"" + hour + "\","
+    public String toString() {        
+        return id + "," + "\"" + getFormatDate() + "\"," + "\"" + hour + "\","
                 + medic.getId() + "," + (taken ? 1 : 0);
     }
 }

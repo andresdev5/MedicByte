@@ -1,18 +1,19 @@
 package ec.edu.espe.medicbyte.model;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  *
  * @author Junior Stalin Jurado Peña - ESPE - DCCO
  */
 public class Patient {
-
     private String identificationcard;
-    private String surname;
-    private String name;
+    private String fullName;
     private String phone;
     private String email;
     private Gender gender;
-    private int age;
+    private Date birthday;
 
     public String getIdentificationcard() {
         return identificationcard;
@@ -22,28 +23,12 @@ public class Patient {
         this.identificationcard = identificationcard;
     }
 
-    public int getAge() {
-        return age;
+    public String getFullName() {
+        return fullName;
     }
 
-    public void setAge(int age) {
-        this.age = age;
-    }
-
-    public String getSurname() {
-        return surname;
-    }
-
-    public void setSurname(String surname) {
-        this.surname = surname;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
     public String getPhone() {
@@ -70,10 +55,27 @@ public class Patient {
         this.gender = gender;
     }
 
+    public Date getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(Date birthday) {
+        this.birthday = birthday;
+    }
+    
+    public String getBirthdayFormat(String format) {
+        SimpleDateFormat formatter = new SimpleDateFormat(format);
+        return formatter.format(birthday);
+    }
+    
+    public String getBirthdayFormat() {
+        return getBirthdayFormat("dd/MM/yyyy");
+    }
+
     @Override
     public String toString() {
-        return "\"" + identificationcard + "\",\"" + surname + "\",\""
-                + name + "\",\"" + phone + "\",\"" + email + "\",\""
-                + gender.name() + "\"," + age;
+        return "\"" + identificationcard + "\",\"" + fullName + "\",\""
+                + phone + "\",\"" + email + "\",\"" + gender.name() 
+                + "\",\"" + getBirthdayFormat() + "\"";
     }
 }

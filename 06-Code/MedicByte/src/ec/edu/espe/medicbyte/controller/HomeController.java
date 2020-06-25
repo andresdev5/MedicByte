@@ -1,6 +1,6 @@
 package ec.edu.espe.medicbyte.controller;
 
-import ec.edu.espe.medicbyte.utils.ConsoleMenu;
+import ec.edu.espe.medicbyte.util.ConsoleMenu;
 
 /**
  *
@@ -18,31 +18,29 @@ public class HomeController {
     public void init() {
         ConsoleMenu menu = new ConsoleMenu();
         
-        menu.prepend(" MedicByte v1.0.1 \n");
-        menu.addOption("Admin Menu", this::showAdminMenu).setAwait(false);
-        menu.addOption("Users Menu", this::showUsersMenu).setAwait(false);
-        menu.addOption("Exit", menu::exit).setAwait(false);
-        menu.run();
+        menu.addOption("Admin Menu", this::showAdminMenu, false);
+        menu.addOption("Users Menu", this::showUsersMenu, false);
+        menu.addOption("Exit", menu::exit, false);
+        menu.display(" MedicByte v1.0.1 ");
     }
     
     public void showUsersMenu() {
         ConsoleMenu menu = new ConsoleMenu();
         
-        menu.prepend(" MedicByte v1.0 \n");
         menu.addOption("Solicitar Cita", appointmentsController::takeAppointment);
-        menu.addOption("Volver al menu principal", menu::exit).setAwait(false);
-        menu.run();
+        menu.addOption("Volver al menu principal", menu::exit, false);
+        menu.display(" MedicByte ");
     }
     
     public void showAdminMenu() {
         ConsoleMenu menu = new ConsoleMenu();
         
-        menu.prepend(" MedicByte v1.0 \n");
-        menu.addOption("Create Appointment", appointmentsController::createAppointment);
-        menu.addOption("Show Appointments", appointmentsController::showAppointments);
-        menu.addOption("Add Medic", usersController::createMedic);
-        menu.addOption("Show Medics", usersController::showMedics);
-        menu.addOption("Back To Main Menu", menu::exit).setAwait(false);
-        menu.run();
+        menu.addOption("Show appointments list", appointmentsController::showAppointments);
+        menu.addOption("Create an appointment", appointmentsController::createAppointment);
+        menu.addOption("Delete an appointment", appointmentsController::deleteAppointment);
+        menu.addOption("Add new medic", usersController::createMedic);
+        menu.addOption("Show medics list", usersController::showMedics);
+        menu.addOption("Back to main menu", menu::exit, false);
+        menu.display(" MedicByte - Admin ");
     }
 }

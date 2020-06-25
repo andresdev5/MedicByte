@@ -1,17 +1,18 @@
 package ec.edu.espe.medicbyte.controller;
 
 import ec.edu.espe.medicbyte.model.Medic;
-import ec.edu.espe.medicbyte.utils.MenuOption;
 import ec.edu.espe.medicbyte.model.Speciality;
 import ec.edu.espe.medicbyte.service.MedicService;
 import ec.edu.espe.medicbyte.service.impl.MedicServiceImpl;
-import ec.edu.espe.medicbyte.utils.Console;
-import ec.edu.espe.medicbyte.utils.ConsoleMenu;
+import ec.edu.espe.medicbyte.util.ChooserOption;
+import ec.edu.espe.medicbyte.util.Console;
+import ec.edu.espe.medicbyte.util.ConsoleChooser;
 import java.util.List;
 
 /**
  *
  * @author Andres Jonathan J.
+ * 
  */
 public class MedicsController {
     private final Console console;
@@ -23,31 +24,27 @@ public class MedicsController {
     }
     
     public void createMedic() {
-        ConsoleMenu specialityMenu = new ConsoleMenu();
+        ConsoleChooser specialityChooser = new ConsoleChooser();
         Medic medic = new Medic();
-        
-        medic.setName(console.read("Enter medic full name: "));
-        
+
+        medic.setName(console.input("Enter medic full name: "));
+
         for (Speciality speciality : Speciality.values()) {
-            specialityMenu
+            specialityChooser
                 .addOption(speciality.getLabel())
-                .setAwait(false)
                 .addArgument(speciality);
         }
-        
+
         console.newLine();
-        specialityMenu.setPrompt("Choose an speciality: ");
-        
-        specialityMenu.setPreClear(false);
-        MenuOption lastOption = specialityMenu.process();
-        Speciality speciality = (Speciality) lastOption.getArguments().get(0);
+        ChooserOption option = specialityChooser.choose("Choose speciality: ");
+        Speciality speciality = (Speciality) option.getArgument(0);
         medic.setSpeciality(speciality);
-        
+
         int count = medicService.getTotalMedics();
         medic.setId(count + 1);
         medicService.saveMedic(medic);
-        
-        console.echoln("registered medic!");
+
+        console.echoln("Registered medic!");
     }
     
     public void showMedics() {
@@ -59,10 +56,12 @@ public class MedicsController {
         }
         
         medics.forEach((medic) -> {
-            console.echofmt(
-                "nombre: %s\nspeciality: %s\n" +
+            console.echoln(
+                "nombre: %s\n" +
+                "speciality: %s\n" +
                 "---------------------------\n", 
-                medic.getName(), medic.getSpeciality().getLabel());
+                medic.getName(), medic.getSpeciality().getLabel()
+            );
         });
     }
 }

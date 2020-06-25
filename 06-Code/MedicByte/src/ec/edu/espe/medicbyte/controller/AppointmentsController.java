@@ -3,7 +3,6 @@ package ec.edu.espe.medicbyte.controller;
 import ec.edu.espe.medicbyte.model.Appointment;
 import ec.edu.espe.medicbyte.model.Medic;
 import ec.edu.espe.medicbyte.model.Patient;
-import ec.edu.espe.medicbyte.utils.MenuOption;
 import ec.edu.espe.medicbyte.model.Speciality;
 import ec.edu.espe.medicbyte.service.AppointmentService;
 import ec.edu.espe.medicbyte.service.impl.AppointmentServiceImpl;
@@ -11,8 +10,11 @@ import ec.edu.espe.medicbyte.service.MedicService;
 import ec.edu.espe.medicbyte.service.impl.MedicServiceImpl;
 import ec.edu.espe.medicbyte.service.PatientService;
 import ec.edu.espe.medicbyte.service.impl.PatientServiceImpl;
-import ec.edu.espe.medicbyte.utils.Console;
-import ec.edu.espe.medicbyte.utils.ConsoleMenu;
+import ec.edu.espe.medicbyte.util.Console;
+import ec.edu.espe.medicbyte.util.ConsoleChooser;
+import ec.edu.espe.medicbyte.util.StringUtils;
+import java.time.LocalTime;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -29,6 +31,10 @@ public class AppointmentsController {
         this.appointmentService = new AppointmentServiceImpl();
     }
     
+    /**
+     * Show an appointments list
+     * 
+     */
     public void showAppointments() {
         List<Appointment> appointments = appointmentService.getAllAppointments();
         
@@ -38,22 +44,22 @@ public class AppointmentsController {
         
         appointments.stream().forEach((appointment) -> {
             console.echoln("---------------------------------------");
-            console.echofmt("id: %d\n", appointment.getId());
-            console.echofmt("date: %s\n", appointment.getDate());
-            console.echofmt("hour: %s\n", appointment.getHour());
-            console.echofmt("medic: %s\n", appointment.getMedic().getName());
-            console.echofmt("medic: %s\n", 
+            console.echoln("id: %d", appointment.getId());
+            console.echoln("date: %s", appointment.getFormatDate());
+            console.echoln("hour: %s", appointment.getHour());
+            console.echoln("medic: %s", appointment.getMedic().getName());
+            console.echoln("speciality: %s", 
                     appointment.getMedic().getSpeciality().getLabel());
         });
     }
     
     /**
-     * Crear una cita medica
+     * create a new appointment
      * 
      */
     public void createAppointment() {
         Appointment appointment = new Appointment();
-        ConsoleMenu medicsMenu = new ConsoleMenu();
+        ConsoleChooser medicsChooser = new ConsoleChooser();
         MedicService medicService = new MedicServiceImpl();
         List<Medic> medics = medicService.getAllMedics();
         
@@ -63,79 +69,94 @@ public class AppointmentsController {
         }
         
         medics.forEach((medic) -> {
-            medicsMenu.addOption(medic.getName())
-                .setAwait(false)
-                .addArgument(medic);
+            medicsChooser.addOption(medic.getName()).addArgument(medic);
         });
         
-        medicsMenu.setPrompt("Choose a medic: ");
-        Medic selected = (Medic) medicsMenu.process().getArgument(0);
+        Medic selected = (Medic) medicsChooser.choose("Choose a medic: ")
+            .getArgument(0);
         
-        appointment.setId(appointmentService.getTotalAppointments() + 1);
+        String rawDate = console.input("Ingrese la fecha (dd/mm/yyyy): ", (input) -> {
+            return StringUtils.isValidDate(input);
+        });
+        
+        String rawHour = console.input("Ingrese la hora (HH:mm): ", (input) -> {
+            return StringUtils.isValidHour(input);
+        });
+        
+        Date date = StringUtils.parseDate(rawDate);
+        LocalTime hour = StringUtils.parseHour(rawHour);
+        
+        appointment.setId(appointmentService.getLastId() + 1);
         appointment.setMedic(selected);
-        appointment.setDate(console.read("Ingrese la fecha: "));
-        appointment.setHour(console.read("Ingrese la hora: "));
+        appointment.setDate(date);
+        appointment.setHour(hour);
         
         appointmentService.saveAppointment(appointment);
-        console.echoln("Successfully created appointment!");
+        console.newLine().echoln("Successfully created appointment!");
     }
     
     /**
-     * Solicitar una cita medica
+     * Request an appointment
+     * 
      */
     public void takeAppointment() {
-        ConsoleMenu specialityMenu = new ConsoleMenu();
+        ConsoleChooser specialityChooser = new ConsoleChooser();
         
         for (Speciality speciality : Speciality.values()) {
-            specialityMenu
+            specialityChooser
                 .addOption(speciality.getLabel())
-                .setAwait(false)
                 .addArgument(speciality);
         }
         
-        console.newLine();
-        specialityMenu.setPrompt("Seleccione la especialidad: ");
-        
-        MenuOption lastOption = specialityMenu.process();
-        Speciality speciality = (Speciality) lastOption.getArguments().get(0);
+        console.newLine();        
+        Speciality speciality = (Speciality) specialityChooser
+            .choose("Seleccione la especialidad: ")
+            .getArgument(0);
         AppointmentsController controller = new AppointmentsController();
         List<Appointment> appointments = appointmentService.getAllAppointments()
             .stream()
             .filter(appointment -> {
-                return appointment.getMedic().getSpeciality() == speciality;
+                return appointment.getMedic().getSpeciality() == speciality
+                    && !appointment.isTaken();
             }).collect(Collectors.toList());
 
         if (appointments.isEmpty()) {
-            console.echoln("No existen citas medicas en esa especialidad");
+            console.echoln("No existen citas disponibles en esa especialidad");
             return;
         }
         
-        appointments.forEach((appointment) -> {
-            int id = appointment.getId();
-            String date = appointment.getDate();
-            String doctor = appointment.getMedic().getName();
-
-            console.echofmt(
-                "------------------------\n"
-                        + "id: %d\n"
-                        + "fecha: %s\n"
-                        + "doctor: %s\n"
-                        + "disponibilidad: %s\n"
-                        + "------------------------\n",
-                id, date, doctor,
-                (appointment.isTaken() ? "no disponible" : "disponible")
-            );
-        });
-
-        String choosed = console.read("Desea crear una cita? [s/n]: ", (input) -> {
-            return input.trim().toLowerCase().matches("^(s|n)$");
-        });
-
-        boolean doCreate = choosed.equals("s");
+        boolean viewAppointments = Console.confirm(
+            String.format("Existen %d citas disponibles, desea verlas?", 
+                    appointments.size()));
         
-        if (doCreate) {
+        if (viewAppointments) {
+            console.newLine(2);
+            
+            appointments.forEach((appointment) -> {
+                int id = appointment.getId();
+                Date date = appointment.getDate();
+                LocalTime hour = appointment.getHour();
+                String doctor = appointment.getMedic().getName();
+
+                console.echoln(
+                    "------------------------\n"
+                    + "id: %d\n"
+                    + "fecha: %s\n"
+                    + "hora: %s\n"
+                    + "doctor: %s\n"
+                    + "------------------------\n",
+                    id, date.toString(), hour.toString(), doctor,
+                    (appointment.isTaken() ? "no disponible" : "disponible")
+                );
+            });
+        }
+        
+        console.newLine(2);
+        boolean createAppointment = Console.confirm("Desea crear una cita?");
+        
+        if (createAppointment) {
             String selectedCode = "-1";
-            String id = console.read(
+            String id = console.input(
                 "Ingrese el id de la cita o -1 para salir: ",
                 (input) -> {
                     if (input.equals("-1")) {
@@ -160,23 +181,29 @@ public class AppointmentsController {
             );
 
             if (!id.equals("-1")) {
-                // TODO: validate CI
-                String identification = console.read("ingrese su cedula: ");
+                String identification = console.input("Cedula de identidad: ", (input) -> {
+                    boolean valid = StringUtils.isValidCI(input);
+
+                    if (!valid) {
+                        console.newLine().echoln("[Cedula incorrecta]");
+                    }
+
+                    return valid;
+                });
+                
                 PatientService patientService = new PatientServiceImpl();
                 Patient patient = patientService.getPatient(identification);
                 
                 if (patient == null) {
-                    console.echoln("Paciente no encontrado");
+                    console.newLine().echoln("Paciente no encontrado");
+                    boolean registerNewPatient = Console.confirm("Desea registrarse? ");
                     
-                    String option = console.read("Desea registrarse? (y/n): ", (input) -> {
-                        return input.trim().equalsIgnoreCase("y")
-                            || input.trim().equalsIgnoreCase("n");
-                    });
-                    
-                    if (option.equals("y")) {
+                    if (registerNewPatient) {
                         PatientsController patientsController;
                         patientsController = new PatientsController();
                         patientsController.createPatient();
+                    } else {
+                        return;
                     }
                     
                     int count = patientService.getTotalPatients();
@@ -190,18 +217,25 @@ public class AppointmentsController {
 
                 appointment.setTaken(true);
                 appointmentService.updateAppointment(appointment);
+                
+                console.newLine().echoln("Cita agendada con exito!");
             }
         }
     }
     
+    /**
+     * Delete an appointment by id
+     * 
+     */
     public void deleteAppointment() {
-        int id = console.readInt("Enter appointment id to delete: ");
+        int id = console.input(Integer.class, "Enter appointment id to delete: ");
         Appointment appointment = appointmentService.getAppointment(id);
         
         if (appointment == null) {
-            console.echoln("appointment not found");
+            console.newLine().echoln("Appointment not found");
         } else {
             appointmentService.deleteAppointment(appointment);
+            console.newLine().echoln("Appointment deleted");
         }
     }
 }

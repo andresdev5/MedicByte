@@ -4,48 +4,82 @@ import ec.edu.espe.medicbyte.model.Gender;
 import ec.edu.espe.medicbyte.model.Patient;
 import ec.edu.espe.medicbyte.service.PatientService;
 import ec.edu.espe.medicbyte.service.impl.PatientServiceImpl;
-import java.util.Scanner;
+import ec.edu.espe.medicbyte.util.Console;
+import ec.edu.espe.medicbyte.util.ConsoleChooser;
+import ec.edu.espe.medicbyte.util.StringUtils;
 
 /**
  *
  * @author Andres Jonathan J.
  */
 public class PatientsController {
+    private final Console console;
+    
+    public PatientsController() {
+        this.console = Console.getInstance();
+    }
+    
     public void createPatient() {
-        int option;
-        Scanner scanner = new Scanner(System.in);
         Patient patient = new Patient();
-        System.out.println("\n**INGRESE SUS DATOS**");
-        System.out.print("Cédula: ");
-        patient.setIdentificationcard(scanner.nextLine());
-        System.out.print("Nombres: ");
-        patient.setName(scanner.nextLine());
-        System.out.print("Apellidos: ");
-        patient.setSurname(scanner.nextLine());
-        System.out.print("Fecha de Nacimiento: ");
-        patient.setAge(20); // TODO: cambiar luego
-        scanner.nextLine();
-        System.out.print("Telefono: ");
-        patient.setPhone(scanner.nextLine());
-        System.out.print("Email: ");
-        patient.setEmail(scanner.nextLine());
-        System.out.print("Género: \n1: Femenino\n2: Masculino\n3: No Especificado: "
-                + "\n: ");
-        option = scanner.nextInt();
-        switch (option) {
-            case 1:
-                patient.setGender(Gender.FEMALE);
-                break;
-            case 2:
-                patient.setGender(Gender.MALE);
-                break;
-            case 3:
-                patient.setGender(Gender.UNIDENTIFIED);
-                break;
-            default:
-                System.out.println("No se Encontraron Coincidencias");
-        }
-
+        
+        console.echoln("Ingreso de datos: ").newLine();
+        
+        String id = console.input("Cedula de identidad: ", (input) -> {
+            boolean valid = StringUtils.isValidCI(input);
+            
+            if (!valid) {
+                console.newLine().echoln("[Cedula incorrecta]");
+            }
+            
+            return valid;
+        });
+        
+        String fullName = console.input("Nombre completo: ");
+        
+        String rawBirthday = console.input("Fecha de nacimiento (dd/mm/yyyy): ", (input) -> {
+            boolean valid = StringUtils.isValidDate(input);
+            
+            if (!valid) {
+                console.newLine().echoln("[Fecha invalida]");
+            }
+            
+            return valid;
+        });
+        
+        String phone = console.input("Telefono: ", (input) -> {
+            boolean valid = input.trim().matches("^09[0-9]{8}$")
+                || input.trim().matches("^0[23467][0-9]{6,7}$");
+            
+            if (!valid) {
+                console.newLine().echoln("[Telefono incorrecto]");
+            }
+            
+            return valid;
+        });
+        
+        String email = console.input("Correo: ", (input) -> {
+            boolean valid = StringUtils.isValidEmail(input);
+            
+            if (!valid) {
+                console.newLine().echoln("[Email invalido]");
+            }
+            
+            return valid;
+        });
+        
+        ConsoleChooser chooser = new ConsoleChooser();
+        chooser.addOption("Masculino").addArgument(Gender.MALE);
+        chooser.addOption("Femenino").addArgument(Gender.FEMALE);
+        chooser.addOption("No especificado").addArgument(Gender.UNIDENTIFIED);
+        Gender gender = (Gender) chooser.choose("Genero: ").getArgument(0);
+        
+        patient.setIdentificationcard(id);
+        patient.setEmail(email);
+        patient.setPhone(phone);
+        patient.setFullName(fullName);
+        patient.setGender(gender);
+        patient.setBirthday(StringUtils.parseDate(rawBirthday));
+        
         PatientService patientService = new PatientServiceImpl();
         patientService.savePatient(patient);
     }

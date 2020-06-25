@@ -3,6 +3,7 @@ package ec.edu.espe.medicbyte.service.impl;
 import ec.edu.espe.medicbyte.model.Gender;
 import ec.edu.espe.medicbyte.model.Patient;
 import ec.edu.espe.medicbyte.service.PatientService;
+import ec.edu.espe.medicbyte.util.StringUtils;
 import ec.edu.espe.tinyio.CsvFile;
 import ec.edu.espe.tinyio.CsvRecord;
 import ec.edu.espe.tinyio.FileLine;
@@ -69,23 +70,20 @@ public class PatientServiceImpl implements PatientService {
         
         // cedula, surname, name, phone, email. gender, age
         patient.setIdentificationcard(values.get(0));
-        patient.setSurname(values.get(1));
-        patient.setName(values.get(2));
-        patient.setPhone(values.get(3));
-        patient.setEmail(values.get(4));
+        patient.setFullName(values.get(1));
+        patient.setPhone(values.get(2));
+        patient.setEmail(values.get(3));
 
         Gender gender = Gender.UNIDENTIFIED;
 
-        if (values.get(5).equals("FEMALE")) {
+        if (values.get(4).equals("FEMALE")) {
             gender = Gender.FEMALE;
         } else if (values.get(5).equals("MALE")) {
             gender = Gender.MALE;
         }
 
         patient.setGender(gender);
-
-        int age = Integer.parseInt(values.get(6));
-        patient.setAge(age);
+        patient.setBirthday(StringUtils.parseDate(values.get(5)));
         
         return patient;
     }

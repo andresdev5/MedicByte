@@ -4,6 +4,7 @@ import ec.edu.espe.medicbyte.model.Appointment;
 import ec.edu.espe.medicbyte.model.Medic;
 import ec.edu.espe.medicbyte.service.AppointmentService;
 import ec.edu.espe.medicbyte.service.MedicService;
+import ec.edu.espe.medicbyte.util.StringUtils;
 import ec.edu.espe.tinyio.CsvFile;
 import ec.edu.espe.tinyio.CsvRecord;
 import ec.edu.espe.tinyio.FileManager;
@@ -42,6 +43,14 @@ public class AppointmentServiceImpl implements AppointmentService {
     @Override
     public int getTotalAppointments() {
         return fileManager.countLines();
+    }
+    
+    @Override
+    public int getLastId() {
+        Appointment appointment = getAllAppointments()
+            .get(getTotalAppointments()-1);
+        
+        return appointment.getId();
     }
     
     /**
@@ -118,9 +127,9 @@ public class AppointmentServiceImpl implements AppointmentService {
         List<String> values = record.getColumnValues();
         
         appointment.setId(Integer.parseInt(values.get(0)));
-        appointment.setDate(values.get(1));
-        appointment.setHour(values.get(2));
-
+        appointment.setDate(StringUtils.parseDate(values.get(1)));
+        appointment.setHour(StringUtils.parseHour(values.get(2)));
+        
         int medicId = Integer.parseInt(values.get(3));
         MedicService medicService = new MedicServiceImpl();
         Medic medic = medicService.getMedic(medicId);
