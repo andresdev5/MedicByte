@@ -19,7 +19,7 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public boolean login(String username, String password) {
-        String hash = StringUtils.sha256(password);
+        String hash = StringUtils.sha512(password);
 
         User found = userService.findUser(user -> {
             return user.getUsername().trim().equalsIgnoreCase(username)

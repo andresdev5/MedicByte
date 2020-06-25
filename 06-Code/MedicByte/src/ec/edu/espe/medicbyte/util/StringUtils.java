@@ -115,7 +115,7 @@ public class StringUtils {
         return email.matches(EMAIL_REGEX);
     }
 
-    public static String sha256(String text) {
+    public static String sha512(String text) {
         String hash = "";
 
         try {
