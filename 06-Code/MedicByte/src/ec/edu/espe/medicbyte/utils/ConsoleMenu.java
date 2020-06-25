@@ -15,6 +15,7 @@ public class ConsoleMenu {
     private final List<MenuOption> options;
     private final Map<String, List<String>> content;
     private boolean running = true;
+    private boolean previousClear = true;
     private MenuOption lastSelectedOption;
     private String prompt = "Seleccione una opcion: ";
     
@@ -72,11 +73,22 @@ public class ConsoleMenu {
         this.prompt = prompt;
     }
     
+    public boolean shouldPreClear() {
+        return previousClear;
+    }
+
+    public void setPreClear(boolean previousClear) {
+        this.previousClear = previousClear;
+    }
+    
     private void display() {
         int selected;
         int index = 1;
-
-        console.clear();
+        
+        if (previousClear) {
+            console.clear();
+        }
+        
         console.newLine();
         content.get("top").forEach(console::echoln);
 
@@ -102,12 +114,13 @@ public class ConsoleMenu {
             return null;
         }
 
+        console.newLine(2);
         option.run();
 
         if (option.shouldAwait()) {
             console
-                .newLine()
-                .echoln("Press <enter> to continue")
+                .newLine(2)
+                .echo("Press <enter> to continue")
                 .read();
         }
         

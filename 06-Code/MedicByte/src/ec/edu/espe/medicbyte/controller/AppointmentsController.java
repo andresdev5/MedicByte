@@ -32,6 +32,10 @@ public class AppointmentsController {
     public void showAppointments() {
         List<Appointment> appointments = appointmentService.getAllAppointments();
         
+        if (appointments.isEmpty()) {
+            console.echoln("no records found");
+        }
+        
         appointments.stream().forEach((appointment) -> {
             console.echoln("---------------------------------------");
             console.echofmt("id: %d\n", appointment.getId());
@@ -59,7 +63,9 @@ public class AppointmentsController {
         }
         
         medics.forEach((medic) -> {
-            medicsMenu.addOption(medic.getName()).addArgument(medic);
+            medicsMenu.addOption(medic.getName())
+                .setAwait(false)
+                .addArgument(medic);
         });
         
         medicsMenu.setPrompt("Choose a medic: ");
@@ -83,6 +89,7 @@ public class AppointmentsController {
         for (Speciality speciality : Speciality.values()) {
             specialityMenu
                 .addOption(speciality.getLabel())
+                .setAwait(false)
                 .addArgument(speciality);
         }
         

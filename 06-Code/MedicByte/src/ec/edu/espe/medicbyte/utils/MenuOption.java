@@ -42,16 +42,18 @@ public class MenuOption {
         return label;
     }
     
-    public void setAwait(boolean await) {
+    public MenuOption setAwait(boolean await) {
         this.await = await;
+        return this;
     }
     
     public boolean shouldAwait() {
         return await;
     }
 
-    public void addArgument(Object argument) {
+    public MenuOption addArgument(Object argument) {
         arguments.add(argument);
+        return this;
     }
 
     public List<Object> getArguments() {
