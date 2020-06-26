@@ -20,20 +20,19 @@ import java.util.stream.Collectors;
  * @author Andres Jonathan J.
  */
 public class AppointmentServiceImpl implements AppointmentService {
-    private final FileManager fileManager;
-    private static final String DATA_FILENAME = "appointments.csv";
+    private final FileManager appointmentsDb;
+    private final FileManager patientAppointmentsDb;
     
     public AppointmentServiceImpl() {
-        this.fileManager = new FileManager(DATA_FILENAME, true);
+        appointmentsDb = new FileManager("data/appointments.csv", true);
+        patientAppointmentsDb = new FileManager("data/patient_appointments.csv", true);
     }
     
     @Override
-    public boolean addPatientToAppointment(String userCI, int appointmentId) {
-        FileManager patientAppointments = new FileManager("patient_appointments.csv");
-        
+    public boolean addPatientToAppointment(String userCI, int appointmentId) {        
         try {
-            patientAppointments.create();
-            patientAppointments.write(String.format("\"%s\",%d", userCI, appointmentId));
+            patientAppointmentsDb.create();
+            patientAppointmentsDb.write(String.format("\"%s\",%d", userCI, appointmentId));
             return true;
         } catch (Exception ex) {
             return false;
@@ -42,13 +41,11 @@ public class AppointmentServiceImpl implements AppointmentService {
     
     @Override
     public List<Appointment> getPatientAppointments(String patientId) {        
-        FileManager patientAppointments = new FileManager("patient_appointments.csv");
-        
-        if (patientAppointments.countLines() == 0) {
+        if (patientAppointmentsDb.countLines() == 0) {
             return Collections.emptyList();
         }
         
-        CsvFile csv = patientAppointments.toCsv();
+        CsvFile csv = patientAppointmentsDb.toCsv();
         List<CsvRecord> found = csv.find((record) -> {
             return record.getColumn(0).getValue()
                 .trim().equalsIgnoreCase(patientId);
@@ -70,7 +67,7 @@ public class AppointmentServiceImpl implements AppointmentService {
     
     @Override
     public int getTotalAppointments() {
-        return fileManager.countLines();
+        return appointmentsDb.countLines();
     }
     
     @Override
@@ -95,7 +92,7 @@ public class AppointmentServiceImpl implements AppointmentService {
     @Override
     public List<Appointment> getAllAppointments() {
         List<Appointment> appointments = new ArrayList<>();
-        List<FileLine> lines = fileManager.read();
+        List<FileLine> lines = appointmentsDb.read();
         
         // code,date,hour,id_medic
         for (FileLine line : lines) {
@@ -108,7 +105,7 @@ public class AppointmentServiceImpl implements AppointmentService {
     
     @Override
     public Appointment getAppointment(int appointmentID) {
-        CsvFile csv = fileManager.toCsv();
+        CsvFile csv = appointmentsDb.toCsv();
         
         List<CsvRecord> foundLine = csv.find((record) -> {
             int id = Integer.parseInt(record.getColumnValue(0));
@@ -124,13 +121,13 @@ public class AppointmentServiceImpl implements AppointmentService {
     
     @Override
     public void updateAppointment(Appointment appointment) {
-        List<FileLine> lines = fileManager.read();
+        List<FileLine> lines = appointmentsDb.read();
         
         if (lines.isEmpty()) {
             return;
         }
         
-        fileManager.clear();
+        appointmentsDb.clear();
         
         for (FileLine line : lines) {
             Appointment parsed = csvRecordToAppointment(line.csv());
@@ -139,7 +136,7 @@ public class AppointmentServiceImpl implements AppointmentService {
                 parsed.setTaken(true);
             }
             
-            fileManager.write(parsed.toString());
+            appointmentsDb.write(parsed.toString());
         }
     }
     
@@ -151,8 +148,15 @@ public class AppointmentServiceImpl implements AppointmentService {
             .map(a -> a.toString())
             .collect(Collectors.toList());
         
-        fileManager.clear();
-        fileManager.write(lines);
+        appointmentsDb.clear();
+        appointmentsDb.write(lines);
+        
+        for (Appointment item : appointments) {
+            patientAppointmentsDb.remove(line -> {
+                return Integer.parseInt(
+                    line.csv().getColumnValue(1)) == item.getId();
+            });
+        }
     }
     
     public Appointment csvRecordToAppointment(CsvRecord record) {
@@ -176,6 +180,6 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     @Override
     public void saveAppointment(Appointment appointment) {
-        fileManager.write(appointment.toString());
+        appointmentsDb.write(appointment.toString());
     }
 }

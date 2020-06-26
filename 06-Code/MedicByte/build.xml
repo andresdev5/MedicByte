@@ -103,10 +103,10 @@
 
         <delete dir="${temp.dir}"/>
 
-        <copy file="users.csv" todir="${dist.dir}"/>
-        <copy file="medics.csv" todir="${dist.dir}"/>
-        <copy file="patients.csv" todir="${dist.dir}"/>
-        <copy file="appointments.csv" todir="${dist.dir}"/>
-        <copy file="patient_appointments.csv" todir="${dist.dir}"/>
+        <copy file="data/users.csv" todir="${dist.dir}/data"/>
+        <copy file="data/medics.csv" todir="${dist.dir}/data"/>
+        <copy file="data/patients.csv" todir="${dist.dir}/data"/>
+        <copy file="data/appointments.csv" todir="${dist.dir}/data"/>
+        <copy file="data/patient_appointments.csv" todir="${dist.dir}/data"/>
     </target>
 </project>

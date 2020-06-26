@@ -6,19 +6,14 @@ import java.util.function.Function;
 import org.fusesource.jansi.AnsiConsole;
 import org.jline.reader.LineReader;
 import org.jline.reader.LineReaderBuilder;
-import org.jline.reader.LineReader.Option;
-import org.jline.reader.impl.LineReaderImpl;
 import org.jline.terminal.Terminal;
 import org.jline.terminal.TerminalBuilder;
 import org.jline.utils.InfoCmp.Capability;
-import java.awt.Robot;
-import java.util.Locale;
-
-import org.jline.keymap.BindingReader;
-import org.jline.keymap.KeyMap;
 import org.jline.reader.EndOfFileException;
 import org.jline.reader.UserInterruptException;
 import org.jline.terminal.Attributes;
+import java.awt.Robot;
+import java.util.Locale;
 
 import static org.fusesource.jansi.Ansi.ansi;
 

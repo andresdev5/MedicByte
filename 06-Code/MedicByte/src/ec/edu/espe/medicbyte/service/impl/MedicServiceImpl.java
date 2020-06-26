@@ -14,21 +14,20 @@ import java.util.List;
  * @author Andres Jonathan J.
  */
 public class MedicServiceImpl implements MedicService {
-    private final FileManager fileManager;
-    private final String DATA_FILENAME = "medics.csv";
+    private final FileManager medicsDb;
     
     public MedicServiceImpl() {
-        this.fileManager = new FileManager(DATA_FILENAME, true);
+        medicsDb = new FileManager("data/medics.csv", true);
     }
     
     @Override
     public int getTotalMedics() {
-        return fileManager.countLines();
+        return medicsDb.countLines();
     }
     
     @Override
     public void saveMedic(Medic medic) {
-        fileManager.write(medic.toString());
+        medicsDb.write(medic.toString());
     }
     
     @Override
@@ -40,7 +39,7 @@ public class MedicServiceImpl implements MedicService {
 
     @Override
     public List<Medic> getAllMedics() {
-        CsvFile csv = fileManager.toCsv();
+        CsvFile csv = medicsDb.toCsv();
         List<Medic> medics = new ArrayList<>();
 
         for (CsvRecord record : csv.getRecords()) {            

@@ -14,15 +14,15 @@ import ec.edu.espe.tinyio.FileManager;
  * @author Andres Jonathan J.
  */
 public class UserServiceImpl implements UserService {
-    private final FileManager fileManager;
+    private final FileManager usersDb;
 
     public UserServiceImpl() {
-        fileManager = new FileManager("users.csv", true);
+        usersDb = new FileManager("data/users.csv", true);
     }
 
     @Override
     public User getUser(int id) {
-        FileLine line = fileManager.findFirst((l) -> {
+        FileLine line = usersDb.findFirst((l) -> {
             return Integer.parseInt(l.csv().getColumnValue(0)) == id;
         });
 
@@ -35,7 +35,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findUser(Function<User, Boolean> comparator) {
-        FileLine foundLine = fileManager.findFirst(line -> {
+        FileLine foundLine = usersDb.findFirst(line -> {
             return comparator.apply(csvRecordToUser(line.csv()));
         });
 

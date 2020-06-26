@@ -16,22 +16,21 @@ import java.util.List;
  * @author Andres Jonathan J.
  */
 public class PatientServiceImpl implements PatientService {
-    private final FileManager fileManager;
-    private final String DATA_FILENAME = "patients.csv";
+    private final FileManager patientsDb;
     
     public PatientServiceImpl() {
-        this.fileManager = new FileManager(DATA_FILENAME, true);
+        this.patientsDb = new FileManager("data/patients.csv", true);
     }
     
     @Override
     public void savePatient(Patient patient) {
-        fileManager.write(patient.toString());
+        patientsDb.write(patient.toString());
     }
 
     @Override
     public List<Patient> getAllPatients() {
         List<Patient> patients = new ArrayList<>();
-        CsvFile csv = fileManager.toCsv(
+        CsvFile csv = patientsDb.toCsv(
             "identificationcard", "firstName", "lastName", 
             "phone", "email", "gender", "age"
         );
@@ -46,12 +45,12 @@ public class PatientServiceImpl implements PatientService {
     
     @Override
     public int getTotalPatients() {
-        return fileManager.countLines();
+        return patientsDb.countLines();
     }
 
     @Override
     public Patient getPatient(String identification) {
-        FileLine found = fileManager.findFirst((line) -> {
+        FileLine found = patientsDb.findFirst((line) -> {
             Patient patient = csvRecordToPatient(line.csv());
             return patient.getIdentificationcard()
                 .trim().equalsIgnoreCase(identification);
