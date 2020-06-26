@@ -13,12 +13,14 @@ import ec.edu.espe.medicbyte.util.ConsoleMenu;
 public class HomeController {
     private final AppointmentsController appointmentsController;
     private final MedicsController usersController;
+    private final PatientsController patientsController;
     private final Console console;
     private final AuthService authService;
     
     public HomeController() {
         appointmentsController = new AppointmentsController();
         usersController = new MedicsController();
+        patientsController = new PatientsController();
         this.console = Console.getInstance();
         this.authService = new AuthServiceImpl();
     }
@@ -73,6 +75,7 @@ public class HomeController {
         menu.addOption("Delete an appointment", appointmentsController::deleteAppointment);
         menu.addOption("Add new medic", usersController::createMedic);
         menu.addOption("Show medics list", usersController::showMedics);
+        menu.addOption("Show patients list", patientsController::showPatients);
         menu.addOption("Back to main menu", menu::exit, false);
         menu.display(" MedicByte / admin ");
     }

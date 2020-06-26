@@ -13,6 +13,8 @@ import ec.edu.espe.medicbyte.service.impl.PatientServiceImpl;
 import ec.edu.espe.medicbyte.util.Console;
 import ec.edu.espe.medicbyte.util.ConsoleChooser;
 import ec.edu.espe.medicbyte.util.StringUtils;
+
+import java.text.SimpleDateFormat;
 import java.time.LocalTime;
 import java.util.Date;
 import java.util.List;
@@ -76,7 +78,16 @@ public class AppointmentsController {
             .getArgument(0);
         
         String rawDate = console.input("Ingrese la fecha (dd/mm/yyyy): ", (input) -> {
-            return StringUtils.isValidDate(input);
+            boolean valid = StringUtils.isValidDate(input);
+            boolean after = StringUtils.parseDate(input).after(new Date());
+            SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+            
+            if (valid && !after) {
+                console.newLine().echoln(
+                    "[La fecha debe ser superior a %s]", format.format(new Date()));
+            }
+
+            return valid && after;
         });
         
         String rawHour = console.input("Ingrese la hora (HH:mm): ", (input) -> {

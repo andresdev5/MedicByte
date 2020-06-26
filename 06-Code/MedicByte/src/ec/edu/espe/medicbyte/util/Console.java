@@ -7,11 +7,15 @@ import org.fusesource.jansi.AnsiConsole;
 import org.jline.reader.LineReader;
 import org.jline.reader.LineReaderBuilder;
 import org.jline.reader.LineReader.Option;
+import org.jline.reader.impl.LineReaderImpl;
 import org.jline.terminal.Terminal;
 import org.jline.terminal.TerminalBuilder;
 import org.jline.utils.InfoCmp.Capability;
 import java.awt.Robot;
 import java.util.Locale;
+
+import org.jline.keymap.BindingReader;
+import org.jline.keymap.KeyMap;
 import org.jline.reader.EndOfFileException;
 import org.jline.reader.UserInterruptException;
 import org.jline.terminal.Attributes;
@@ -198,11 +202,11 @@ public class Console {
         
         while (true) {
             try {
-                int c = terminal.reader().read(1000L);
+                int c = terminal.reader().read(200L);
                 
                 if (c == 27) {
-                    if (terminal.reader().read(1000) == 79) {
-                        captured = terminal.reader().read(1000);
+                    if (terminal.reader().read(200) == 79) {
+                        captured = terminal.reader().read(200);
                     }
                 } else {
                     captured = c;
@@ -285,20 +289,22 @@ public class Console {
                 pressbot.keyPress(76);
                 pressbot.keyRelease(17);
                 pressbot.keyRelease(76);
-            }
             
-            if (os.contains("windows")) {
-                new ProcessBuilder("cmd", "/c", "cls")
-                    .inheritIO().start().waitFor();
-            } else {
-                Runtime.getRuntime().exec("clear");
+                if (os.contains("windows")) {
+                    new ProcessBuilder("cmd", "/c", "cls")
+                        .inheritIO().start().waitFor();
+                } else {
+                    Runtime.getRuntime().exec("clear");
+                }
             }
-            
+
             terminal.puts(Capability.clear_screen);
-            terminal.flush();
+
+            if (os.contains("windows")) {
+                terminal.flush();
+            }
         } catch (Exception exception) {
             echo("\033[H\033[2J");
-            terminal.flush();
         }
         
         return this;
@@ -344,14 +350,11 @@ public class Console {
             .encoding(Charset.forName("UTF-8"))
             .jna(true)
             .jansi(true)
-            .streams(System.in, System.out)
             .system(true)
             .build();
         
         reader = LineReaderBuilder.builder()
                 .terminal(terminal)
-                .variable(LineReader.INDENTATION, 2)
-                .option(Option.INSERT_BRACKET, true)
                 .build();
 
         terminal.echo(false);

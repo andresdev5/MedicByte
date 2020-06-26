@@ -1,5 +1,7 @@
 package ec.edu.espe.medicbyte.controller;
 
+import java.util.List;
+
 import ec.edu.espe.medicbyte.model.Gender;
 import ec.edu.espe.medicbyte.model.Patient;
 import ec.edu.espe.medicbyte.service.PatientService;
@@ -14,9 +16,32 @@ import ec.edu.espe.medicbyte.util.StringUtils;
  */
 public class PatientsController {
     private final Console console;
-    
+    private PatientService patientService;
+
     public PatientsController() {
         this.console = Console.getInstance();
+        this.patientService = new PatientServiceImpl();
+    }
+
+    public void showPatients() {
+        List<Patient> patients = patientService.getAllPatients();
+
+        if (patients.isEmpty()) {
+            console.echoln("No patients found");
+            return;
+         }
+         
+         patients.forEach((patient) -> {
+             console.echoln(
+                "identification: %s\n" + 
+                "name: %s\n" +
+                "phone: %s\n" +
+                "email: %s\n" +
+                "---------------------------\n", 
+                patient.getIdentificationcard(), patient.getFullName(),
+                patient.getPhone(), patient.getEmail()
+             );
+         });
     }
     
     public void createPatient() {

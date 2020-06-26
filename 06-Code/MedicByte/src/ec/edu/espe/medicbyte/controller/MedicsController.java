@@ -57,7 +57,7 @@ public class MedicsController {
         
         medics.forEach((medic) -> {
             console.echoln(
-                "nombre: %s\n" +
+                "name: %s\n" +
                 "speciality: %s\n" +
                 "---------------------------\n", 
                 medic.getName(), medic.getSpeciality().getLabel()
