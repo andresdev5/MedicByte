@@ -38,6 +38,12 @@ public class ConsolePagination {
         int current = 0;
         int currentPage = 1;
 
+        if (items.isEmpty()) {
+            console.newLine().echoln("no results found");
+            console.pause();
+            return;
+        }
+
         if (itemsPerPage > items.size()) {
             totalPages = 1;
         }
