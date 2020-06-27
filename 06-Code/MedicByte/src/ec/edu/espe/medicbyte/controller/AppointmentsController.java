@@ -12,6 +12,7 @@ import ec.edu.espe.medicbyte.service.PatientService;
 import ec.edu.espe.medicbyte.service.impl.PatientServiceImpl;
 import ec.edu.espe.medicbyte.util.Console;
 import ec.edu.espe.medicbyte.util.ConsoleChooser;
+import ec.edu.espe.medicbyte.util.ConsolePagination;
 import ec.edu.espe.medicbyte.util.StringUtils;
 
 import java.text.SimpleDateFormat;
@@ -38,6 +39,7 @@ public class AppointmentsController {
      * 
      */
     public void showAppointments() {
+        ConsolePagination paginator = new ConsolePagination(2);
         List<Appointment> appointments = appointmentService.getAllAppointments();
         
         if (appointments.isEmpty()) {
@@ -45,14 +47,18 @@ public class AppointmentsController {
         }
         
         appointments.stream().forEach((appointment) -> {
-            console.echoln("---------------------------------------");
-            console.echoln("id: %d", appointment.getId());
-            console.echoln("date: %s", appointment.getFormatDate());
-            console.echoln("hour: %s", appointment.getHour());
-            console.echoln("medic: %s", appointment.getMedic().getName());
-            console.echoln("speciality: %s", 
-                    appointment.getMedic().getSpeciality().getLabel());
+            paginator.addItem(() -> {
+                console.echoln("---------------------------------------");
+                console.echoln("id: %d", appointment.getId());
+                console.echoln("date: %s", appointment.getFormatDate());
+                console.echoln("hour: %s", appointment.getHour());
+                console.echoln("medic: %s", appointment.getMedic().getName());
+                console.echoln("speciality: %s", 
+                        appointment.getMedic().getSpeciality().getLabel());
+            });
         });
+
+        paginator.display();
     }
     
     /**
@@ -112,6 +118,7 @@ public class AppointmentsController {
      */
     public void takeAppointment() {
         ConsoleChooser specialityChooser = new ConsoleChooser();
+        ConsolePagination paginator = new ConsolePagination(2);
         
         for (Speciality speciality : Speciality.values()) {
             specialityChooser
@@ -148,17 +155,21 @@ public class AppointmentsController {
                 LocalTime hour = appointment.getHour();
                 String doctor = appointment.getMedic().getName();
 
-                console.echoln(
-                    "------------------------\n"
-                    + "id: %d\n"
-                    + "fecha: %s\n"
-                    + "hora: %s\n"
-                    + "doctor: %s\n"
-                    + "------------------------\n",
-                    id, date.toString(), hour.toString(), doctor,
-                    (appointment.isTaken() ? "no disponible" : "disponible")
-                );
+                paginator.addItem(() -> {
+                    console.echoln(
+                        "------------------------\n"
+                        + "id: %d\n"
+                        + "fecha: %s\n"
+                        + "hora: %s\n"
+                        + "doctor: %s\n"
+                        + "------------------------\n",
+                        id, date.toString(), hour.toString(), doctor,
+                        (appointment.isTaken() ? "no disponible" : "disponible")
+                    );
+                });
             });
+
+            paginator.display();
         }
         
         console.newLine(2);
@@ -249,6 +260,7 @@ public class AppointmentsController {
     }
     
     public void showScheduledAppointments() {
+        ConsolePagination paginator = new ConsolePagination(3);
         String id = console.input("Cedula de identidad: ", (input) -> {
             boolean valid = StringUtils.isValidCI(input);
             
@@ -268,13 +280,17 @@ public class AppointmentsController {
         }
         
         appointments.stream().forEach((appointment) -> {
-            console.echoln("---------------------------------------");
-            console.echoln("id: %d", appointment.getId());
-            console.echoln("fecha: %s", appointment.getFormatDate());
-            console.echoln("hora: %s", appointment.getHour());
-            console.echoln("medico: %s", appointment.getMedic().getName());
-            console.echoln("especialidad: %s", 
-                    appointment.getMedic().getSpeciality().getLabel());
+            paginator.addItem(() -> {
+                console.echoln("---------------------------------------");
+                console.echoln("id: %d", appointment.getId());
+                console.echoln("fecha: %s", appointment.getFormatDate());
+                console.echoln("hora: %s", appointment.getHour());
+                console.echoln("medico: %s", appointment.getMedic().getName());
+                console.echoln("especialidad: %s", 
+                        appointment.getMedic().getSpeciality().getLabel());
+            });
         });
+
+        paginator.display();
     }
 }

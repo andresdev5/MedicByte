@@ -8,6 +8,7 @@ import ec.edu.espe.medicbyte.service.PatientService;
 import ec.edu.espe.medicbyte.service.impl.PatientServiceImpl;
 import ec.edu.espe.medicbyte.util.Console;
 import ec.edu.espe.medicbyte.util.ConsoleChooser;
+import ec.edu.espe.medicbyte.util.ConsolePagination;
 import ec.edu.espe.medicbyte.util.StringUtils;
 
 /**
@@ -24,6 +25,7 @@ public class PatientsController {
     }
 
     public void showPatients() {
+        ConsolePagination paginator = new ConsolePagination(3);
         List<Patient> patients = patientService.getAllPatients();
 
         if (patients.isEmpty()) {
@@ -32,16 +34,20 @@ public class PatientsController {
          }
          
          patients.forEach((patient) -> {
-             console.echoln(
-                "identification: %s\n" + 
-                "name: %s\n" +
-                "phone: %s\n" +
-                "email: %s\n" +
-                "---------------------------\n", 
-                patient.getIdentificationcard(), patient.getFullName(),
-                patient.getPhone(), patient.getEmail()
-             );
+            paginator.addItem(() -> {
+                console.echoln(
+                    "identification: %s\n" + 
+                    "name: %s\n" +
+                    "phone: %s\n" +
+                    "email: %s\n" +
+                    "---------------------------\n", 
+                    patient.getIdentificationcard(), patient.getFullName(),
+                    patient.getPhone(), patient.getEmail()
+                );
+            });
          });
+
+         paginator.display();
     }
     
     public void createPatient() {

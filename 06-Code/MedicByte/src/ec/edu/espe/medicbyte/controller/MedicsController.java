@@ -7,6 +7,8 @@ import ec.edu.espe.medicbyte.service.impl.MedicServiceImpl;
 import ec.edu.espe.medicbyte.util.ChooserOption;
 import ec.edu.espe.medicbyte.util.Console;
 import ec.edu.espe.medicbyte.util.ConsoleChooser;
+import ec.edu.espe.medicbyte.util.ConsolePagination;
+
 import java.util.List;
 
 /**
@@ -54,14 +56,20 @@ public class MedicsController {
            console.echoln("No medics found");
            return;
         }
+
+        ConsolePagination paginator = new ConsolePagination(3);
         
         medics.forEach((medic) -> {
-            console.echoln(
-                "name: %s\n" +
-                "speciality: %s\n" +
-                "---------------------------\n", 
-                medic.getName(), medic.getSpeciality().getLabel()
-            );
+            paginator.addItem(() -> {
+                console.echoln(
+                    "name: %s\n" +
+                    "speciality: %s\n" +
+                    "---------------------------\n", 
+                    medic.getName(), medic.getSpeciality().getLabel()
+                );
+            });
         });
+
+        paginator.display();
     }
 }

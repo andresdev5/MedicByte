@@ -28,6 +28,7 @@ public class Console {
         ArrowRight(67),
         ArrowLeft(68),
         Enter(13),
+        Escape(27),
         Backspace(8),
         CntrlQ(17),
         Space(32),

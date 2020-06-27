@@ -40,7 +40,7 @@ public class HomeController {
         ConsoleMenu menu = new ConsoleMenu();
         
         menu.addOption("Solicitar cita", appointmentsController::takeAppointment);
-        menu.addOption("ver citas", appointmentsController::showScheduledAppointments);
+        menu.addOption("ver citas", appointmentsController::showScheduledAppointments, false);
         menu.addOption("Volver al menu principal", menu::exit, false);
         menu.display(" MedicByte / users ");
     }
@@ -54,9 +54,7 @@ public class HomeController {
             boolean loggedIn = authService.login(username, password);
 
             if (!loggedIn) {
-                console.newLine().echoln("invalid credentials");
-
-                if (!Console.confirm("retry again?")) {
+                if (!Console.confirm("[invalid credentials] retry again?")) {
                     return;
                 }
             }
@@ -70,12 +68,12 @@ public class HomeController {
             return;
         }
         
-        menu.addOption("Show appointments list", appointmentsController::showAppointments);
+        menu.addOption("Show appointments list", appointmentsController::showAppointments, false);
         menu.addOption("Create an appointment", appointmentsController::createAppointment);
         menu.addOption("Delete an appointment", appointmentsController::deleteAppointment);
         menu.addOption("Add new medic", usersController::createMedic);
-        menu.addOption("Show medics list", usersController::showMedics);
-        menu.addOption("Show patients list", patientsController::showPatients);
+        menu.addOption("Show medics list", usersController::showMedics, false);
+        menu.addOption("Show patients list", patientsController::showPatients, false);
         menu.addOption("Back to main menu", menu::exit, false);
         menu.display(" MedicByte / admin ");
     }
