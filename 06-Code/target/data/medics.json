@@ -1,0 +1,12 @@
+[
+  {
+    "userId": 2,
+    "specialityId": 2,
+    "fullName": "Jhon Doe"
+  },
+  {
+    "userId": 3,
+    "specialityId": 1,
+    "fullName": "mockup_medic_fullName"
+  }
+]
