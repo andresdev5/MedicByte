@@ -1,0 +1,16 @@
+[
+  {
+    "id": 1,
+    "roleId": 1,
+    "username": "admin",
+    "password": "$2a$10$G2Yf79AYE3PIaslE82UrLuSLqMnJLCIArt4/69.ZEYre8cf6tIKdK",
+    "salt": "$2a$10$G2Yf79AYE3PIaslE82UrLu"
+  },
+  {
+    "id": 2,
+    "roleId": 2,
+    "username": "jhondoe",
+    "password": "$2a$10$h7sSN0kc.Iuo9ZjJxXqIBuL.ioLLO8QXjKVh3oC3Txpguy2MPCBe6",
+    "salt": "$2a$10$h7sSN0kc.Iuo9ZjJxXqIBu"
+  }
+]
