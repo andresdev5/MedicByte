@@ -9,30 +9,28 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.inject.Inject;
-import ec.edu.espe.medicbyte.model.Gender;
 import ec.edu.espe.medicbyte.model.Patient;
-import ec.edu.espe.medicbyte.service.PatientService;
-import ec.edu.espe.medicbyte.service.UserService;
+import ec.edu.espe.medicbyte.model.User;
 import ec.edu.espe.medicbyte.util.PathUtils;
-import ec.edu.espe.medicbyte.util.StringUtils;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import ec.edu.espe.medicbyte.service.IPatientService;
+import ec.edu.espe.medicbyte.service.IUserService;
 
 /**
  *
- * @author Andres Jonathan J.
+ * @author Junior Stalin.
  */
-public class PatientServiceImpl implements PatientService {
+public class PatientService implements IPatientService {
     private Gson gson = new Gson();
-    private UserService userService;
+    private IUserService userService;
     
     @Inject()
-    public PatientServiceImpl(UserService userService) {
+    public PatientService(IUserService userService) {
         this.userService = userService;
         
         PathUtils.ensureFiles(
@@ -41,7 +39,17 @@ public class PatientServiceImpl implements PatientService {
     }
     
     @Override
-    public boolean addPatient(Patient patient) {
+    public Patient addPatient(int userId, String idCard, boolean affiliated) {
+        Patient patient = new Patient();
+        patient.setId(userId);
+        patient.setIdCard(idCard);
+        patient.setAffiliated(false);
+        
+        return addPatient(patient);
+    }
+    
+    @Override
+    public Patient addPatient(Patient patient) {
         List<Patient> patients = getAllPatients();
         
         boolean exists = patients.stream().filter(current -> {
@@ -49,28 +57,31 @@ public class PatientServiceImpl implements PatientService {
         }).count() > 0;
         
         if (exists) {
-            return false;
+            return null;
         }
         
-        Map<String, String> entry = new HashMap<>();
-        entry.put("userId", Integer.toString(patient.getId()));
-        entry.put("idCard", patient.getIdCard());
-        entry.put("fullName", patient.getFullName());
-        entry.put("phone", patient.getPhone());
-        entry.put("email", patient.getEmail());
-        entry.put("gender", patient.getGender().name());
-        entry.put("birthday", patient.getBirthday().toString());
+        List<Map<String, Object>> entries = new ArrayList<>();
         
-        String content = gson.toJson(entry);
-        File jsonFile = PathUtils.currentPath("data/medics.json").toFile();
+        patients.add(patient);
+        patients.forEach(p -> {
+            Map<String, Object> entry = new HashMap<>();
+            entry.put("userId", p.getId());
+            entry.put("idCard", p.getIdCard());
+            entry.put("affiliated", p.isAffiliated());
+            
+            entries.add(entry);
+        });
+        
+        String content = gson.toJson(entries);
+        File jsonFile = PathUtils.currentPath("data/patients.json").toFile();
         
         try {
             Files.write(content.getBytes(), jsonFile);
         } catch (IOException exception) {
-            return false;
+            return null;
         }
         
-        return true;
+        return getPatient(patient.getId());
     }
     
     @Override
@@ -122,19 +133,21 @@ public class PatientServiceImpl implements PatientService {
             }
             
             int userId = object.get("userId").getAsInt();
-            Patient patient = (Patient) userService.getUser(userId);
+            User user = userService.getUser(userId);
+            Patient patient = new Patient();
             
-            if (patient == null) {
-                continue;
-            }
+            patient.setId(user.getId());
+            patient.setUsername(user.getUsername());
+            patient.setPassword(user.getPassword());
+            patient.setEmail(user.getEmail());
+            patient.setRole(user.getRole());
+            patient.setProfile(user.getProfile());
             
             String idCard = object.get("idCard").getAsString();
-            String fullName = object.get("fullName").getAsString();
-            String phone = object.get("phone").getAsString();
-            String email = object.get("email").getAsString();
-            Gender gender = Gender.valueOf(object.get("gender").getAsString());
-            Date birthday = StringUtils.parseDate(
-                    object.get("birthday").getAsString());
+            patient.setIdCard(idCard);
+            
+            boolean affiliated = object.get("affiliated").getAsBoolean();
+            patient.setAffiliated(affiliated);
             
             patients.add(patient);
         }

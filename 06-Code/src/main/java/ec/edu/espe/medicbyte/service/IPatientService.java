@@ -5,10 +5,11 @@ import java.util.List;
 
 /**
  *
- * @author Andres Jonathan J.
+ * @author Junior Jurado.
  */
-public interface PatientService {
-    public boolean addPatient(Patient patient);
+public interface IPatientService {
+    public Patient addPatient(int userId, String idCard, boolean affiliated);
+    public Patient addPatient(Patient patient);
     public Patient getPatient(int userId);
     public Patient getPatient(String idCard);
     public List<Patient> getAllPatients();
