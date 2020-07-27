@@ -1,5 +1,6 @@
 package ec.edu.espe.medicbyte.model;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Date;
 
@@ -8,11 +9,17 @@ import java.util.Date;
  * @author Junior Stalin Jurado Peña - ESPE - DCCO
  */
 public class Appointment {
+    public static enum Status { PENDENT, RESCHEDULED, APPROVED, CANCELLED, REJECTED, FINISHED }
+    
     private int id;
-    private Date date;
+    private LocalDate date;
     private LocalTime hour;
     private Medic medic;
-    private boolean taken = false;
+    private Patient patient;
+    private Speciality speciality;
+    private Location location;
+    private Status status;
+    private String description;
 
     public int getId() {
         return id;
@@ -22,11 +29,11 @@ public class Appointment {
         this.id = id;
     }
 
-    public Date getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 
@@ -46,11 +53,43 @@ public class Appointment {
         this.medic = medic;
     }
 
-    public boolean isTaken() {
-        return taken;
+    public Patient getPatient() {
+        return patient;
     }
 
-    public void setTaken(boolean taken) {
-        this.taken = taken;
+    public void setPatient(Patient patient) {
+        this.patient = patient;
+    }
+
+    public Location getLocation() {
+        return location;
+    }
+
+    public void setLocation(Location location) {
+        this.location = location;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Speciality getSpeciality() {
+        return speciality;
+    }
+
+    public void setSpeciality(Speciality speciality) {
+        this.speciality = speciality;
     }
 }
