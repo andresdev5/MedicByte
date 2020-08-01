@@ -31,25 +31,28 @@ public class HomeController extends Controller {
         mainWindow.addMenuItem(new MainWindow.MenuItem(
             "Request new appointment",
             FontAwesome.CALENDAR_PLUS_O,
-            () -> {}
+            () -> false
         ));
         
         mainWindow.addMenuItem(new MainWindow.MenuItem(
             "Appointments",
             FontAwesome.CALENDAR_CHECK_O,
-            () -> router.run("appointments", "appointmentsList")
+            () -> {
+                router.run("appointments", "appointmentsList");
+                return true;
+            }
         ));
         
         mainWindow.addMenuItem(new MainWindow.MenuItem(
             "Medics",
             FontAwesome.USER_MD,
-            () -> {}
+            () -> false
         ));
         
         mainWindow.addMenuItem(new MainWindow.MenuItem(
             "Invoices",
             FontAwesome.MONEY,
-            () -> {}
+            () -> false
         ));
     }
 }

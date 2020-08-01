@@ -2,7 +2,13 @@
 package ec.edu.espe.medicbyte.view;
 
 import ec.edu.espe.medicbyte.common.core.Window;
-import javax.swing.Icon;
+import java.awt.Color;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.function.Consumer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import jiconfont.IconCode;
@@ -17,15 +23,15 @@ public class MainWindow extends Window {
     public static class MenuItem {
         private final String label;
         private IconCode icon;
-        private final Runnable callback;
+        private final Callable<Boolean> callback;
         
-        public MenuItem(String label, IconCode icon, Runnable callback) {
+        public MenuItem(String label, IconCode icon, Callable<Boolean> callback) {
             this.label = label;
             this.icon = icon;
             this.callback = callback;
         }
         
-        public MenuItem(String label, Runnable callback) {
+        public MenuItem(String label, Callable<Boolean> callback) {
             this.label = label;
             this.callback = callback;
             this.icon = null;
@@ -33,8 +39,16 @@ public class MainWindow extends Window {
         
         public String getLabel() { return label; }
         public IconCode getIcon() { return icon; }
-        public Runnable getCallback() { return callback; }
+        public Callable<Boolean> getCallback() { return callback; }
     }
+    
+    private static class MenuItemContext {
+        public MenuItem item;
+        public JButton button;
+        public JPanel wrapper;
+    }
+    
+    private List<MenuItemContext> menuItems = new ArrayList<>();
     
     /** Creates new form FrmAppointments */
     public MainWindow() {
@@ -61,16 +75,14 @@ public class MainWindow extends Window {
         JPanel wrapper = new JPanel();
         JButton button = new JButton();
         
-        wrapper.setBackground(new java.awt.Color(190, 204, 207));
+        wrapper.setBackground(new java.awt.Color(60, 171, 219));
         wrapper.setMaximumSize(new java.awt.Dimension(2147483647, 28));
         wrapper.setMinimumSize(new java.awt.Dimension(180, 28));
         wrapper.setOpaque(false);
         wrapper.setPreferredSize(new java.awt.Dimension(295, 28));
         wrapper.setLayout(new java.awt.BorderLayout());
         
-        button.setBackground(new java.awt.Color(190, 204, 207));
-        //button.setForeground(new java.awt.Color(243, 245, 246));
-        button.setForeground(new java.awt.Color(69, 77, 78));
+        button.setForeground(new java.awt.Color(71, 71, 71));
         button.setText(item.getLabel());
         button.setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 7, 4, 4));
         button.setBorderPainted(false);
@@ -91,13 +103,57 @@ public class MainWindow extends Window {
         button.addActionListener(e -> {
             (new Thread() {
                 @Override public void run() {
-                    item.getCallback().run();
+                    boolean accepted;
+                    
+                    try {
+                        accepted = item.getCallback().call();
+                    } catch (Exception ex) {
+                        Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+                        accepted = false;
+                    }
+                    
+                    if (!accepted) {
+                        return;
+                    }
+                    
+                    wrapper.setOpaque(true);
+                    button.setForeground(new Color(255, 255, 255));
+                    
+                    if (item.getIcon() != null) {
+                        button.setIcon(IconFontSwing.buildIcon(
+                                item.getIcon(), 15, new Color(255, 255, 255)));
+                    }
+                    
+                    menuItems.forEach(menuItem -> {
+                        if (menuItem.item == item) {
+                            return;
+                        }
+                        
+                        menuItem.button.setForeground(new Color(71, 71, 71));
+                        menuItem.wrapper.setOpaque(false);
+                        
+                        if (menuItem.item.getIcon() != null) {
+                            menuItem.button.setIcon(IconFontSwing.buildIcon(
+                                    menuItem.item.getIcon(), 15, new Color(71, 71, 71)));
+                        }
+                    });
+                    
+                    repaint();
+                    revalidate();
                 }
             }).start();
         });
         
+        MenuItemContext context = new MenuItemContext();
+        context.item = item;
+        context.button = button;
+        context.wrapper = wrapper;
+        
         wrapper.add(button);
         menu.add(wrapper);
+        menuItems.add(context);
+        
+        // revalidate this frame to show changes
         revalidate();
     }
 
@@ -134,7 +190,7 @@ public class MainWindow extends Window {
 
         root.setLayout(new java.awt.GridBagLayout());
 
-        sidebar.setBackground(new java.awt.Color(222, 229, 231));
+        sidebar.setBackground(new java.awt.Color(234, 236, 236));
         sidebar.setMinimumSize(new java.awt.Dimension(180, 100));
         sidebar.setPreferredSize(new java.awt.Dimension(180, 227));
         sidebar.setLayout(new java.awt.BorderLayout());
@@ -143,7 +199,7 @@ public class MainWindow extends Window {
         userInfoPanel.setOpaque(false);
         userInfoPanel.setPreferredSize(new java.awt.Dimension(180, 120));
 
-        avatar.setBackground(new java.awt.Color(187, 196, 199));
+        avatar.setBackground(new java.awt.Color(212, 212, 213));
         avatar.setOpaque(true);
 
         usernameScrollPanel.setBackground(new java.awt.Color(204, 204, 255));
@@ -155,7 +211,7 @@ public class MainWindow extends Window {
         textareaUsername.setEditable(false);
         textareaUsername.setColumns(20);
         textareaUsername.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
-        textareaUsername.setForeground(new java.awt.Color(69, 77, 78));
+        textareaUsername.setForeground(new java.awt.Color(126, 126, 126));
         textareaUsername.setLineWrap(true);
         textareaUsername.setRows(5);
         textareaUsername.setText("{{ username }}");
@@ -169,7 +225,7 @@ public class MainWindow extends Window {
         btnNotifications.setContentAreaFilled(false);
         btnNotifications.setFocusPainted(false);
 
-        btnAccount.setForeground(new java.awt.Color(69, 77, 78));
+        btnAccount.setForeground(new java.awt.Color(126, 126, 126));
         btnAccount.setText("Account");
         btnAccount.setBorder(null);
         btnAccount.setBorderPainted(false);
@@ -177,7 +233,7 @@ public class MainWindow extends Window {
         btnAccount.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnAccount.setFocusPainted(false);
 
-        btnLogout.setForeground(new java.awt.Color(69, 77, 78));
+        btnLogout.setForeground(new java.awt.Color(126, 126, 126));
         btnLogout.setText("Logout");
         btnLogout.setBorder(null);
         btnLogout.setContentAreaFilled(false);
@@ -231,9 +287,10 @@ public class MainWindow extends Window {
         gridBagConstraints.weighty = 1.0;
         root.add(sidebar, gridBagConstraints);
 
-        container.setBackground(new java.awt.Color(236, 240, 241));
+        container.setBackground(new java.awt.Color(248, 248, 248));
         container.setPreferredSize(new java.awt.Dimension(350, 371));
 
+        content.setBackground(new java.awt.Color(248, 248, 248));
         content.setOpaque(false);
         content.setLayout(new java.awt.CardLayout());
 
@@ -288,11 +345,11 @@ public class MainWindow extends Window {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(root, javax.swing.GroupLayout.DEFAULT_SIZE, 718, Short.MAX_VALUE)
+            .addComponent(root, javax.swing.GroupLayout.DEFAULT_SIZE, 820, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(root, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
+            .addComponent(root, javax.swing.GroupLayout.DEFAULT_SIZE, 550, Short.MAX_VALUE)
         );
 
         pack();

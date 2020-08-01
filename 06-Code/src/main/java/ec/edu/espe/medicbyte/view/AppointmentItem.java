@@ -55,7 +55,7 @@ public class AppointmentItem extends javax.swing.JPanel {
         jSeparator4 = new javax.swing.JSeparator();
         jSeparator1 = new javax.swing.JSeparator();
 
-        setBackground(new java.awt.Color(228, 234, 235));
+        setBackground(new java.awt.Color(255, 255, 255));
         setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 7, 0));
         setMaximumSize(new java.awt.Dimension(32767, 85));
         setMinimumSize(new java.awt.Dimension(560, 85));
@@ -63,7 +63,7 @@ public class AppointmentItem extends javax.swing.JPanel {
         setPreferredSize(new java.awt.Dimension(560, 85));
         setLayout(new javax.swing.BoxLayout(this, javax.swing.BoxLayout.Y_AXIS));
 
-        jPanel12.setBackground(new java.awt.Color(228, 234, 235));
+        jPanel12.setBackground(new java.awt.Color(255, 255, 255));
         jPanel12.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
         jPanel12.setPreferredSize(new java.awt.Dimension(550, 100));
         jPanel12.setLayout(new java.awt.GridBagLayout());
