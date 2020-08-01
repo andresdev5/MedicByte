@@ -3,8 +3,8 @@ package ec.edu.espe.medicbyte.common;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
-import ec.edu.espe.medicbyte.common.core.Console;
 import ec.edu.espe.medicbyte.common.core.Router;
+import ec.edu.espe.medicbyte.common.core.WindowsManager;
 import ec.edu.espe.medicbyte.service.AppointmentService;
 import ec.edu.espe.medicbyte.service.AuthService;
 import ec.edu.espe.medicbyte.service.MedicService;
@@ -38,6 +38,9 @@ public class MainModule extends AbstractModule {
     
     @Override
     protected void configure() {
+        // bind windows manager
+        this.bind(WindowsManager.class).in(Singleton.class);
+        
         // bind the controller router
         this.bind(Router.class).in(Singleton.class);
         
@@ -58,6 +61,6 @@ public class MainModule extends AbstractModule {
             .to(SpecialityServiceImpl.class).in(Singleton.class);
         
         // bind console singleton instance
-        this.bind(Console.class).toInstance(Console.getInstance());
+        //this.bind(Console.class).toInstance(Console.getInstance());
     }
 }

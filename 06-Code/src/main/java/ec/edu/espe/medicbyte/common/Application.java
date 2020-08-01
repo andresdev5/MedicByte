@@ -1,12 +1,14 @@
 package ec.edu.espe.medicbyte.common;
 
-import ec.edu.espe.medicbyte.common.core.Console;
 import ec.edu.espe.medicbyte.common.core.Container;
 import ec.edu.espe.medicbyte.common.core.Router;
+import ec.edu.espe.medicbyte.common.core.WindowsManager;
 import ec.edu.espe.medicbyte.controller.AppointmentsController;
-import ec.edu.espe.medicbyte.service.AuthService;
 import ec.edu.espe.medicbyte.controller.HomeController;
-import ec.edu.espe.medicbyte.controller.MedicsController;
+import ec.edu.espe.medicbyte.view.MainWindow;
+import jiconfont.icons.font_awesome.FontAwesome;
+import jiconfont.swing.IconFontSwing;
+
 
 /**
  *
@@ -19,20 +21,17 @@ public class Application extends Container {
     }
     
     public void initialize() {
+        IconFontSwing.register(FontAwesome.getIconFont());
+        
+        WindowsManager windows = resolve(WindowsManager.class);
+        windows.register(MainWindow.class);
+
         Router router = resolve(Router.class);
-        Console console = resolve(Console.class);
-        AuthService auth = resolve(AuthService.class);
-        
-        // add all controllers to the router
-        router.add(HomeController.class, "home");
         router.add(AppointmentsController.class, "appointments");
-        router.add(MedicsController.class, "medics");
+        router.add(HomeController.class, "home");
         
-        // route to home controller
+        windows.get(MainWindow.class).reveal();
         router.run(HomeController.class);
-        
-        // that's all folks
-        console.close();
     }
     
     public static void main(String[] args) {

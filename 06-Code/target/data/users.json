@@ -17,14 +17,14 @@
     "id": 3,
     "roleId": 2,
     "username": "mockup_medic_username",
-    "password": "$2a$10$taf0eHLJVHPDWeVELkiwxufkUcmqyEU1kZRlAZiVyM4P9b5fV4exm",
-    "salt": "$2a$10$taf0eHLJVHPDWeVELkiwxu"
+    "password": "$2a$10$DeIFZ17AGyG7mYLVNZ3m/.uIQ16DlpDBq8rKR95M8AoquRicy.Xsi",
+    "salt": "$2a$10$DeIFZ17AGyG7mYLVNZ3m/."
   },
   {
     "id": 4,
     "roleId": 1,
     "username": "dummy_user",
-    "password": "$2a$10$1I.pkF8sAU16iTigTj6XLe4JuzxV44vt9CzIF4wVErTWaVsaTc/bi",
-    "salt": "$2a$10$1I.pkF8sAU16iTigTj6XLe"
+    "password": "$2a$10$TOpQoXRGi0fy3ssZsmQXuu9rt0qhYRcP8m13XsG29CAhF45jq1Fja",
+    "salt": "$2a$10$TOpQoXRGi0fy3ssZsmQXuu"
   }
 ]

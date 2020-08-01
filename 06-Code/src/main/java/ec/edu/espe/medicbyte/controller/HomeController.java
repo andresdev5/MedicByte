@@ -3,59 +3,53 @@ package ec.edu.espe.medicbyte.controller;
 import com.google.inject.Inject;
 import ec.edu.espe.medicbyte.common.core.Controller;
 import ec.edu.espe.medicbyte.common.core.Router;
+import ec.edu.espe.medicbyte.common.core.WindowsManager;
 import ec.edu.espe.medicbyte.service.AuthService;
-import ec.edu.espe.medicbyte.common.tui.ConsoleMenu;
-import java.util.concurrent.Callable;
+import ec.edu.espe.medicbyte.view.MainWindow;
+import jiconfont.icons.font_awesome.FontAwesome;
 
 /**
  *
  * @author Andres Jonathan J.
  */
 public class HomeController extends Controller {
-    @Inject private Router router;
-    @Inject private AuthService authService;
+    private final Router router;
+    private final AuthService authService;
+    private final WindowsManager windowsManager;
+    private final MainWindow mainWindow;
+    
+    @Inject()
+    public HomeController(WindowsManager windowsManager, AuthService authService, Router router) {
+        this.windowsManager = windowsManager;
+        this.router = router;
+        this.authService = authService;
+        this.mainWindow = windowsManager.getAs(MainWindow.class);
+    }
     
     @Override
     protected void init() {
-        ConsoleMenu menu = new ConsoleMenu();
-        Callable<Boolean> isAdmin = () -> {
-            return authService.isLoggedIn()
-                && authService.getCurrentUser() != null
-                && authService.getCurrentUser().hasRole("admin");
-        };
+        mainWindow.addMenuItem(new MainWindow.MenuItem(
+            "Request new appointment",
+            FontAwesome.CALENDAR_PLUS_O,
+            () -> {}
+        ));
         
-        menu.addOption("Admin", this::showAdminMenu).setEnabled(true);
+        mainWindow.addMenuItem(new MainWindow.MenuItem(
+            "Appointments",
+            FontAwesome.CALENDAR_CHECK_O,
+            () -> router.run("appointments", "appointmentsList")
+        ));
         
-        menu.addOption("Appointments", () -> {
-            router.run("appointments");
-        }, false);
+        mainWindow.addMenuItem(new MainWindow.MenuItem(
+            "Medics",
+            FontAwesome.USER_MD,
+            () -> {}
+        ));
         
-        menu.addOption("Show medics list", () -> {
-            router.run("medics", "listAll");
-        }, false);
-        
-        menu.addOption("Login", () -> {
-            authService.logout();
-            router.run("auth");
-        }, false).setEnabled(() -> !authService.isLoggedIn());
-        
-        menu.addOption("Logout", () -> {
-            authService.logout();
-            router.run("auth");
-        }, false).setEnabled(authService::isLoggedIn);
-        menu.addOption("Exit", menu::exit, false);
-        menu.display(" MedicByte ");
-    }
-    
-    public void showAdminMenu() {
-        ConsoleMenu menu = new ConsoleMenu();
-        menu.addOption("Register an appointment", () -> {
-            router.run("appointments", "create");
-        }, false);
-        menu.addOption("Register a new medic", () -> {
-            router.run("medics", "create");
-        }, false);
-        menu.addOption("Back to main menu", menu::exit, false);
-        menu.display(" MedicByte / Admin ");
+        mainWindow.addMenuItem(new MainWindow.MenuItem(
+            "Invoices",
+            FontAwesome.MONEY,
+            () -> {}
+        ));
     }
 }

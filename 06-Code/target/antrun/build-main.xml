@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <project name="maven-antrun-" default="main"  >
 <target name="main">
-  <delete includeemptydirs="true" dir="C:\Users\jon_m\workspace\code\MedicByte@beta\06-Code\target/data"/>
-  <copy todir="C:\Users\jon_m\workspace\code\MedicByte@beta\06-Code\target/data">
-    <fileset includes="**" dir="C:\Users\jon_m\workspace\code\MedicByte@beta\06-Code/resources/tests/data"/>
+  <delete includeemptydirs="true" dir="C:\Users\jon_m\workspace\java\MedicByte\target/data"/>
+  <copy todir="C:\Users\jon_m\workspace\java\MedicByte\target/data">
+    <fileset includes="**" dir="C:\Users\jon_m\workspace\java\MedicByte/resources/tests/data"/>
   </copy>
 </target>
 </project>
