@@ -1,8 +1,0 @@
-build/
-nbproject/private/**
-nbproject/genfiles.properties
-nbproject/build-impl.xml
-nbactions.xml
-nb-configuration.xml
-dist/**
-*.csv

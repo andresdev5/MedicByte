@@ -1,0 +1,6 @@
+[
+    {"id": 1, "name": "admin"},
+    {"id": 2, "name": "medic"},
+    {"id": 3, "name": "scheduler"},
+    {"id": 4, "name": "patient"}
+]
