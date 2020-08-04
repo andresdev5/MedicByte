@@ -11,7 +11,6 @@ import ec.edu.espe.medicbyte.view.MainWindow;
 import jiconfont.icons.font_awesome.FontAwesome;
 import jiconfont.swing.IconFontSwing;
 
-
 /**
  *
  * @author Andres Jonathan J

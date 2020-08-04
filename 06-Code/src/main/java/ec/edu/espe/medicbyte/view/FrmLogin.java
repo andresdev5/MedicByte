@@ -59,8 +59,13 @@ public class FrmLogin extends View {
         btnLogin = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         btnCreateAccount = new javax.swing.JButton();
+<<<<<<< HEAD
         scrErrors = new javax.swing.JScrollPane();
         txaErrors = new javax.swing.JTextArea();
+=======
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTextArea1 = new javax.swing.JTextArea();
+>>>>>>> 790efe75605ec13360814eec530dd2f695e1bafb
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(103, 103, 103));
@@ -81,7 +86,10 @@ public class FrmLogin extends View {
         btnLogin.setContentAreaFilled(false);
         btnLogin.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnLogin.setFocusPainted(false);
+<<<<<<< HEAD
         btnLogin.setOpaque(true);
+=======
+>>>>>>> 790efe75605ec13360814eec530dd2f695e1bafb
         btnLogin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnLoginActionPerformed(evt);
@@ -97,6 +105,7 @@ public class FrmLogin extends View {
         btnCreateAccount.setContentAreaFilled(false);
         btnCreateAccount.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
+<<<<<<< HEAD
         scrErrors.setBorder(null);
 
         txaErrors.setBackground(new java.awt.Color(255, 219, 219));
@@ -105,6 +114,18 @@ public class FrmLogin extends View {
         txaErrors.setRows(5);
         txaErrors.setOpaque(false);
         scrErrors.setViewportView(txaErrors);
+=======
+        jScrollPane1.setBorder(null);
+        jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        jScrollPane1.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+
+        jTextArea1.setEditable(false);
+        jTextArea1.setColumns(20);
+        jTextArea1.setLineWrap(true);
+        jTextArea1.setRows(5);
+        jTextArea1.setWrapStyleWord(true);
+        jScrollPane1.setViewportView(jTextArea1);
+>>>>>>> 790efe75605ec13360814eec530dd2f695e1bafb
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -117,7 +138,11 @@ public class FrmLogin extends View {
                     .addComponent(jLabel2)
                     .addComponent(txtUsername)
                     .addComponent(txtPassword)
+<<<<<<< HEAD
                     .addComponent(btnLogin, javax.swing.GroupLayout.DEFAULT_SIZE, 342, Short.MAX_VALUE)
+=======
+                    .addComponent(btnLogin, javax.swing.GroupLayout.DEFAULT_SIZE, 330, Short.MAX_VALUE)
+>>>>>>> 790efe75605ec13360814eec530dd2f695e1bafb
                     .addGroup(layout.createSequentialGroup()
                         .addGap(148, 148, 148)
                         .addComponent(jLabel4))
@@ -125,8 +150,13 @@ public class FrmLogin extends View {
                         .addGap(97, 97, 97)
                         .addComponent(btnCreateAccount))
                     .addComponent(jLabel1)
+<<<<<<< HEAD
                     .addComponent(scrErrors))
                 .addContainerGap(14, Short.MAX_VALUE))
+=======
+                    .addComponent(jScrollPane1))
+                .addContainerGap(26, Short.MAX_VALUE))
+>>>>>>> 790efe75605ec13360814eec530dd2f695e1bafb
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -148,8 +178,13 @@ public class FrmLogin extends View {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnCreateAccount)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+<<<<<<< HEAD
                 .addComponent(scrErrors, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(57, Short.MAX_VALUE))
+=======
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(37, Short.MAX_VALUE))
+>>>>>>> 790efe75605ec13360814eec530dd2f695e1bafb
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -158,11 +193,16 @@ public class FrmLogin extends View {
         String password = txtPassword.getText();
         
         if (username.trim().isEmpty()) {
+<<<<<<< HEAD
             showError("Username is required");
+=======
+            
+>>>>>>> 790efe75605ec13360814eec530dd2f695e1bafb
             return;
         }
         
         if (password.trim().isEmpty()) {
+<<<<<<< HEAD
             showError("Password is required");
             return;
         }
@@ -171,6 +211,12 @@ public class FrmLogin extends View {
         hideError();
         
         emit("submit", username.trim(), password);
+=======
+            return;
+        }
+        
+        emit("submit", txtUsername.getText(), txtPassword.getText());
+>>>>>>> 790efe75605ec13360814eec530dd2f695e1bafb
     }//GEN-LAST:event_btnLoginActionPerformed
 
 
@@ -181,8 +227,13 @@ public class FrmLogin extends View {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+<<<<<<< HEAD
     private javax.swing.JScrollPane scrErrors;
     private javax.swing.JTextArea txaErrors;
+=======
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextArea jTextArea1;
+>>>>>>> 790efe75605ec13360814eec530dd2f695e1bafb
     private javax.swing.JTextField txtPassword;
     private javax.swing.JTextField txtUsername;
     // End of variables declaration//GEN-END:variables
