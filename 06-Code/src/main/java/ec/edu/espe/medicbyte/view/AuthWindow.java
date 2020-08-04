@@ -1,16 +1,29 @@
 package ec.edu.espe.medicbyte.view;
 
+import ec.edu.espe.medicbyte.common.core.Window;
+import javax.swing.JPanel;
+
 /**
  *
  * @author Andres Jonathan J.
  */
-public class AuthWindow extends javax.swing.JFrame {
+public class AuthWindow extends Window {
 
     /**
      * Creates new form AuthWindow
      */
     public AuthWindow() {
         initComponents();
+    }
+
+    @Override
+    public void init() {
+        // ...
+    }
+
+    @Override
+    public void display(JPanel content) {
+        // ...
     }
 
     /**
@@ -21,17 +34,126 @@ public class AuthWindow extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel1 = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        txtUsername = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        txtPassword = new javax.swing.JTextField();
+        btnLogin = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
+        btnCreateAccount = new javax.swing.JButton();
+        jPanel3 = new javax.swing.JPanel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setMinimumSize(new java.awt.Dimension(750, 530));
+        setPreferredSize(new java.awt.Dimension(750, 500));
+        setResizable(false);
+
+        jPanel1.setLayout(new java.awt.GridLayout());
+
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(103, 103, 103));
+        jLabel1.setText("Log in");
+
+        jLabel2.setForeground(new java.awt.Color(99, 99, 99));
+        jLabel2.setText("Username or email:");
+
+        jLabel3.setForeground(new java.awt.Color(99, 99, 99));
+        jLabel3.setText("Password:");
+
+        btnLogin.setBackground(new java.awt.Color(71, 170, 226));
+        btnLogin.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
+        btnLogin.setForeground(new java.awt.Color(255, 255, 255));
+        btnLogin.setText("Log in");
+        btnLogin.setBorder(javax.swing.BorderFactory.createEmptyBorder(7, 1, 7, 1));
+        btnLogin.setBorderPainted(false);
+        btnLogin.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnLogin.setFocusPainted(false);
+        btnLogin.setOpaque(false);
+
+        jLabel4.setText("- OR -");
+
+        btnCreateAccount.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
+        btnCreateAccount.setForeground(new java.awt.Color(54, 138, 185));
+        btnCreateAccount.setText("Create an account");
+        btnCreateAccount.setBorderPainted(false);
+        btnCreateAccount.setContentAreaFilled(false);
+        btnCreateAccount.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(19, 19, 19)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jLabel3)
+                        .addComponent(jLabel2)
+                        .addComponent(txtUsername)
+                        .addComponent(txtPassword)
+                        .addComponent(btnLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(148, 148, 148)
+                        .addComponent(jLabel4))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(97, 97, 97)
+                        .addComponent(btnCreateAccount))
+                    .addComponent(jLabel1))
+                .addContainerGap(26, Short.MAX_VALUE))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(18, 18, 18)
+                .addComponent(jLabel1)
+                .addGap(76, 76, 76)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtUsername, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btnLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnCreateAccount)
+                .addContainerGap(133, Short.MAX_VALUE))
+        );
+
+        jPanel1.add(jPanel2);
+
+        jPanel3.setBackground(new java.awt.Color(250, 250, 250));
+        jPanel3.setLayout(new java.awt.BorderLayout());
+
+        jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel6.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        jLabel6.setBorder(javax.swing.BorderFactory.createEmptyBorder(40, 1, 1, 1));
+        jPanel3.add(jLabel6, java.awt.BorderLayout.PAGE_START);
+
+        jLabel5.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
+        jPanel3.add(jLabel5, java.awt.BorderLayout.CENTER);
+
+        jPanel1.add(jPanel3);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 679, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 386, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 500, Short.MAX_VALUE)
         );
 
         pack();
@@ -73,5 +195,18 @@ public class AuthWindow extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCreateAccount;
+    private javax.swing.JButton btnLogin;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JTextField txtPassword;
+    private javax.swing.JTextField txtUsername;
     // End of variables declaration//GEN-END:variables
 }

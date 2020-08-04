@@ -4,7 +4,9 @@ import ec.edu.espe.medicbyte.common.core.Container;
 import ec.edu.espe.medicbyte.common.core.Router;
 import ec.edu.espe.medicbyte.common.core.WindowsManager;
 import ec.edu.espe.medicbyte.controller.AppointmentsController;
+import ec.edu.espe.medicbyte.controller.AuthController;
 import ec.edu.espe.medicbyte.controller.HomeController;
+import ec.edu.espe.medicbyte.view.AuthWindow;
 import ec.edu.espe.medicbyte.view.MainWindow;
 import jiconfont.icons.font_awesome.FontAwesome;
 import jiconfont.swing.IconFontSwing;
@@ -21,17 +23,21 @@ public class Application extends Container {
     }
     
     public void initialize() {
+        Router router = resolve(Router.class);
+        WindowsManager windows = resolve(WindowsManager.class);
+        
         IconFontSwing.register(FontAwesome.getIconFont());
         
-        WindowsManager windows = resolve(WindowsManager.class);
-        windows.register(MainWindow.class);
-
-        Router router = resolve(Router.class);
+        // register all controllers
+        router.add(AuthController.class, "auth");
         router.add(AppointmentsController.class, "appointments");
         router.add(HomeController.class, "home");
         
-        windows.get(MainWindow.class).reveal();
-        router.run(HomeController.class);
+        // register all windows
+        windows.register(MainWindow.class);
+        windows.register(AuthWindow.class);
+        
+        router.run("auth");
     }
     
     public static void main(String[] args) {
