@@ -70,6 +70,9 @@ public class MainWindow extends Window {
         initComponents();
         btnAccount.setVisible(false);
         btnNotifications.setVisible(false);
+        
+        avatar.setIcon(IconFontSwing.buildIcon(
+            FontAwesome.USER, 52, new Color(90, 90, 90)));
     }
     
     @Override
@@ -77,6 +80,13 @@ public class MainWindow extends Window {
     
     @Override
     public void display(View view) {
+        if (view == null) {
+            content.removeAll();
+            content.revalidate();
+            content.repaint();
+            return;
+        }
+        
         view.setOpaque(false);
         
         if (content.getComponents().length > 0) {
@@ -264,6 +274,7 @@ public class MainWindow extends Window {
         userInfoPanel.setPreferredSize(new java.awt.Dimension(180, 120));
 
         avatar.setBackground(new java.awt.Color(212, 212, 213));
+        avatar.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         avatar.setOpaque(true);
 
         usernameScrollPanel.setBackground(new java.awt.Color(204, 204, 255));

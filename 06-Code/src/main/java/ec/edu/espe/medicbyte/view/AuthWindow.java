@@ -47,6 +47,9 @@ public class AuthWindow extends Window {
     protected void onChange(String name, Object oldValue, Object newValue) {}
     
     private void setup() {
+        URL logo = getClass().getResource("/images/logo.png");
+        lblLogo.setIcon(new ImageIcon(logo));
+        
         URL image = getClass().getResource("/images/auth-wireframe.png");
         lblWireframe.setIcon(new ImageIcon(image));
     }
@@ -83,6 +86,7 @@ public class AuthWindow extends Window {
         lblLogo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblLogo.setVerticalAlignment(javax.swing.SwingConstants.TOP);
         lblLogo.setBorder(javax.swing.BorderFactory.createEmptyBorder(40, 1, 1, 1));
+        lblLogo.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jPanel3.add(lblLogo, java.awt.BorderLayout.PAGE_START);
 
         lblWireframe.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
@@ -94,7 +98,7 @@ public class AuthWindow extends Window {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 682, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

@@ -50,9 +50,6 @@ public class Application extends Container {
         windows.register(MainWindow.class);
         windows.register(AuthWindow.class);
         
-        //(resolve(AuthService.class)).login("ksprwhite", "jon150193");
-        //windows.getAs(MainWindow.class).set("userContext", authService.getCurrentUser());
-        //setMainWindowContext();
         router.run("auth");
     }
     

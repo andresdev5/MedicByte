@@ -71,8 +71,11 @@ public class AuthController extends Controller {
                 return;
             }
             
+            User currentUser = authService.getCurrentUser();
+            MainWindow mainWindow = windowsManager.getAs(MainWindow.class);
+            
             application.setMainWindowContext();
-            windowsManager.getAs(MainWindow.class).set("userContext", authService.getCurrentUser());
+            mainWindow.set("userContext", currentUser);
             window.dispose();
             router.run("home");
         });

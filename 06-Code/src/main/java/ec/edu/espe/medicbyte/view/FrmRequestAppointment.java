@@ -234,6 +234,8 @@ public class FrmRequestAppointment extends View {
         LocalDate date;
         String description = "";
         
+        btnRequestAppointment.setEnabled(false);
+        
         speciality = specialities.stream().filter(s -> {
             return s.getName().equals((String) cmbSpeciality.getSelectedItem());
         }).map(s -> {
@@ -257,8 +259,6 @@ public class FrmRequestAppointment extends View {
         if (!txaDescription.getText().trim().isEmpty()) {
             description = txaDescription.getText();
         }
-        
-        btnRequestAppointment.setEnabled(false);
         
         emit("submit", speciality, date, description);
         

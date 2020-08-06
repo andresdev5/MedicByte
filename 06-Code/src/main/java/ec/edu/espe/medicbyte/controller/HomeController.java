@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import ec.edu.espe.medicbyte.common.core.Controller;
 import ec.edu.espe.medicbyte.common.core.Router;
 import ec.edu.espe.medicbyte.common.core.WindowsManager;
+import ec.edu.espe.medicbyte.model.User;
 import ec.edu.espe.medicbyte.view.MainWindow;
 import ec.edu.espe.medicbyte.service.IAuthService;
 
@@ -33,6 +34,12 @@ public class HomeController extends Controller {
             return;
         }
         
-        mainWindow.selectMenuItem("appointments");
+        User currentUser = authService.getCurrentUser();
+        
+        if (!currentUser.hasRole("admin")) {
+            mainWindow.selectMenuItem("appointments");
+        } else {
+            mainWindow.display(null);
+        }
     }
 }

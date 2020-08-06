@@ -84,5 +84,21 @@
     "patientId": 10,
     "locationId": 1,
     "specialityId": 5
+  },
+  {
+    "id": 10,
+    "date": "27-08-2020",
+    "status": "REJECTED",
+    "description": "",
+    "patientId": 11,
+    "specialityId": 5
+  },
+  {
+    "id": 11,
+    "date": "06-08-2020",
+    "status": "PENDENT",
+    "description": "",
+    "patientId": 11,
+    "specialityId": 3
   }
 ]

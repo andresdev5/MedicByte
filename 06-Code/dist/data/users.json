@@ -1,10 +1,10 @@
 [
   {
     "id": 1,
-    "roleId": 4,
-    "username": "Johnny Doe",
-    "email": "example@example.com",
-    "password": "$2a$10$OCHa4b1zhxC3Z/womMEeO./yvupSbQqI8dA3Ccn8B0uydefQEGqua"
+    "roleId": 1,
+    "username": "admin",
+    "email": "admin@medicbyte.com",
+    "password": "$2y$12$UyvJ5Cv9p4XCjtQamRxu/OXOTDnhwldvPLEBlLO55FEgPuoxtvHcS"
   },
   {
     "id": 2,
@@ -15,58 +15,72 @@
   },
   {
     "id": 3,
-    "roleId": 1,
-    "username": "white",
-    "email": "example3@example.com",
-    "password": "$2y$12$yUPweapWjBIFNrhv32QC2u2w8t3X5fVUnkgZJos2q/VtO0t/4ypKe"
+    "roleId": 4,
+    "username": "Johnny Doe",
+    "email": "example@example.com",
+    "password": "$2a$10$OCHa4b1zhxC3Z/womMEeO./yvupSbQqI8dA3Ccn8B0uydefQEGqua"
   },
   {
     "id": 4,
-    "roleId": 1,
-    "username": "ksprwhite",
-    "email": "ksprwhite@gmail.com",
-    "password": "$2a$10$wV93R9T9Mt0e/B0oFvOwX.V8F49pQFV2jaX4YB554j7EyAULwWNgi"
+    "roleId": 4,
+    "username": "Eleanore",
+    "email": "emenci3@newyorker.com",
+    "password": "Xhlbq4bIVCbW"
   },
   {
     "id": 5,
-    "roleId": 1,
-    "username": "admin",
-    "email": "admin@medicbyte.com",
-    "password": "$2y$12$UyvJ5Cv9p4XCjtQamRxu/OXOTDnhwldvPLEBlLO55FEgPuoxtvHcS"
+    "roleId": 4,
+    "username": "Ansell",
+    "email": "ajohnston4@mail.ru",
+    "password": "hSgUActHNsjq"
   },
   {
     "id": 6,
-    "roleId": 3,
-    "username": "whiter",
-    "email": "white@medicbyte.com",
-    "password": "$2a$10$iqOEvZI2YC/cqJneIkFE0uShwpyw3/DKC9RfJL2PYyMNKBnswEdoW"
+    "roleId": 4,
+    "username": "Alisa",
+    "email": "akhalid5@ucoz.ru",
+    "password": "IExOpVNVe9"
   },
   {
     "id": 7,
-    "roleId": 3,
-    "username": "white2",
-    "email": "white2@medicbyte.com",
-    "password": "$2a$10$IX7bIzIxnh8X1Zw15n7aFOUS6x4USeV05uUgrLXColXjuZpAmkqF2"
+    "roleId": 4,
+    "username": "Doyle",
+    "email": "dchason6@ox.ac.uk",
+    "password": "G7TyMm96"
   },
   {
     "id": 8,
-    "roleId": 3,
-    "username": "white3",
-    "email": "white3@medicbyte.com",
-    "password": "$2a$10$ryo38vlscZ3ym.AVeP7RI.czoFiSwQCwIU/M3MWj6t29RX5HaP1BG"
+    "roleId": 4,
+    "username": "Tallie",
+    "email": "tgeach7@desdev.cn",
+    "password": "ca2iIqkr"
   },
   {
     "id": 9,
-    "roleId": 3,
-    "username": "white4",
-    "email": "white4@medicbyte.com",
-    "password": "$2a$10$RXzmv0lnvmvQleOdU33Pk.Eij05CkxCcL9xHOJV.NQjejcLSq4ISa"
+    "roleId": 4,
+    "username": "Callean",
+    "email": "cgapper8@google.nl",
+    "password": "t1JUAooJbuS"
   },
   {
     "id": 10,
+    "roleId": 4,
+    "username": "Ginger",
+    "email": "gcusiter9@wikispaces.com",
+    "password": "8nB1fSfhg841"
+  },
+  {
+    "id": 11,
+    "roleId": 1,
+    "username": "white",
+    "email": "example3@example.com",
+    "password": "$2a$10$wV93R9T9Mt0e/B0oFvOwX.V8F49pQFV2jaX4YB554j7EyAULwWNgi"
+  },
+  {
+    "id": 12,
     "roleId": 3,
-    "username": "demo",
-    "email": "demo@medicbyte.com",
-    "password": "$2a$10$vcdGaH0zfAPj7DjRrtLXKu4BJp92hRcZNkQ5yHe8lc5LK1GR/F0YK"
+    "username": "andres",
+    "email": "ajjacome2@espe.edu.ec",
+    "password": "$2a$10$pirXGChZi.AQMCP7UdnerOWE1Dzz92S8E5craxhKynsIJB69qb5dO"
   }
 ]

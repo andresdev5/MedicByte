@@ -1,6 +1,9 @@
 package ec.edu.espe.medicbyte.view;
 
 import ec.edu.espe.medicbyte.model.Medic;
+import java.awt.Color;
+import jiconfont.icons.font_awesome.FontAwesome;
+import jiconfont.swing.IconFontSwing;
 
 /**
  *
@@ -17,6 +20,8 @@ public class MedicListItem extends javax.swing.JPanel {
         
         lblMedicName.setText(medic.getProfile().getFullName());
         lblSpecialityValue.setText(medic.getSpeciality().getName());
+        lblMedicAvatar.setIcon(IconFontSwing.buildIcon(
+            FontAwesome.USER_MD, 52, new Color(90, 90, 90)));
     }
 
     /**

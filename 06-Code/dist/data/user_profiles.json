@@ -43,18 +43,34 @@
   },
   {
     "userId": 8,
-    "fullName": "",
-    "phone": "",
-    "gender": "UNSPECIFIED"
+    "fullName": "Fields Hubball",
+    "phone": "213-795-8768",
+    "gender": "MALE",
+    "birthday": "18-01-1967"
   },
   {
     "userId": 9,
-    "fullName": "",
-    "phone": "",
-    "gender": "UNSPECIFIED"
+    "fullName": "Karen Larsen",
+    "phone": "904-797-7773",
+    "gender": "FEMALE",
+    "birthday": "05-11-1973"
   },
   {
     "userId": 10,
+    "fullName": "Anjela Manderson",
+    "phone": "697-529-1763",
+    "gender": "FEMALE",
+    "birthday": "05-07-1986"
+  },
+  {
+    "userId": 11,
+    "fullName": "Andres Jonathan",
+    "phone": "305-806-4099",
+    "gender": "MALE",
+    "birthday": "15-01-1993"
+  },
+  {
+    "userId": 12,
     "fullName": "",
     "phone": "",
     "gender": "UNSPECIFIED"

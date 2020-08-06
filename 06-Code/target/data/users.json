@@ -68,5 +68,12 @@
     "username": "white6",
     "email": "white6@medicbyte.com",
     "password": "$2a$10$aHylMBEAvEdvccSwsdmiyuW1E6bjJ6Qli3Fs06WryesNTiO8xasB6"
+  },
+  {
+    "id": 11,
+    "roleId": 3,
+    "username": "andres",
+    "email": "ajjacome2@espe.edu.ec",
+    "password": "$2a$10$T1/n1hommbjp5S38MsNVAOSNb7EimeqRvyxt7mGLt0fmi60PgEJa."
   }
 ]
