@@ -1,0 +1,62 @@
+[
+  {
+    "userId": 1,
+    "fullName": "Muffin Paridge",
+    "phone": "531-348-8681",
+    "birthday": "22-05-1983"
+  },
+  {
+    "userId": 2,
+    "fullName": "Pebrook Tivers",
+    "phone": "337-615-8187",
+    "birthday": "18-06-1993"
+  },
+  {
+    "userId": 3,
+    "fullName": "Viviene Kennerley",
+    "phone": "938-169-0836",
+    "birthday": "04-06-1978"
+  },
+  {
+    "userId": 4,
+    "fullName": "Carmelina Sherel",
+    "phone": "702-378-6884",
+    "birthday": "20-09-1990"
+  },
+  {
+    "userId": 5,
+    "fullName": "Hastings McGillecole",
+    "phone": "792-205-8919",
+    "birthday": "24-06-1989"
+  },
+  {
+    "userId": 6,
+    "fullName": "Lindsay Malin",
+    "phone": "903-128-7760",
+    "birthday": "21-09-1997"
+  },
+  {
+    "userId": 7,
+    "fullName": "Mayne Lettington",
+    "phone": "665-367-5309",
+    "birthday": "15-11-1983"
+  },
+  {
+    "userId": 8,
+    "fullName": "",
+    "phone": "",
+    "gender": "UNSPECIFIED"
+  },
+  {
+    "userId": 9,
+    "fullName": "",
+    "phone": "",
+    "gender": "UNSPECIFIED"
+  },
+  {
+    "userId": 10,
+    "fullName": "",
+    "phone": "",
+    "gender": "UNSPECIFIED"
+  }
+]

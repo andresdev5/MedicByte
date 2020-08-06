@@ -15,7 +15,7 @@ import java.util.List;
 
 /**
  *
- * @author Michael Cobacango
+ * @author Andres Jonathan J.
  */
 public class LocationService implements ILocationService {
     private final Gson gson = new Gson();

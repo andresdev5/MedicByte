@@ -1,32 +1,148 @@
 package ec.edu.espe.medicbyte.view;
 
 import ec.edu.espe.medicbyte.common.core.View;
+import ec.edu.espe.medicbyte.model.Appointment;
+import ec.edu.espe.medicbyte.model.Medic;
+import ec.edu.espe.medicbyte.model.Speciality;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
  *
  * @author Andres Jonathan J.
  */
 public class FrmAppointments extends View {
-
+    private List<Appointment> appointments;
+    private List<Speciality> specialties;
+    
     /**
      * Creates new form FrmAppointments
      */
     public FrmAppointments() {
         initComponents();
         appointmentsScrollPanel.getViewport().setOpaque(false);
-        addAppointments();
+        
+        Arrays.asList(Appointment.Status.values())
+            .forEach(status -> cbxStatuses.addItem(status.name()));
     }
     
     @Override
-    protected void onChange(String name, Object oldValue, Object newValue) {}
-    
-    public void addAppointments() {
-        for (int i = 0; i < 10; i++) {
-            AppointmentItem item = new AppointmentItem();
-            appointmentsContainer.add(item);
+    protected void onChange(String name, Object oldValue, Object newValue) {
+        if (name.equals("appointments")) {
+            appointments = (List<Appointment>) newValue;
+            appointments.sort((a, b) -> a.getDate().compareTo(b.getDate()));
+            appointmentsContainer.removeAll();
+            appointments.forEach(appointment -> appointmentsContainer.add(new AppointmentItem(appointment)));
+            validate();
         }
         
-        super.validate();
+        if (name.equals("specialities")) {
+            specialties = (List<Speciality>) newValue;
+            cbxSpecialties.removeAllItems();
+            cbxSpecialties.addItem("ALL");
+            specialties.forEach(specialty -> cbxSpecialties.addItem(specialty.getName()));
+        }
+    }
+    
+    @Override
+    protected void onEnter() {}
+    
+    @Override
+    protected void onLeave() {}
+    
+    private List<Appointment> filterAppointments(List<Appointment> source, Function<Appointment, Boolean> filter) {
+        List<Appointment> filtered = source.stream()
+            .filter(appointment -> filter.apply(appointment))
+            .collect(Collectors.toList());
+        
+        return new ArrayList<>(filtered);
+    }
+    
+    private void checkAllAppointmentFilters() {
+        String status = ((String)cbxStatuses.getModel().getSelectedItem()).toLowerCase();
+        String specialty = cbxSpecialties.getItemCount() == 0
+            ? "ALL"
+            : ((String)cbxSpecialties.getModel().getSelectedItem()).toLowerCase();
+        List<Appointment> filtered = new ArrayList<>(appointments);
+        
+        if (!status.equalsIgnoreCase("ALL")) {
+            filtered = filterAppointments(filtered, (appointment) -> {
+                return appointment.getStatus().name().toLowerCase().equals(status);
+            });
+        }
+        
+        if (!specialty.equalsIgnoreCase("ALL")) {
+            filtered = filterAppointments(filtered, (appointment) -> {
+                Medic medic = appointment.getMedic();
+                return medic != null && medic.getSpeciality().getName().toLowerCase().equals(specialty);
+            });
+        }
+        
+        if (!txtMedicName.getText().trim().isEmpty()) {
+            filtered = filterAppointments(filtered, (appointment) -> {
+                if (appointment.getMedic() == null) {
+                    return false;
+                }
+                
+                String medicName = appointment.getMedic().getProfile().getFullName().toLowerCase();
+                String term = txtMedicName.getText().toLowerCase();
+                return medicName.contains(term);
+            });
+        }
+        
+        appointmentsContainer.removeAll();
+        
+        filtered.forEach(appointment -> {
+            AppointmentItem item = new AppointmentItem(appointment);
+            appointmentsContainer.add(item);
+        });
+        
+        lblTotalAppointments.setText(String.valueOf(filtered.size()));
+        
+        validate();
+        repaint();
+    }
+    
+    private void sortAppointments() {
+        boolean descendant = !chkSortDescendant.isSelected();
+        String type = ((String) cmbSortType.getSelectedItem()).trim().toLowerCase();
+        Comparator<Appointment> comparable = null;
+        
+        switch (type) {
+            case "requested date":
+                comparable = Comparator.comparing(a -> a.getId());
+                break;
+            case "scheduled date":
+                comparable = Comparator.comparing(a -> a.getDate());
+                break;
+            case "medic name":
+                comparable = Comparator.comparing(a -> {
+                    String medicName = (a.getMedic() == null ? "" : a.getMedic().getProfile().getFullName());
+                    return medicName;
+                });
+                break;
+            default: break;
+        }
+        
+        if (comparable != null) {
+            if (descendant) {
+                comparable = comparable.reversed();
+            }
+            
+            appointments.sort(comparable);
+            appointmentsContainer.removeAll();
+            appointments.forEach(appointment -> {
+                AppointmentItem item = new AppointmentItem(appointment);
+                appointmentsContainer.add(item);
+            });
+            
+            validate();
+            repaint();
+        }
     }
 
     /**
@@ -42,18 +158,21 @@ public class FrmAppointments extends View {
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        cbxSpecialties = new javax.swing.JComboBox<>();
         jLabel9 = new javax.swing.JLabel();
-        jComboBox2 = new javax.swing.JComboBox<>();
+        cbxStatuses = new javax.swing.JComboBox<>();
         jLabel10 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        txtMedicName = new javax.swing.JTextField();
         jPanel3 = new javax.swing.JPanel();
         jPanel7 = new javax.swing.JPanel();
+        jLabel6 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
+        lblTotalAppointments = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
+        cmbSortType = new javax.swing.JComboBox<>();
+        chkSortDescendant = new javax.swing.JCheckBox();
         appointmentsWrapperPanel = new javax.swing.JPanel();
         appointmentsScrollPanel = new javax.swing.JScrollPane();
         appointmentsContainer = new javax.swing.JPanel();
@@ -61,6 +180,7 @@ public class FrmAppointments extends View {
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
+        jSeparator2 = new javax.swing.JSeparator();
 
         setMinimumSize(new java.awt.Dimension(600, 0));
         setOpaque(false);
@@ -77,24 +197,34 @@ public class FrmAppointments extends View {
         jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel8.setText("Specialty:");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbxSpecialties.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ALL" }));
+        cbxSpecialties.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbxSpecialtiesActionPerformed(evt);
+            }
+        });
 
         jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel9.setText("Status:");
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jComboBox2.addActionListener(new java.awt.event.ActionListener() {
+        cbxStatuses.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ALL" }));
+        cbxStatuses.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox2ActionPerformed(evt);
+                cbxStatusesActionPerformed(evt);
             }
         });
 
         jLabel10.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel10.setText("Medic:");
 
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        txtMedicName.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                txtMedicNameActionPerformed(evt);
+            }
+        });
+        txtMedicName.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtMedicNameKeyReleased(evt);
             }
         });
 
@@ -109,16 +239,16 @@ public class FrmAppointments extends View {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel8)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(cbxSpecialties, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel9)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(cbxStatuses, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel10)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(txtMedicName, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(16, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -126,15 +256,13 @@ public class FrmAppointments extends View {
                 .addComponent(jLabel2)
                 .addGap(12, 12, 12)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel8)
-                            .addComponent(jLabel9)
-                            .addComponent(jLabel10)
-                            .addComponent(jComboBox2, javax.swing.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
-                            .addComponent(jTextField1))
-                        .addGap(0, 0, 0))
-                    .addComponent(jComboBox1)))
+                    .addComponent(cbxStatuses, javax.swing.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
+                    .addComponent(txtMedicName)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel8)
+                        .addComponent(jLabel9)
+                        .addComponent(jLabel10))
+                    .addComponent(cbxSpecialties)))
         );
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -148,6 +276,9 @@ public class FrmAppointments extends View {
 
         jPanel7.setOpaque(false);
 
+        jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel6.setText("Sort:");
+
         jPanel4.setOpaque(false);
         jPanel4.setLayout(new javax.swing.BoxLayout(jPanel4, javax.swing.BoxLayout.X_AXIS));
 
@@ -157,12 +288,12 @@ public class FrmAppointments extends View {
         jLabel3.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
         jPanel4.add(jLabel3);
 
-        jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jLabel6.setText("0");
-        jLabel6.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 5));
-        jLabel6.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
-        jPanel4.add(jLabel6);
+        lblTotalAppointments.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        lblTotalAppointments.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        lblTotalAppointments.setText("0");
+        lblTotalAppointments.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 5));
+        lblTotalAppointments.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
+        jPanel4.add(lblTotalAppointments);
 
         jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel7.setText("result(s)");
@@ -170,25 +301,50 @@ public class FrmAppointments extends View {
         jLabel7.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
         jPanel4.add(jLabel7);
 
+        cmbSortType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Scheduled date", "Requested date", "Medic name" }));
+        cmbSortType.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbSortTypeActionPerformed(evt);
+            }
+        });
+
+        chkSortDescendant.setSelected(true);
+        chkSortDescendant.setText("Descendant");
+        chkSortDescendant.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                chkSortDescendantActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
         jPanel7Layout.setHorizontalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel7Layout.createSequentialGroup()
-                .addGap(0, 0, 0)
-                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel7Layout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addComponent(jSeparator1))
-                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, 594, Short.MAX_VALUE))
+                .addGap(6, 6, 6)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.DEFAULT_SIZE, 599, Short.MAX_VALUE)
                 .addGap(6, 6, 6))
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(32, 32, 32)
+                .addComponent(jLabel6)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(cmbSortType, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(chkSortDescendant)
+                .addContainerGap())
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel7Layout.createSequentialGroup()
-                .addGap(12, 12, 12)
-                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(6, 6, 6)
+                .addGap(15, 15, 15)
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel6)
+                        .addComponent(cmbSortType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(chkSortDescendant)))
+                .addGap(3, 3, 3)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(13, 13, 13))
         );
@@ -219,7 +375,7 @@ public class FrmAppointments extends View {
         paginationPanel.setOpaque(false);
         paginationPanel.setLayout(new java.awt.BorderLayout());
 
-        jLabel4.setText("0");
+        jLabel4.setText("1");
         paginationPanel.add(jLabel4, java.awt.BorderLayout.CENTER);
 
         jLabel5.setText("Page:");
@@ -237,7 +393,7 @@ public class FrmAppointments extends View {
         gridBagConstraints.weighty = 1.0;
         jPanel1.add(jPanel3, gridBagConstraints);
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 17)); // NOI18N
         jLabel1.setText("Appointments");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -247,34 +403,58 @@ public class FrmAppointments extends View {
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jSeparator2))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 379, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(4, 4, 4)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 373, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    private void cbxSpecialtiesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxSpecialtiesActionPerformed
+        checkAllAppointmentFilters();
+    }//GEN-LAST:event_cbxSpecialtiesActionPerformed
 
-    private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox2ActionPerformed
+    private void cbxStatusesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxStatusesActionPerformed
+        checkAllAppointmentFilters();
+    }//GEN-LAST:event_cbxStatusesActionPerformed
+
+    private void txtMedicNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMedicNameActionPerformed
+        checkAllAppointmentFilters();
+    }//GEN-LAST:event_txtMedicNameActionPerformed
+
+    private void txtMedicNameKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMedicNameKeyReleased
+        checkAllAppointmentFilters();
+    }//GEN-LAST:event_txtMedicNameKeyReleased
+
+    private void cmbSortTypeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbSortTypeActionPerformed
+        sortAppointments();
+    }//GEN-LAST:event_cmbSortTypeActionPerformed
+
+    private void chkSortDescendantActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkSortDescendantActionPerformed
+        sortAppointments();
+    }//GEN-LAST:event_chkSortDescendantActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel appointmentsContainer;
     private javax.swing.JScrollPane appointmentsScrollPanel;
     private javax.swing.JPanel appointmentsWrapperPanel;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox2;
+    private javax.swing.JComboBox<String> cbxSpecialties;
+    private javax.swing.JComboBox<String> cbxStatuses;
+    private javax.swing.JCheckBox chkSortDescendant;
+    private javax.swing.JComboBox<String> cmbSortType;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
@@ -291,7 +471,9 @@ public class FrmAppointments extends View {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JLabel lblTotalAppointments;
     private javax.swing.JPanel paginationPanel;
+    private javax.swing.JTextField txtMedicName;
     // End of variables declaration//GEN-END:variables
 }

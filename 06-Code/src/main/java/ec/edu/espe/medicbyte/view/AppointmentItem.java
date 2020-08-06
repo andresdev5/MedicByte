@@ -1,5 +1,9 @@
 package ec.edu.espe.medicbyte.view;
 
+import ec.edu.espe.medicbyte.model.Appointment;
+import ec.edu.espe.medicbyte.util.StringUtils;
+import java.awt.Color;
+import java.time.format.DateTimeFormatter;
 import jiconfont.icons.font_awesome.FontAwesome;
 import jiconfont.swing.IconFontSwing;
 
@@ -11,8 +15,10 @@ public class AppointmentItem extends javax.swing.JPanel {
 
     /**
      * Creates new form AppointmentItem
+     * 
+     * @param appointment
      */
-    public AppointmentItem() {
+    public AppointmentItem(Appointment appointment) {
         initComponents();
         
         // set icons
@@ -20,6 +26,69 @@ public class AppointmentItem extends javax.swing.JPanel {
         lblHour.setIcon(IconFontSwing.buildIcon(FontAwesome.CLOCK_O, 14));
         lblLocation.setIcon(IconFontSwing.buildIcon(FontAwesome.MAP_MARKER, 14));
         lblMedicName.setIcon(IconFontSwing.buildIcon(FontAwesome.USER_MD, 14));
+        
+        // set values
+        lblDateValue.setText(appointment.getDate().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")));
+        
+        if (appointment.getMedic() != null) {
+            lblMedicNameValue.setText(appointment.getMedic().getProfile().getFullName());
+        }
+        
+        if (appointment.getHour() != null) {
+            lblHourValue.setText(appointment.getHour().format(DateTimeFormatter.ofPattern("HH:mm")));
+        }
+        
+        if (appointment.getLocation() != null) {
+            lblLocationValue.setText(StringUtils.truncate(appointment.getLocation().getName(), 90));
+            lblLocationValue.setToolTipText(appointment.getLocation().getName());
+        }
+        
+        lblSpecialityValue.setText(appointment.getSpeciality().getName());
+        
+        switch (appointment.getStatus().name()) {
+            case "PENDENT":
+                lblStatus.setBackground(new Color(208, 212, 215));
+                lblStatus.setForeground(new Color(149, 160, 161));
+                lblStatus.setText("Pendent");
+                btnCancel.setVisible(true);
+            break;
+            case "APPROVED":
+                lblStatus.setBackground(new Color(171, 255, 185));
+                lblStatus.setForeground(new Color(75, 184, 93));
+                lblStatus.setText("Approved");
+                btnCancel.setVisible(true);
+                btnReschedule.setVisible(true);
+            break;
+            case "RESCHEDULED":
+                lblStatus.setBackground(new Color(189, 211, 255));
+                lblStatus.setForeground(new Color(30, 144, 255));
+                lblStatus.setText("Rescheduled");
+                btnCancel.setVisible(true);
+            break;
+            case "CANCELLED":
+                lblStatus.setBackground(new Color(255, 153, 168));
+                lblStatus.setForeground(new Color(209, 0, 31));
+                lblStatus.setText("Cancelled");
+                btnReschedule.setText("Pendent");
+            break;
+            case "FINISHED":
+                lblStatus.setBackground(new Color(206, 247, 236));
+                lblStatus.setForeground(new Color(25, 183, 142));
+                lblStatus.setText("Finished");
+                btnReschedule.setText("Pendent");
+            break;
+            case "REJECTED":
+                lblStatus.setBackground(new Color(255, 153, 168));
+                lblStatus.setForeground(new Color(209, 0, 31));
+                lblStatus.setText("Rejected");
+                btnReschedule.setText("Pendent");
+            break;
+        }
+        
+        btnReschedule.setVisible(false);
+        btnCancel.setVisible(false);
+        
+        lblMedicAvatar.setIcon(IconFontSwing.buildIcon(FontAwesome.USER_MD, 56, new Color(115, 115, 115)));
     }
 
     /**
@@ -31,6 +100,7 @@ public class AppointmentItem extends javax.swing.JPanel {
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
+        jPanel1 = new javax.swing.JPanel();
         jPanel12 = new javax.swing.JPanel();
         lblMedicAvatar = new javax.swing.JLabel();
         jPanel14 = new javax.swing.JPanel();
@@ -41,14 +111,16 @@ public class AppointmentItem extends javax.swing.JPanel {
         lblDateValue = new javax.swing.JLabel();
         lblHourValue = new javax.swing.JLabel();
         lblLocationValue = new javax.swing.JLabel();
-        jPanel2 = new javax.swing.JPanel();
+        pnlInfo2 = new javax.swing.JPanel();
         lblMedicName = new javax.swing.JLabel();
         lblMedicNameValue = new javax.swing.JLabel();
+        lblSpeciality = new javax.swing.JLabel();
+        lblSpecialityValue = new javax.swing.JLabel();
         lblStatus = new javax.swing.JLabel();
         jPanel16 = new javax.swing.JPanel();
         jPanel17 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
-        btnReschedule1 = new javax.swing.JButton();
+        btnReschedule = new javax.swing.JButton();
         jSeparator3 = new javax.swing.JSeparator();
         jPanel3 = new javax.swing.JPanel();
         btnCancel = new javax.swing.JButton();
@@ -56,19 +128,24 @@ public class AppointmentItem extends javax.swing.JPanel {
         jSeparator1 = new javax.swing.JSeparator();
 
         setBackground(new java.awt.Color(255, 255, 255));
-        setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 7, 0));
-        setMaximumSize(new java.awt.Dimension(32767, 85));
-        setMinimumSize(new java.awt.Dimension(560, 85));
+        setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 10, 0));
+        setMaximumSize(new java.awt.Dimension(32767, 95));
+        setMinimumSize(new java.awt.Dimension(560, 95));
         setOpaque(false);
-        setPreferredSize(new java.awt.Dimension(560, 85));
+        setPreferredSize(new java.awt.Dimension(560, 95));
         setLayout(new javax.swing.BoxLayout(this, javax.swing.BoxLayout.Y_AXIS));
 
+        jPanel1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(216, 216, 216), 1, true));
+        jPanel1.setOpaque(false);
+        jPanel1.setLayout(new java.awt.BorderLayout());
+
         jPanel12.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel12.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        jPanel12.setBorder(javax.swing.BorderFactory.createEmptyBorder(8, 7, 8, 7));
         jPanel12.setPreferredSize(new java.awt.Dimension(550, 100));
         jPanel12.setLayout(new java.awt.GridBagLayout());
 
         lblMedicAvatar.setBackground(new java.awt.Color(234, 236, 237));
+        lblMedicAvatar.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblMedicAvatar.setMaximumSize(new java.awt.Dimension(64, 64));
         lblMedicAvatar.setMinimumSize(new java.awt.Dimension(64, 64));
         lblMedicAvatar.setOpaque(true);
@@ -133,7 +210,7 @@ public class AppointmentItem extends javax.swing.JPanel {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel14.add(jPanel15, gridBagConstraints);
 
-        jPanel2.setOpaque(false);
+        pnlInfo2.setOpaque(false);
 
         lblMedicName.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         lblMedicName.setForeground(new java.awt.Color(71, 71, 71));
@@ -141,24 +218,35 @@ public class AppointmentItem extends javax.swing.JPanel {
 
         lblMedicNameValue.setText("-");
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
+        lblSpeciality.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        lblSpeciality.setText("Speciality:");
+
+        lblSpecialityValue.setText("-");
+
+        javax.swing.GroupLayout pnlInfo2Layout = new javax.swing.GroupLayout(pnlInfo2);
+        pnlInfo2.setLayout(pnlInfo2Layout);
+        pnlInfo2Layout.setHorizontalGroup(
+            pnlInfo2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlInfo2Layout.createSequentialGroup()
                 .addGap(0, 0, 0)
                 .addComponent(lblMedicName)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblMedicNameValue)
+                .addGap(12, 12, 12)
+                .addComponent(lblSpeciality)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblSpecialityValue)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+        pnlInfo2Layout.setVerticalGroup(
+            pnlInfo2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlInfo2Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(pnlInfo2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblMedicName)
-                    .addComponent(lblMedicNameValue)))
+                    .addComponent(lblMedicNameValue)
+                    .addComponent(lblSpeciality)
+                    .addComponent(lblSpecialityValue)))
         );
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -166,10 +254,10 @@ public class AppointmentItem extends javax.swing.JPanel {
         gridBagConstraints.gridy = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.insets = new java.awt.Insets(3, 0, 0, 0);
-        jPanel14.add(jPanel2, gridBagConstraints);
+        jPanel14.add(pnlInfo2, gridBagConstraints);
 
-        lblStatus.setBackground(new java.awt.Color(206, 247, 236));
-        lblStatus.setForeground(new java.awt.Color(25, 183, 142));
+        lblStatus.setBackground(new java.awt.Color(208, 212, 215));
+        lblStatus.setForeground(new java.awt.Color(149, 160, 161));
         lblStatus.setText("Pendent");
         lblStatus.setBorder(javax.swing.BorderFactory.createEmptyBorder(3, 7, 3, 7));
         lblStatus.setOpaque(true);
@@ -190,27 +278,26 @@ public class AppointmentItem extends javax.swing.JPanel {
         jPanel4.setOpaque(false);
         jPanel4.setLayout(new java.awt.BorderLayout());
 
-        btnReschedule1.setBackground(new java.awt.Color(142, 192, 255));
-        btnReschedule1.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
-        btnReschedule1.setForeground(new java.awt.Color(255, 255, 255));
-        btnReschedule1.setText("Reschedule");
-        btnReschedule1.setAlignmentX(1.0F);
-        btnReschedule1.setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 7, 4, 5));
-        btnReschedule1.setBorderPainted(false);
-        btnReschedule1.setContentAreaFilled(false);
-        btnReschedule1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnReschedule1.setFocusPainted(false);
-        btnReschedule1.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        btnReschedule1.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
-        btnReschedule1.setOpaque(true);
-        btnReschedule1.addActionListener(new java.awt.event.ActionListener() {
+        btnReschedule.setBackground(new java.awt.Color(142, 192, 255));
+        btnReschedule.setFont(new java.awt.Font("SansSerif", 1, 11)); // NOI18N
+        btnReschedule.setForeground(new java.awt.Color(255, 255, 255));
+        btnReschedule.setText("Reschedule");
+        btnReschedule.setAlignmentX(1.0F);
+        btnReschedule.setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 7, 4, 5));
+        btnReschedule.setBorderPainted(false);
+        btnReschedule.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnReschedule.setFocusPainted(false);
+        btnReschedule.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        btnReschedule.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        btnReschedule.setOpaque(true);
+        btnReschedule.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnReschedule1ActionPerformed(evt);
+                btnRescheduleActionPerformed(evt);
             }
         });
-        jPanel4.add(btnReschedule1, java.awt.BorderLayout.CENTER);
+        jPanel4.add(btnReschedule, java.awt.BorderLayout.CENTER);
 
-        jSeparator3.setBackground(new java.awt.Color(28, 104, 180));
+        jSeparator3.setBackground(new java.awt.Color(34, 127, 220));
         jSeparator3.setForeground(new java.awt.Color(28, 104, 180));
         jSeparator3.setMinimumSize(new java.awt.Dimension(0, 2));
         jSeparator3.setOpaque(true);
@@ -223,13 +310,12 @@ public class AppointmentItem extends javax.swing.JPanel {
         jPanel3.setLayout(new java.awt.BorderLayout());
 
         btnCancel.setBackground(new java.awt.Color(255, 137, 137));
-        btnCancel.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
+        btnCancel.setFont(new java.awt.Font("SansSerif", 1, 11)); // NOI18N
         btnCancel.setForeground(new java.awt.Color(255, 255, 255));
         btnCancel.setText("Cancel");
         btnCancel.setAlignmentX(1.0F);
         btnCancel.setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 7, 4, 5));
         btnCancel.setBorderPainted(false);
-        btnCancel.setContentAreaFilled(false);
         btnCancel.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnCancel.setFocusPainted(false);
         btnCancel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -279,7 +365,9 @@ public class AppointmentItem extends javax.swing.JPanel {
         gridBagConstraints.insets = new java.awt.Insets(0, 10, 0, 0);
         jPanel12.add(jPanel14, gridBagConstraints);
 
-        add(jPanel12);
+        jPanel1.add(jPanel12, java.awt.BorderLayout.CENTER);
+
+        add(jPanel1);
 
         jSeparator1.setVisible(false);
         jSeparator1.setBackground(new java.awt.Color(175, 192, 196));
@@ -288,24 +376,24 @@ public class AppointmentItem extends javax.swing.JPanel {
         add(jSeparator1);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnRescheduleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRescheduleActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnRescheduleActionPerformed
+
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnCancelActionPerformed
 
-    private void btnReschedule1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReschedule1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnReschedule1ActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancel;
-    private javax.swing.JButton btnReschedule1;
+    private javax.swing.JButton btnReschedule;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel12;
     private javax.swing.JPanel jPanel14;
     private javax.swing.JPanel jPanel15;
     private javax.swing.JPanel jPanel16;
     private javax.swing.JPanel jPanel17;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JSeparator jSeparator1;
@@ -320,6 +408,9 @@ public class AppointmentItem extends javax.swing.JPanel {
     private javax.swing.JLabel lblMedicAvatar;
     private javax.swing.JLabel lblMedicName;
     private javax.swing.JLabel lblMedicNameValue;
+    private javax.swing.JLabel lblSpeciality;
+    private javax.swing.JLabel lblSpecialityValue;
     private javax.swing.JLabel lblStatus;
+    private javax.swing.JPanel pnlInfo2;
     // End of variables declaration//GEN-END:variables
 }

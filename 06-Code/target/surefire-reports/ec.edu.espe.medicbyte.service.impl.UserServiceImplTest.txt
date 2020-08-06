@@ -1,4 +1,12 @@
 -------------------------------------------------------------------------------
 Test set: ec.edu.espe.medicbyte.service.impl.UserServiceImplTest
 -------------------------------------------------------------------------------
-Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.355 sec
+Tests run: 4, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.141 sec <<< FAILURE!
+ec.edu.espe.medicbyte.service.impl.UserServiceImplTest.testCreateUser()  Time elapsed: 0.14 sec  <<< FAILURE!
+org.opentest4j.AssertionFailedError: expected: <true> but was: <false>
+	at org.junit.jupiter.api.AssertionUtils.fail(AssertionUtils.java:55)
+	at org.junit.jupiter.api.AssertTrue.assertTrue(AssertTrue.java:40)
+	at org.junit.jupiter.api.AssertTrue.assertTrue(AssertTrue.java:35)
+	at org.junit.jupiter.api.Assertions.assertTrue(Assertions.java:162)
+	at ec.edu.espe.medicbyte.service.impl.UserServiceImplTest.testCreateUser(UserServiceImplTest.java:58)
+

@@ -23,7 +23,7 @@ import ec.edu.espe.medicbyte.service.IUserService;
 
 /**
  *
- * @author Junior Stalin.
+ * @author Andres Jonathan J.
  */
 public class PatientService implements IPatientService {
     private Gson gson = new Gson();

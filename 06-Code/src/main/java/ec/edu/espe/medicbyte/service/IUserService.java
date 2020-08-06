@@ -7,7 +7,6 @@ import ec.edu.espe.medicbyte.model.User;
 import ec.edu.espe.medicbyte.model.UserProfile;
 import java.util.List;
 
-
 public interface IUserService {
     List<User> getAllUsers();
     int getTotalUsers();

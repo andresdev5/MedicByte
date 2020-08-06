@@ -1,0 +1,26 @@
+[
+    {
+        "id": 1,
+        "name": "Centro De Salud Chimbacalle",
+        "direction": "Juan Borgoñón, Quito 170121",
+        "phone": "+593984162017",
+        "latitude": -0.2446355,
+        "longitude": -78.5135385
+    },
+    {
+        "id": 2,
+        "name": "Hospital del IESS Quito Sur",
+        "direction": "Moraspungo, Quito 170111",
+        "phone": "+59323982700",
+        "latitude": -0.2578244,
+        "longitude": -78.5252982
+    },
+    {
+        "id": 3,
+        "name": "Centro de salud La Rumiñahui",
+        "direction": "Sancho Hacho, Quito 170144",
+        "phone": "+59322590099",
+        "latitude": -0.1260838,
+        "longitude": -78.4873319
+    }
+]

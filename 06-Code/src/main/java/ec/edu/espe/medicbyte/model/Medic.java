@@ -6,7 +6,6 @@ package ec.edu.espe.medicbyte.model;
  */
 public class Medic extends User {
     private Speciality speciality;
-    private String fullName;
     
     public Medic() {}
     
@@ -14,16 +13,9 @@ public class Medic extends User {
         this.setId(user.getId());
         this.setUsername(user.getUsername());
         this.setPassword(user.getPassword());
-        this.setSalt(user.getSalt());
+        this.setEmail(user.getEmail());
         this.setRole(user.getRole());
-    }
-    
-    public String getFullName() {
-        return fullName;
-    }
-    
-    public void setFullname(String fullName) {
-        this.fullName = fullName;
+        this.setProfile(user.getProfile());
     }
 
     public Speciality getSpeciality() {

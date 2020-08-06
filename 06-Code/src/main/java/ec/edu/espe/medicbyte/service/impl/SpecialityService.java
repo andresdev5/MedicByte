@@ -15,7 +15,7 @@ import ec.edu.espe.medicbyte.service.ISpecialityService;
 
 /**
  *
- * @author Johnny Loachamin
+ * @author Andres Jonathan J.
  */
 public class SpecialityService implements ISpecialityService {
     Gson gson = new Gson();

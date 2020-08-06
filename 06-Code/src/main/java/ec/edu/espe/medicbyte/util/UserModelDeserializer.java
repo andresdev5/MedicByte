@@ -7,17 +7,23 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
 import ec.edu.espe.medicbyte.model.Role;
 import ec.edu.espe.medicbyte.model.User;
-import ec.edu.espe.medicbyte.service.RoleService;
+import ec.edu.espe.medicbyte.model.UserProfile;
 import java.lang.reflect.Type;
+import ec.edu.espe.medicbyte.service.IRoleService;
+import ec.edu.espe.medicbyte.service.IUserService;
+import java.util.List;
 
 /**
  *
  * @author Andres Jonathan J.
  */
 public class UserModelDeserializer implements JsonDeserializer<User> {
-    private final RoleService roleService;
+    private final IUserService userService;
+    private final IRoleService roleService;
+    private List<UserProfile> profiles;
     
-    public UserModelDeserializer(RoleService roleService) {
+    public UserModelDeserializer(IUserService userService, IRoleService roleService) {
+        this.userService = userService;
         this.roleService = roleService;
     }
     
@@ -36,12 +42,16 @@ public class UserModelDeserializer implements JsonDeserializer<User> {
                     user.setRole(role);
                 }
             }
+            
+            UserProfile profile = userService.getUserProfile(user.getId());
+                
+            if (profile != null) {
+                user.setProfile(profile);
+            }
         } catch (IllegalArgumentException ie) {
             System.out.println(ie.getMessage());
-            System.out.println("Gender cannot be serialized ..");
         }
 
         return user;
     }
-
 }

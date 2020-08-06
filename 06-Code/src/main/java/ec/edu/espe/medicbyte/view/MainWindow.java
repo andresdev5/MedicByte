@@ -1,12 +1,13 @@
-
 package ec.edu.espe.medicbyte.view;
 
+import ec.edu.espe.medicbyte.common.core.View;
 import ec.edu.espe.medicbyte.common.core.Window;
+import ec.edu.espe.medicbyte.model.User;
 import java.awt.Color;
+import java.awt.Component;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
-import java.util.function.Consumer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JButton;
@@ -21,9 +22,11 @@ import jiconfont.swing.IconFontSwing;
  */
 public class MainWindow extends Window {
     public static class MenuItem {
+        private String key = null;
         private final String label;
-        private IconCode icon;
+        private final IconCode icon;
         private final Callable<Boolean> callback;
+        private MenuItemContext context;
         
         public MenuItem(String label, IconCode icon, Callable<Boolean> callback) {
             this.label = label;
@@ -37,9 +40,20 @@ public class MainWindow extends Window {
             this.icon = null;
         }
         
+        public MenuItem withKey(String key) {
+            this.key = key;
+            return this;
+        }
+        
+        public void setContext(MenuItemContext context) {
+            this.context = context;
+        }
+        
         public String getLabel() { return label; }
         public IconCode getIcon() { return icon; }
         public Callable<Boolean> getCallback() { return callback; }
+        public MenuItemContext getContext() { return context; }
+        public String getKey() { return key; }
     }
     
     private static class MenuItemContext {
@@ -54,21 +68,105 @@ public class MainWindow extends Window {
     public MainWindow() {
         super();
         initComponents();
+        btnAccount.setVisible(false);
+        btnNotifications.setVisible(false);
     }
     
     @Override
-    public void init() {
-        
-    }
+    public void init() {}
     
     @Override
-    public void display(JPanel view) {
+    public void display(View view) {
         view.setOpaque(false);
+        
+        if (content.getComponents().length > 0) {
+            Component child = content.getComponent(0);
+            
+            if (child instanceof View) {
+                ((View) child).leave();
+            }
+        }
         
         content.removeAll();
         content.add(view);
+        view.enter();
         content.revalidate();
         content.repaint();
+    }
+
+    @Override
+    protected void onChange(String name, Object oldValue, Object newValue) {
+        if (name.equals("userContext")) {
+            setUserContext((User) newValue);
+        }
+        
+        repaint();
+        revalidate();
+    }
+    
+    private void setUserContext(User context) {
+        txaUsername.setText(context.getUsername());
+        repaint();
+        revalidate();
+    }
+    
+    public void clearMenuItems() {
+        menuItems.clear();
+        menu.removeAll();
+        repaint();
+        revalidate();
+    }
+    
+    public void selectMenuItem(String key) {
+        menuItems.stream().filter(i -> i.item.getKey().equals(key))
+            .forEach(item -> selectMenuItem(item.item));
+        
+        repaint();
+        revalidate();
+    }
+    
+    public void selectMenuItem(MenuItem item) {
+        boolean accepted;
+                    
+        try {
+            accepted = item.getCallback().call();
+        } catch (Exception ex) {
+            Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+            accepted = false;
+        }
+
+        if (!accepted) {
+            repaint();
+            revalidate();
+            return;
+        }
+        
+        MenuItemContext context = item.getContext();
+
+        context.wrapper.setOpaque(true);
+        context.button.setForeground(new Color(255, 255, 255));
+
+        if (item.getIcon() != null) {
+            context.button.setIcon(IconFontSwing.buildIcon(
+                    item.getIcon(), 15, new Color(255, 255, 255)));
+        }
+
+        menuItems.forEach(menuItem -> {
+            if (menuItem.item == item) {
+                return;
+            }
+
+            menuItem.button.setForeground(new Color(71, 71, 71));
+            menuItem.wrapper.setOpaque(false);
+
+            if (menuItem.item.getIcon() != null) {
+                menuItem.button.setIcon(IconFontSwing.buildIcon(
+                        menuItem.item.getIcon(), 15, new Color(71, 71, 71)));
+            }
+        });
+
+        repaint();
+        revalidate();
     }
     
     public void addMenuItem(MenuItem item) {
@@ -100,54 +198,20 @@ public class MainWindow extends Window {
             button.setIconTextGap(8);
         }
         
-        button.addActionListener(e -> {
-            (new Thread() {
-                @Override public void run() {
-                    boolean accepted;
-                    
-                    try {
-                        accepted = item.getCallback().call();
-                    } catch (Exception ex) {
-                        Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
-                        accepted = false;
-                    }
-                    
-                    if (!accepted) {
-                        return;
-                    }
-                    
-                    wrapper.setOpaque(true);
-                    button.setForeground(new Color(255, 255, 255));
-                    
-                    if (item.getIcon() != null) {
-                        button.setIcon(IconFontSwing.buildIcon(
-                                item.getIcon(), 15, new Color(255, 255, 255)));
-                    }
-                    
-                    menuItems.forEach(menuItem -> {
-                        if (menuItem.item == item) {
-                            return;
-                        }
-                        
-                        menuItem.button.setForeground(new Color(71, 71, 71));
-                        menuItem.wrapper.setOpaque(false);
-                        
-                        if (menuItem.item.getIcon() != null) {
-                            menuItem.button.setIcon(IconFontSwing.buildIcon(
-                                    menuItem.item.getIcon(), 15, new Color(71, 71, 71)));
-                        }
-                    });
-                    
-                    repaint();
-                    revalidate();
-                }
-            }).start();
-        });
-        
         MenuItemContext context = new MenuItemContext();
         context.item = item;
         context.button = button;
         context.wrapper = wrapper;
+        
+        item.setContext(context);
+        
+        button.addActionListener(e -> {
+            (new Thread() {
+                @Override public void run() {
+                    selectMenuItem(item);
+                }
+            }).start();
+        });
         
         wrapper.add(button);
         menu.add(wrapper);
@@ -173,7 +237,7 @@ public class MainWindow extends Window {
         avatar = new javax.swing.JLabel();
         usernameScrollPanel = new javax.swing.JScrollPane();
         usernameScrollPanel.getViewport().setOpaque(false);
-        textareaUsername = new javax.swing.JTextArea();
+        txaUsername = new javax.swing.JTextArea();
         btnNotifications = new javax.swing.JButton();
         btnAccount = new javax.swing.JButton();
         btnLogout = new javax.swing.JButton();
@@ -185,8 +249,8 @@ public class MainWindow extends Window {
         lblStatusbarContent = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMinimumSize(new java.awt.Dimension(820, 400));
-        setPreferredSize(new java.awt.Dimension(820, 550));
+        setMinimumSize(new java.awt.Dimension(900, 400));
+        setPreferredSize(new java.awt.Dimension(900, 550));
 
         root.setLayout(new java.awt.GridBagLayout());
 
@@ -208,17 +272,17 @@ public class MainWindow extends Window {
         usernameScrollPanel.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
         usernameScrollPanel.setOpaque(false);
 
-        textareaUsername.setEditable(false);
-        textareaUsername.setColumns(20);
-        textareaUsername.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
-        textareaUsername.setForeground(new java.awt.Color(126, 126, 126));
-        textareaUsername.setLineWrap(true);
-        textareaUsername.setRows(5);
-        textareaUsername.setText("{{ username }}");
-        textareaUsername.setWrapStyleWord(true);
-        textareaUsername.setBorder(null);
-        textareaUsername.setOpaque(false);
-        usernameScrollPanel.setViewportView(textareaUsername);
+        txaUsername.setEditable(false);
+        txaUsername.setColumns(20);
+        txaUsername.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
+        txaUsername.setForeground(new java.awt.Color(126, 126, 126));
+        txaUsername.setLineWrap(true);
+        txaUsername.setRows(5);
+        txaUsername.setText("{{ username }}");
+        txaUsername.setWrapStyleWord(true);
+        txaUsername.setBorder(null);
+        txaUsername.setOpaque(false);
+        usernameScrollPanel.setViewportView(txaUsername);
 
         btnNotifications.setIcon(IconFontSwing.buildIcon(FontAwesome.BELL, 16));
         btnNotifications.setForeground(new java.awt.Color(176, 187, 190));
@@ -240,6 +304,11 @@ public class MainWindow extends Window {
         btnLogout.setContentAreaFilled(false);
         btnLogout.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnLogout.setFocusPainted(false);
+        btnLogout.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLogoutActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout userInfoPanelLayout = new javax.swing.GroupLayout(userInfoPanel);
         userInfoPanel.setLayout(userInfoPanelLayout);
@@ -356,6 +425,10 @@ public class MainWindow extends Window {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogoutActionPerformed
+        emit("logout");
+    }//GEN-LAST:event_btnLogoutActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel avatar;
     private javax.swing.JButton btnAccount;
@@ -369,7 +442,7 @@ public class MainWindow extends Window {
     private javax.swing.JPanel root;
     private javax.swing.JPanel sidebar;
     private javax.swing.JPanel statusbar;
-    private javax.swing.JTextArea textareaUsername;
+    private javax.swing.JTextArea txaUsername;
     private javax.swing.JPanel userInfoPanel;
     private javax.swing.JScrollPane usernameScrollPanel;
     // End of variables declaration//GEN-END:variables

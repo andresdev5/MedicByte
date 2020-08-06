@@ -18,7 +18,6 @@ public class MedicModelSerializer implements JsonSerializer<Medic> {
         
         jsonObject.add("userId", context.serialize(medic.getId()));
         jsonObject.add("specialityId", context.serialize(medic.getSpeciality().getId()));
-        jsonObject.add("fullName", context.serialize(medic.getFullName()));
         
         return jsonObject;
     }

@@ -1,0 +1,78 @@
+[
+  {
+    "id": 1,
+    "date": "27-11-2020",
+    "hour": "12:00",
+    "status": "APPROVED",
+    "description": "",
+    "medicId": 1,
+    "patientId": 4,
+    "locationId": 1,
+    "specialityId": 2
+  },
+  {
+    "id": 2,
+    "date": "01-07-2020",
+    "hour": "10:00",
+    "status": "FINISHED",
+    "description": "",
+    "medicId": 2,
+    "patientId": 4,
+    "locationId": 2,
+    "specialityId": 3
+  },
+  {
+    "id": 3,
+    "date": "16-08-2020",
+    "status": "APPROVED",
+    "description": "",
+    "medicId": 1,
+    "patientId": 4,
+    "locationId": 1,
+    "specialityId": 5
+  },
+  {
+    "id": 4,
+    "date": "10-12-2020",
+    "status": "APPROVED",
+    "description": "",
+    "patientId": 4,
+    "specialityId": 3
+  },
+  {
+    "id": 5,
+    "date": "28-08-2020",
+    "status": "APPROVED",
+    "description": "",
+    "medicId": 2,
+    "patientId": 4,
+    "locationId": 3,
+    "specialityId": 2
+  },
+  {
+    "id": 6,
+    "date": "29-08-2020",
+    "status": "APPROVED",
+    "description": "",
+    "medicId": 2,
+    "patientId": 6,
+    "locationId": 1,
+    "specialityId": 2
+  },
+  {
+    "id": 7,
+    "date": "30-08-2020",
+    "status": "APPROVED",
+    "description": "",
+    "patientId": 9,
+    "specialityId": 2
+  },
+  {
+    "id": 8,
+    "date": "29-08-2020",
+    "status": "APPROVED",
+    "description": "",
+    "patientId": 10,
+    "specialityId": 4
+  }
+]

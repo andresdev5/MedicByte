@@ -5,7 +5,7 @@ import java.util.List;
 
 /**
  *
- * @author Johnny Loachamin
+ * @author Andres Jonathan J.
  */
 public interface ISpecialityService {
     public List<Speciality> getAllSpecialities();

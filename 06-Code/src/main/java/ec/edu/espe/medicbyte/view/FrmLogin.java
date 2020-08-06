@@ -8,40 +8,81 @@ import java.awt.Color;
  * @author Junior Jurado
  */
 public class FrmLogin extends View {
+    public static enum StatusMessage { SUCCESS, ERROR, WARNING, INFO }
 
     /**
      * Creates new form FrmLogin
      */
     public FrmLogin() {
         initComponents();
-        hideError();
+        
+        lblStatusMessage.setVisible(false);
+        lblUsernameError.setVisible(false);
+        lblPasswordError.setVisible(false);
          
-        listen("onSubmitError", (args) -> {
-            showError(args.get(0));
-            repaint();
+        listen("showError", (args) -> {
+            String field = args.get(0);
+            String message = args.get(1);
+            
+            if (field.equals("username")) {
+                lblUsernameError.setText(message);
+                lblUsernameError.setVisible(true);
+            } else if (field.equals("password")) {
+                lblPasswordError.setText(message);
+                lblPasswordError.setVisible(true);
+            }
+        });
+        
+        listen("hideErrors", (args) -> {
+            lblUsernameError.setVisible(false);
+            lblPasswordError.setVisible(false);
         });
         
         listen("setEnabledBtnLogin", (args) -> {
             btnLogin.setEnabled(args.get(0));
         });
-    }
-    
-    private void showError(String error) {
-        //scrErrors.setVisible(true);
-        scrErrors.getViewport().setBackground(new Color(255,219,219));
-        txaErrors.setText(error);
-        repaint();
-    }
-    
-    private void hideError() {
-        //scrErrors.setVisible(false);
-        scrErrors.getViewport().setBackground(new Color(255,255,255));
-        txaErrors.setText("");
-        repaint();
+        
+        listen("showStatusMessage", (args) -> showStatusMessage(args.get(0), args.get(1)));
+        listen("hideStatusMessage", (args) -> {
+            lblStatusMessage.setVisible(false);
+            repaint();
+        });
     }
 
     @Override
     protected void onChange(String name, Object oldValue, Object newValue) {}
+    
+    @Override
+    protected void onEnter() {}
+    
+    @Override
+    protected void onLeave() {}
+    
+    private void showStatusMessage(StatusMessage status, String message) {
+        lblStatusMessage.setVisible(true);
+        lblStatusMessage.setText(message);
+        
+        switch (status) {
+            case SUCCESS:
+                lblStatusMessage.setBackground(new Color(152, 250, 224));
+                lblStatusMessage.setForeground(new Color(13, 166, 127));
+            break;
+            case ERROR:
+                lblStatusMessage.setBackground(new Color(255, 161, 161));
+                lblStatusMessage.setForeground(new Color(227, 59, 60));
+            break;
+            case WARNING:
+                lblStatusMessage.setBackground(new Color(255, 237, 191));
+                lblStatusMessage.setForeground(new Color(219, 172, 50));
+            break;
+            case INFO:
+                lblStatusMessage.setBackground(new Color(191, 244, 255));
+                lblStatusMessage.setForeground(new Color(8, 157, 189));
+            break;
+        }
+        
+        repaint();
+    }
     
     /**
      * This method is called from within the constructor to initialize the form. WARNING: Do NOT
@@ -55,17 +96,13 @@ public class FrmLogin extends View {
         jLabel2 = new javax.swing.JLabel();
         txtUsername = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        txtPassword = new javax.swing.JTextField();
         btnLogin = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         btnCreateAccount = new javax.swing.JButton();
-<<<<<<< HEAD
-        scrErrors = new javax.swing.JScrollPane();
-        txaErrors = new javax.swing.JTextArea();
-=======
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
->>>>>>> 790efe75605ec13360814eec530dd2f695e1bafb
+        lblUsernameError = new javax.swing.JLabel();
+        lblPasswordError = new javax.swing.JLabel();
+        lblStatusMessage = new javax.swing.JLabel();
+        txtPassword = new javax.swing.JPasswordField();
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(103, 103, 103));
@@ -83,19 +120,17 @@ public class FrmLogin extends View {
         btnLogin.setText("Log in");
         btnLogin.setBorder(javax.swing.BorderFactory.createEmptyBorder(7, 1, 7, 1));
         btnLogin.setBorderPainted(false);
-        btnLogin.setContentAreaFilled(false);
         btnLogin.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnLogin.setFocusPainted(false);
-<<<<<<< HEAD
         btnLogin.setOpaque(true);
-=======
->>>>>>> 790efe75605ec13360814eec530dd2f695e1bafb
         btnLogin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnLoginActionPerformed(evt);
             }
         });
 
+        jLabel4.setForeground(new java.awt.Color(103, 103, 103));
+        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel4.setText("- OR -");
 
         btnCreateAccount.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
@@ -104,120 +139,107 @@ public class FrmLogin extends View {
         btnCreateAccount.setBorderPainted(false);
         btnCreateAccount.setContentAreaFilled(false);
         btnCreateAccount.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnCreateAccount.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCreateAccountActionPerformed(evt);
+            }
+        });
 
-<<<<<<< HEAD
-        scrErrors.setBorder(null);
+        lblUsernameError.setForeground(new java.awt.Color(240, 84, 84));
+        lblUsernameError.setText("error");
+        lblUsernameError.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 5, 0));
 
-        txaErrors.setBackground(new java.awt.Color(255, 219, 219));
-        txaErrors.setColumns(20);
-        txaErrors.setForeground(new java.awt.Color(204, 0, 0));
-        txaErrors.setRows(5);
-        txaErrors.setOpaque(false);
-        scrErrors.setViewportView(txaErrors);
-=======
-        jScrollPane1.setBorder(null);
-        jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        jScrollPane1.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+        lblPasswordError.setForeground(new java.awt.Color(240, 84, 84));
+        lblPasswordError.setText("error");
 
-        jTextArea1.setEditable(false);
-        jTextArea1.setColumns(20);
-        jTextArea1.setLineWrap(true);
-        jTextArea1.setRows(5);
-        jTextArea1.setWrapStyleWord(true);
-        jScrollPane1.setViewportView(jTextArea1);
->>>>>>> 790efe75605ec13360814eec530dd2f695e1bafb
+        lblStatusMessage.setBackground(new java.awt.Color(201, 246, 195));
+        lblStatusMessage.setForeground(new java.awt.Color(39, 167, 79));
+        lblStatusMessage.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblStatusMessage.setOpaque(true);
+
+        txtPassword.setMinimumSize(new java.awt.Dimension(64, 32));
+        txtPassword.setPreferredSize(new java.awt.Dimension(89, 32));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(25, Short.MAX_VALUE)
+                .addComponent(lblUsernameError, javax.swing.GroupLayout.PREFERRED_SIZE, 326, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(24, 24, 24))
             .addGroup(layout.createSequentialGroup()
-                .addGap(19, 19, 19)
+                .addGap(16, 16, 16)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(btnCreateAccount, javax.swing.GroupLayout.DEFAULT_SIZE, 342, Short.MAX_VALUE)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 342, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(lblPasswordError, javax.swing.GroupLayout.PREFERRED_SIZE, 326, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jLabel3)
                     .addComponent(jLabel2)
-                    .addComponent(txtUsername)
-                    .addComponent(txtPassword)
-<<<<<<< HEAD
-                    .addComponent(btnLogin, javax.swing.GroupLayout.DEFAULT_SIZE, 342, Short.MAX_VALUE)
-=======
-                    .addComponent(btnLogin, javax.swing.GroupLayout.DEFAULT_SIZE, 330, Short.MAX_VALUE)
->>>>>>> 790efe75605ec13360814eec530dd2f695e1bafb
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(148, 148, 148)
-                        .addComponent(jLabel4))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(97, 97, 97)
-                        .addComponent(btnCreateAccount))
+                    .addComponent(txtUsername, javax.swing.GroupLayout.DEFAULT_SIZE, 342, Short.MAX_VALUE)
+                    .addComponent(btnLogin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel1)
-<<<<<<< HEAD
-                    .addComponent(scrErrors))
-                .addContainerGap(14, Short.MAX_VALUE))
-=======
-                    .addComponent(jScrollPane1))
-                .addContainerGap(26, Short.MAX_VALUE))
->>>>>>> 790efe75605ec13360814eec530dd2f695e1bafb
+                    .addComponent(lblStatusMessage, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(txtPassword, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(18, 18, 18)
                 .addComponent(jLabel1)
-                .addGap(56, 56, 56)
+                .addGap(18, 18, 18)
+                .addComponent(lblStatusMessage, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtUsername, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblUsernameError)
+                .addGap(2, 2, 2)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblPasswordError)
+                .addGap(33, 33, 33)
                 .addComponent(btnLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnCreateAccount)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-<<<<<<< HEAD
-                .addComponent(scrErrors, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(57, Short.MAX_VALUE))
-=======
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(37, Short.MAX_VALUE))
->>>>>>> 790efe75605ec13360814eec530dd2f695e1bafb
+                .addContainerGap(111, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
         String username = txtUsername.getText();
-        String password = txtPassword.getText();
+        char[] password = txtPassword.getPassword();
         
         if (username.trim().isEmpty()) {
-<<<<<<< HEAD
-            showError("Username is required");
-=======
-            
->>>>>>> 790efe75605ec13360814eec530dd2f695e1bafb
+            lblUsernameError.setText("this field is required");
+            lblUsernameError.setVisible(true);
             return;
         }
         
-        if (password.trim().isEmpty()) {
-<<<<<<< HEAD
-            showError("Password is required");
+        if (txtPassword.getText().trim().isEmpty()) {
+            lblPasswordError.setText("this field is required");
+            lblPasswordError.setVisible(true);
             return;
         }
         
         btnLogin.setEnabled(false);
-        hideError();
+        lblUsernameError.setVisible(false);
+        lblPasswordError.setVisible(false);
         
         emit("submit", username.trim(), password);
-=======
-            return;
-        }
-        
-        emit("submit", txtUsername.getText(), txtPassword.getText());
->>>>>>> 790efe75605ec13360814eec530dd2f695e1bafb
     }//GEN-LAST:event_btnLoginActionPerformed
+
+    private void btnCreateAccountActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateAccountActionPerformed
+        emit("swapToSignup");
+    }//GEN-LAST:event_btnCreateAccountActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -227,14 +249,10 @@ public class FrmLogin extends View {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-<<<<<<< HEAD
-    private javax.swing.JScrollPane scrErrors;
-    private javax.swing.JTextArea txaErrors;
-=======
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
->>>>>>> 790efe75605ec13360814eec530dd2f695e1bafb
-    private javax.swing.JTextField txtPassword;
+    private javax.swing.JLabel lblPasswordError;
+    private javax.swing.JLabel lblStatusMessage;
+    private javax.swing.JLabel lblUsernameError;
+    private javax.swing.JPasswordField txtPassword;
     private javax.swing.JTextField txtUsername;
     // End of variables declaration//GEN-END:variables
 }

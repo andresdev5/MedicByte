@@ -29,7 +29,7 @@ import ec.edu.espe.medicbyte.service.IUserService;
 
 /**
  *
- * @author Adrian iza
+ * @author Andres Jonathan J.
  */
 public class MedicService implements IMedicService {
     private Gson gson;

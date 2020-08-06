@@ -5,7 +5,7 @@ import java.util.List;
 
 /**
  *
- * @author Michael Cobacango
+ * @author Andres Jonathan J.
  */
 public interface ILocationService {
     List<Location> getAllLocations();

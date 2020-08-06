@@ -6,7 +6,6 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
 import ec.edu.espe.medicbyte.service.IAuthService;
 import ec.edu.espe.medicbyte.service.IUserService;
 
-
 /**
  *
  * @author Andres Jonathan J.

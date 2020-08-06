@@ -1,30 +1,72 @@
 [
   {
     "id": 1,
-    "roleId": 1,
-    "username": "admin",
-    "password": "$2a$10$G2Yf79AYE3PIaslE82UrLuSLqMnJLCIArt4/69.ZEYre8cf6tIKdK",
-    "salt": "$2a$10$G2Yf79AYE3PIaslE82UrLu"
+    "roleId": 4,
+    "username": "Johnny Doe",
+    "email": "example@example.com",
+    "password": "$2a$10$OCHa4b1zhxC3Z/womMEeO./yvupSbQqI8dA3Ccn8B0uydefQEGqua"
   },
   {
     "id": 2,
-    "roleId": 2,
-    "username": "jhondoe",
-    "password": "$2a$10$h7sSN0kc.Iuo9ZjJxXqIBuL.ioLLO8QXjKVh3oC3Txpguy2MPCBe6",
-    "salt": "$2a$10$h7sSN0kc.Iuo9ZjJxXqIBu"
+    "roleId": 4,
+    "username": "Joe Doe",
+    "email": "example2@example.com",
+    "password": "$2a$10$FbncEzQhLr3BIjWAteU3Y.t1smBObi0TuhINtdya6fCqzKQuYaN4i"
   },
   {
     "id": 3,
-    "roleId": 2,
-    "username": "mockup_medic_username",
-    "password": "$2a$10$DeIFZ17AGyG7mYLVNZ3m/.uIQ16DlpDBq8rKR95M8AoquRicy.Xsi",
-    "salt": "$2a$10$DeIFZ17AGyG7mYLVNZ3m/."
+    "roleId": 1,
+    "username": "white",
+    "email": "example3@example.com",
+    "password": "$2y$12$yUPweapWjBIFNrhv32QC2u2w8t3X5fVUnkgZJos2q/VtO0t/4ypKe"
   },
   {
     "id": 4,
     "roleId": 1,
-    "username": "dummy_user",
-    "password": "$2a$10$TOpQoXRGi0fy3ssZsmQXuu9rt0qhYRcP8m13XsG29CAhF45jq1Fja",
-    "salt": "$2a$10$TOpQoXRGi0fy3ssZsmQXuu"
+    "username": "ksprwhite",
+    "email": "ksprwhite@gmail.com",
+    "password": "$2a$10$wV93R9T9Mt0e/B0oFvOwX.V8F49pQFV2jaX4YB554j7EyAULwWNgi"
+  },
+  {
+    "id": 5,
+    "roleId": 1,
+    "username": "admin",
+    "email": "admin@medicbyte.com",
+    "password": "$2y$12$UyvJ5Cv9p4XCjtQamRxu/OXOTDnhwldvPLEBlLO55FEgPuoxtvHcS"
+  },
+  {
+    "id": 6,
+    "roleId": 3,
+    "username": "whiter",
+    "email": "white@medicbyte.com",
+    "password": "$2a$10$iqOEvZI2YC/cqJneIkFE0uShwpyw3/DKC9RfJL2PYyMNKBnswEdoW"
+  },
+  {
+    "id": 7,
+    "roleId": 3,
+    "username": "white2",
+    "email": "white2@medicbyte.com",
+    "password": "$2a$10$IX7bIzIxnh8X1Zw15n7aFOUS6x4USeV05uUgrLXColXjuZpAmkqF2"
+  },
+  {
+    "id": 8,
+    "roleId": 3,
+    "username": "white3",
+    "email": "white3@medicbyte.com",
+    "password": "$2a$10$ryo38vlscZ3ym.AVeP7RI.czoFiSwQCwIU/M3MWj6t29RX5HaP1BG"
+  },
+  {
+    "id": 9,
+    "roleId": 3,
+    "username": "white4",
+    "email": "white4@medicbyte.com",
+    "password": "$2a$10$RXzmv0lnvmvQleOdU33Pk.Eij05CkxCcL9xHOJV.NQjejcLSq4ISa"
+  },
+  {
+    "id": 10,
+    "roleId": 3,
+    "username": "white6",
+    "email": "white6@medicbyte.com",
+    "password": "$2a$10$aHylMBEAvEdvccSwsdmiyuW1E6bjJ6Qli3Fs06WryesNTiO8xasB6"
   }
 ]

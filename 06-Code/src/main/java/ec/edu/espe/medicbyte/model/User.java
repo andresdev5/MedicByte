@@ -7,64 +7,64 @@ package ec.edu.espe.medicbyte.model;
 public class User {
     private int id;
     private String username;
+    private String email;
     private String password;
-    private String salt;
     private Role role;
-    
-    public User() {}
+    private UserProfile profile;
 
-    public User(int id, String username, String password, Role role) {
-        this.id = id;
-        this.username = username;
-        this.password = password;
-        this.role = role;
-    }
-
-    public int getId() {
+    public final int getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public final void setId(int id) {
         this.id = id;
     }
 
-    public String getUsername() {
+    public final String getUsername() {
         return username;
     }
 
-    public void setUsername(String username) {
+    public final void setUsername(String username) {
         this.username = username;
     }
 
-    public String getPassword() {
-        return password;
-    }
-    
-    public String getSalt() {
-        return salt;
-    }
-    
-    public void setSalt(String salt) {
-        this.salt = salt;
+    public final String getEmail() {
+        return email;
     }
 
-    public void setPassword(String password) {
+    public final void setEmail(String email) {
+        this.email = email;
+    }
+
+    public final String getPassword() {
+        return password;
+    }
+
+    public final void setPassword(String password) {
         this.password = password;
     }
 
-    public Role getRole() {
+    public final Role getRole() {
         return role;
     }
 
-    public void setRole(Role role) {
+    public final void setRole(Role role) {
         this.role = role;
     }
     
-    public boolean hasRole(String roleName) {
+    public final boolean hasRole(String roleName) {
         return role.getName().equalsIgnoreCase(roleName);
     }
     
-    public boolean hasRole(int id) {
+    public final boolean hasRole(int id) {
         return role.getId() == id;
+    }
+
+    public UserProfile getProfile() {
+        return profile;
+    }
+
+    public void setProfile(UserProfile profile) {
+        this.profile = profile;
     }
 }

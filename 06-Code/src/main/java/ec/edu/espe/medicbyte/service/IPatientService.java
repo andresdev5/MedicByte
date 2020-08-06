@@ -5,7 +5,7 @@ import java.util.List;
 
 /**
  *
- * @author Junior Jurado.
+ * @author Andres Jonathan J.
  */
 public interface IPatientService {
     public Patient addPatient(int userId, String idCard, boolean affiliated);

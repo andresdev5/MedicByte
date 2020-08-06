@@ -22,6 +22,32 @@ public class StringUtils {
         + "*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-"
         + "\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])";
     
+    private final static String NON_THIN = "[^iIl1\\.,']";
+
+    public static String truncate(String text, int max) {
+
+        if (textWidth(text) <= max)
+            return text;
+
+        int end = text.lastIndexOf(' ', max - 3);
+
+        if (end == -1)
+            return text.substring(0, max-3) + "...";
+
+        int newEnd = end;
+        do {
+            end = newEnd;
+            newEnd = text.indexOf(' ', end + 1);
+
+            // No more spaces.
+            if (newEnd == -1)
+                newEnd = text.length();
+
+        } while (textWidth(text.substring(0, newEnd) + "...") < max);
+
+        return text.substring(0, end) + "...";
+    }
+    
     public static String repeat(String sequence, int times) {
         if (times <= 0) {
             return "";
@@ -110,5 +136,9 @@ public class StringUtils {
     
     public static boolean isValidEmail(String email) {
         return email.matches(EMAIL_REGEX);
+    }
+
+    private static int textWidth(String str) {
+        return (int) (str.length() - str.replaceAll(NON_THIN, "").length() / 2);
     }
 }

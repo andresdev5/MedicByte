@@ -5,20 +5,22 @@ import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import ec.edu.espe.medicbyte.common.core.Router;
 import ec.edu.espe.medicbyte.common.core.WindowsManager;
-import ec.edu.espe.medicbyte.service.AppointmentService;
-import ec.edu.espe.medicbyte.service.AuthService;
-import ec.edu.espe.medicbyte.service.MedicService;
-import ec.edu.espe.medicbyte.service.PatientService;
-import ec.edu.espe.medicbyte.service.RoleService;
-import ec.edu.espe.medicbyte.service.SpecialityService;
-import ec.edu.espe.medicbyte.service.UserService;
-import ec.edu.espe.medicbyte.service.impl.AppointmentServiceImpl;
-import ec.edu.espe.medicbyte.service.impl.AuthServiceImpl;
-import ec.edu.espe.medicbyte.service.impl.MedicServiceImpl;
-import ec.edu.espe.medicbyte.service.impl.PatientServiceImpl;
-import ec.edu.espe.medicbyte.service.impl.RoleServiceImpl;
-import ec.edu.espe.medicbyte.service.impl.SpecialityServiceImpl;
-import ec.edu.espe.medicbyte.service.impl.UserServiceImpl;
+import ec.edu.espe.medicbyte.service.impl.AppointmentService;
+import ec.edu.espe.medicbyte.service.impl.AuthService;
+import ec.edu.espe.medicbyte.service.impl.MedicService;
+import ec.edu.espe.medicbyte.service.impl.PatientService;
+import ec.edu.espe.medicbyte.service.impl.RoleService;
+import ec.edu.espe.medicbyte.service.impl.SpecialityService;
+import ec.edu.espe.medicbyte.service.impl.UserService;
+import ec.edu.espe.medicbyte.service.impl.LocationService;
+import ec.edu.espe.medicbyte.service.IAuthService;
+import ec.edu.espe.medicbyte.service.IMedicService;
+import ec.edu.espe.medicbyte.service.IAppointmentService;
+import ec.edu.espe.medicbyte.service.ILocationService;
+import ec.edu.espe.medicbyte.service.IPatientService;
+import ec.edu.espe.medicbyte.service.IRoleService;
+import ec.edu.espe.medicbyte.service.ISpecialityService;
+import ec.edu.espe.medicbyte.service.IUserService;
 
 /**
  *
@@ -45,20 +47,22 @@ public class MainModule extends AbstractModule {
         this.bind(Router.class).in(Singleton.class);
         
         // bind services
-        this.bind(AuthService.class)
-            .to(AuthServiceImpl.class).in(Singleton.class);
-        this.bind(UserService.class)
-            .to(UserServiceImpl.class).in(Singleton.class);
-        this.bind(MedicService.class)
-            .to(MedicServiceImpl.class).in(Singleton.class);
-        this.bind(PatientService.class)
-            .to(PatientServiceImpl.class).in(Singleton.class);
-        this.bind(AppointmentService.class)
-            .to(AppointmentServiceImpl.class).in(Singleton.class);
-        this.bind(RoleService.class)
-            .to(RoleServiceImpl.class).in(Singleton.class);
-        this.bind(SpecialityService.class)
-            .to(SpecialityServiceImpl.class).in(Singleton.class);
+        this.bind(IAuthService.class)
+            .to(AuthService.class).in(Singleton.class);
+        this.bind(IUserService.class)
+            .to(UserService.class).in(Singleton.class);
+        this.bind(IMedicService.class)
+            .to(MedicService.class).in(Singleton.class);
+        this.bind(IPatientService.class)
+            .to(PatientService.class).in(Singleton.class);
+        this.bind(IAppointmentService.class)
+            .to(AppointmentService.class).in(Singleton.class);
+        this.bind(IRoleService.class)
+            .to(RoleService.class).in(Singleton.class);
+        this.bind(ISpecialityService.class)
+            .to(SpecialityService.class).in(Singleton.class);
+        this.bind(ILocationService.class)
+            .to(LocationService.class).in(Singleton.class);
         
         // bind console singleton instance
         //this.bind(Console.class).toInstance(Console.getInstance());

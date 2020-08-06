@@ -5,7 +5,6 @@ import ec.edu.espe.medicbyte.model.Patient;
 import java.util.List;
 import java.util.function.Function;
 
-
 /**
  *
  * @author Andres Jonathan J.

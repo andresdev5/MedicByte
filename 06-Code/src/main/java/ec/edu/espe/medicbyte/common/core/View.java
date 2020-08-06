@@ -47,9 +47,19 @@ public abstract class View extends JPanel implements ICommunicable {
         emit(eventName, new UIEventArguments(args));
     }
     
+    public void leave() {
+        onLeave();
+    }
+    
+    public void enter() {
+        onEnter();
+    }
+    
     private void notifyChange(String name, Object oldValue, Object newValue) {
         onChange(name, oldValue, newValue);
     }
     
     protected abstract void onChange(String name, Object oldValue, Object newValue);
+    protected abstract void onLeave();
+    protected abstract void onEnter();
 }

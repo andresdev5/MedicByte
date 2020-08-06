@@ -23,8 +23,8 @@ public class UserModelSerializer implements JsonSerializer<User> {
         }
         
         jsonObject.add("username", context.serialize(user.getUsername()));
+        jsonObject.add("email", context.serialize(user.getEmail()));
         jsonObject.add("password", context.serialize(user.getPassword()));
-        jsonObject.add("salt", context.serialize(user.getSalt()));
         
         return jsonObject;
     }

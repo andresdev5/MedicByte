@@ -4,7 +4,6 @@ import ec.edu.espe.medicbyte.model.Permission;
 import ec.edu.espe.medicbyte.model.Role;
 import java.util.List;
 
-
 /**
  *
  * @author Andres Jonathan J.

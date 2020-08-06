@@ -7,7 +7,7 @@ import java.util.List;
 
 /**
  *
- * @author Adrian iza
+ * @author Andres Jonathan J.
  */
 public interface IMedicService {
     public List<Medic> getAllMedics();
