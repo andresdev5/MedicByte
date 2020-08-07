@@ -4,15 +4,20 @@ import ec.edu.espe.medicbyte.model.Appointment;
 import ec.edu.espe.medicbyte.util.StringUtils;
 import java.awt.Color;
 import java.time.format.DateTimeFormatter;
+import javax.swing.JOptionPane;
 import jiconfont.icons.font_awesome.FontAwesome;
 import jiconfont.swing.IconFontSwing;
+
+import static javax.swing.JOptionPane.YES_NO_OPTION;
+
 
 /**
  *
  * @author Andres Jonathan J.
  */
 public class AppointmentItem extends javax.swing.JPanel {
-
+    private Runnable cancelCallback;
+    
     /**
      * Creates new form AppointmentItem
      * 
@@ -45,6 +50,8 @@ public class AppointmentItem extends javax.swing.JPanel {
         
         lblSpecialityValue.setText(appointment.getSpeciality().getName());
         
+        btnCancel.setVisible(false);
+        
         switch (appointment.getStatus().name()) {
             case "PENDENT":
                 lblStatus.setBackground(new Color(208, 212, 215));
@@ -57,38 +64,35 @@ public class AppointmentItem extends javax.swing.JPanel {
                 lblStatus.setForeground(new Color(75, 184, 93));
                 lblStatus.setText("Approved");
                 btnCancel.setVisible(true);
-                btnReschedule.setVisible(true);
             break;
             case "RESCHEDULED":
                 lblStatus.setBackground(new Color(189, 211, 255));
                 lblStatus.setForeground(new Color(30, 144, 255));
                 lblStatus.setText("Rescheduled");
-                btnCancel.setVisible(true);
             break;
             case "CANCELLED":
                 lblStatus.setBackground(new Color(255, 153, 168));
                 lblStatus.setForeground(new Color(209, 0, 31));
                 lblStatus.setText("Cancelled");
-                btnReschedule.setText("Pendent");
             break;
             case "FINISHED":
                 lblStatus.setBackground(new Color(206, 247, 236));
                 lblStatus.setForeground(new Color(25, 183, 142));
                 lblStatus.setText("Finished");
-                btnReschedule.setText("Pendent");
             break;
             case "REJECTED":
                 lblStatus.setBackground(new Color(255, 153, 168));
                 lblStatus.setForeground(new Color(209, 0, 31));
                 lblStatus.setText("Rejected");
-                btnReschedule.setText("Pendent");
             break;
         }
         
         btnReschedule.setVisible(false);
-        btnCancel.setVisible(false);
-        
         lblMedicAvatar.setIcon(IconFontSwing.buildIcon(FontAwesome.USER_MD, 56, new Color(115, 115, 115)));
+    }
+    
+    public void onCancel(Runnable callback) {
+        cancelCallback = callback;
     }
 
     /**
@@ -381,7 +385,16 @@ public class AppointmentItem extends javax.swing.JPanel {
     }//GEN-LAST:event_btnRescheduleActionPerformed
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
-        // TODO add your handling code here:
+        int action = JOptionPane.showConfirmDialog(
+            this.getRootPane(),
+            "Do you want cancel this appointment?",
+            "Are you sure?",
+            YES_NO_OPTION
+        );
+        
+        if (action == 0) {
+            cancelCallback.run();
+        }
     }//GEN-LAST:event_btnCancelActionPerformed
 
 

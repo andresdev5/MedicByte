@@ -2,7 +2,6 @@ package ec.edu.espe.medicbyte.service;
 
 import ec.edu.espe.medicbyte.model.Medic;
 import ec.edu.espe.medicbyte.model.Speciality;
-import ec.edu.espe.medicbyte.model.User;
 import java.util.List;
 
 /**
@@ -10,9 +9,9 @@ import java.util.List;
  * @author Andres Jonathan J.
  */
 public interface IMedicService {
-    public List<Medic> getAllMedics();
-    public int getTotalMedics();
-    public boolean addMedic(User user, Speciality speciality, String fullName);
-    public boolean addMedic(Medic medic);
-    public Medic getMedic(int id);
+    List<Medic> getAllMedics();
+    int getTotalMedics();
+    Medic addMedic(Medic medic);
+    Medic addMedic(int userId, Speciality speciality);
+    Medic getMedic(int id);
 }

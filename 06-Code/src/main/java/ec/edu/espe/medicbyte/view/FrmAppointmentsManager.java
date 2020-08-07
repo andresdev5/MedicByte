@@ -6,6 +6,7 @@ import ec.edu.espe.medicbyte.model.Location;
 import ec.edu.espe.medicbyte.model.Medic;
 import java.util.List;
 import java.util.stream.Collectors;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -22,6 +23,15 @@ public class FrmAppointmentsManager extends View {
         initComponents();
         appointmentsScrollPanel.getViewport().setOpaque(false);
         btnRescheduledRequests.setVisible(false);
+        
+        listen("updatedAppointment", (args) -> {
+            JOptionPane.showMessageDialog(
+                getRootPane(),
+                "Appointment succesfully updated!",
+                "Updated",
+                JOptionPane.INFORMATION_MESSAGE
+            );
+        });
     }
     
     @Override
@@ -46,6 +56,11 @@ public class FrmAppointmentsManager extends View {
                 item.onReject(() -> emit("rejectedAppointment", appointment));
                 appointmentsContainer.add(item);
             });
+            
+            if (appointments.isEmpty()) {
+                appointmentsContainer.add(pnlEmptyRecords);
+            }
+            
             repaint();
             revalidate();
         }
@@ -66,6 +81,8 @@ public class FrmAppointmentsManager extends View {
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
+        pnlEmptyRecords = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
         jPanel7 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
@@ -82,6 +99,15 @@ public class FrmAppointmentsManager extends View {
         jLabel16 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
 
+        pnlEmptyRecords.setOpaque(false);
+        pnlEmptyRecords.setLayout(new java.awt.BorderLayout());
+
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(153, 153, 153));
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel2.setText("No records found");
+        pnlEmptyRecords.add(jLabel2, java.awt.BorderLayout.CENTER);
+
         setPreferredSize(new java.awt.Dimension(600, 454));
 
         jPanel5.setOpaque(false);
@@ -95,28 +121,28 @@ public class FrmAppointmentsManager extends View {
         jPanel1.setOpaque(false);
         jPanel1.setLayout(new javax.swing.BoxLayout(jPanel1, javax.swing.BoxLayout.LINE_AXIS));
 
-        btnPendentForApproval.setBackground(new java.awt.Color(75, 101, 132));
-        btnPendentForApproval.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnPendentForApproval.setForeground(new java.awt.Color(255, 255, 255));
         btnPendentForApproval.setText("Pendent for approval");
+        btnPendentForApproval.setBackground(new java.awt.Color(75, 101, 132));
         btnPendentForApproval.setBorder(javax.swing.BorderFactory.createEmptyBorder(6, 12, 6, 12));
         btnPendentForApproval.setBorderPainted(false);
         btnPendentForApproval.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnPendentForApproval.setFocusPainted(false);
         btnPendentForApproval.setFocusable(false);
+        btnPendentForApproval.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnPendentForApproval.setForeground(new java.awt.Color(255, 255, 255));
         btnPendentForApproval.setOpaque(true);
         jPanel1.add(btnPendentForApproval);
         jPanel1.add(filler1);
 
-        btnRescheduledRequests.setBackground(new java.awt.Color(215, 221, 228));
-        btnRescheduledRequests.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnRescheduledRequests.setForeground(new java.awt.Color(75, 101, 133));
         btnRescheduledRequests.setText("Reschedule requests");
+        btnRescheduledRequests.setBackground(new java.awt.Color(215, 221, 228));
         btnRescheduledRequests.setBorder(javax.swing.BorderFactory.createEmptyBorder(6, 12, 6, 12));
         btnRescheduledRequests.setBorderPainted(false);
         btnRescheduledRequests.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnRescheduledRequests.setFocusPainted(false);
         btnRescheduledRequests.setFocusable(false);
+        btnRescheduledRequests.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnRescheduledRequests.setForeground(new java.awt.Color(75, 101, 133));
         btnRescheduledRequests.setOpaque(true);
         jPanel1.add(btnRescheduledRequests);
 
@@ -185,8 +211,8 @@ public class FrmAppointmentsManager extends View {
         gridBagConstraints.weighty = 1.0;
         jPanel5.add(jPanel7, gridBagConstraints);
 
-        jLabel1.setText("Manage appointments");
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 17)); // NOI18N
+        jLabel1.setText("Manage appointments");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -204,7 +230,7 @@ public class FrmAppointmentsManager extends View {
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addGap(20, 20, 20)
-                .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, 404, Short.MAX_VALUE))
+                .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -219,11 +245,13 @@ public class FrmAppointmentsManager extends View {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JPanel paginationPanel;
+    private javax.swing.JPanel pnlEmptyRecords;
     // End of variables declaration//GEN-END:variables
 }

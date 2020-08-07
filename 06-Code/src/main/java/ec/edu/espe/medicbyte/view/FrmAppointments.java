@@ -34,10 +34,17 @@ public class FrmAppointments extends View {
     protected void onChange(String name, Object oldValue, Object newValue) {
         if (name.equals("appointments")) {
             appointments = (List<Appointment>) newValue;
-            appointments.sort((a, b) -> a.getDate().compareTo(b.getDate()));
             appointmentsContainer.removeAll();
-            appointments.forEach(appointment -> appointmentsContainer.add(new AppointmentItem(appointment)));
-            validate();
+            appointments.sort(Comparator.comparingInt((Appointment a) -> a.getId()).reversed());
+            appointments.forEach(appointment -> {
+                AppointmentItem item = new AppointmentItem(appointment);
+                item.onCancel(() -> emit("cancelAppointment", appointment));
+                appointmentsContainer.add(item);
+            });
+            
+            if (appointments.isEmpty()) {
+                appointmentsContainer.add(pnlEmptyRecords);
+            }
         }
         
         if (name.equals("specialities")) {
@@ -46,6 +53,9 @@ public class FrmAppointments extends View {
             cbxSpecialties.addItem("ALL");
             specialties.forEach(specialty -> cbxSpecialties.addItem(specialty.getName()));
         }
+        
+        repaint();
+        validate();
     }
     
     @Override
@@ -68,56 +78,57 @@ public class FrmAppointments extends View {
             ? "ALL"
             : ((String)cbxSpecialties.getModel().getSelectedItem()).toLowerCase();
         List<Appointment> filtered = new ArrayList<>(appointments);
-        
+
         if (!status.equalsIgnoreCase("ALL")) {
             filtered = filterAppointments(filtered, (appointment) -> {
                 return appointment.getStatus().name().toLowerCase().equals(status);
             });
         }
-        
+
         if (!specialty.equalsIgnoreCase("ALL")) {
             filtered = filterAppointments(filtered, (appointment) -> {
-                Medic medic = appointment.getMedic();
-                return medic != null && medic.getSpeciality().getName().toLowerCase().equals(specialty);
+                return appointment.getSpeciality().getName().toLowerCase().equals(specialty);
             });
         }
-        
+
         if (!txtMedicName.getText().trim().isEmpty()) {
             filtered = filterAppointments(filtered, (appointment) -> {
                 if (appointment.getMedic() == null) {
                     return false;
                 }
-                
+
                 String medicName = appointment.getMedic().getProfile().getFullName().toLowerCase();
                 String term = txtMedicName.getText().toLowerCase();
                 return medicName.contains(term);
             });
         }
-        
+
         appointmentsContainer.removeAll();
-        
+
         filtered.forEach(appointment -> {
             AppointmentItem item = new AppointmentItem(appointment);
+            item.onCancel(() -> emit("cancelAppointment", appointment));
             appointmentsContainer.add(item);
         });
-        
+
         lblTotalAppointments.setText(String.valueOf(filtered.size()));
-        
-        validate();
+
         repaint();
+        revalidate();
     }
     
     private void sortAppointments() {
-        boolean descendant = !chkSortDescendant.isSelected();
+        boolean descendant = chkSortDescendant.isSelected();
         String type = ((String) cmbSortType.getSelectedItem()).trim().toLowerCase();
         Comparator<Appointment> comparable = null;
         
         switch (type) {
             case "requested date":
-                comparable = Comparator.comparing(a -> a.getId());
+                comparable = Comparator.comparingInt(a -> a.getId());
                 break;
             case "scheduled date":
-                comparable = Comparator.comparing(a -> a.getDate());
+                comparable = Comparator.comparing(
+                    Appointment::getDate, Comparator.nullsLast(Comparator.reverseOrder()));
                 break;
             case "medic name":
                 comparable = Comparator.comparing(a -> {
@@ -154,6 +165,8 @@ public class FrmAppointments extends View {
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
+        pnlEmptyRecords = new javax.swing.JPanel();
+        jLabel11 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
@@ -181,6 +194,15 @@ public class FrmAppointments extends View {
         jLabel5 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jSeparator2 = new javax.swing.JSeparator();
+
+        pnlEmptyRecords.setOpaque(false);
+        pnlEmptyRecords.setLayout(new java.awt.BorderLayout());
+
+        jLabel11.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jLabel11.setForeground(new java.awt.Color(153, 153, 153));
+        jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel11.setText("No records found");
+        pnlEmptyRecords.add(jLabel11, java.awt.BorderLayout.CENTER);
 
         setMinimumSize(new java.awt.Dimension(600, 0));
         setOpaque(false);
@@ -248,7 +270,7 @@ public class FrmAppointments extends View {
                         .addComponent(jLabel10)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(txtMedicName, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(16, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -256,7 +278,7 @@ public class FrmAppointments extends View {
                 .addComponent(jLabel2)
                 .addGap(12, 12, 12)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(cbxStatuses, javax.swing.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
+                    .addComponent(cbxStatuses)
                     .addComponent(txtMedicName)
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel8)
@@ -301,7 +323,7 @@ public class FrmAppointments extends View {
         jLabel7.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
         jPanel4.add(jLabel7);
 
-        cmbSortType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Scheduled date", "Requested date", "Medic name" }));
+        cmbSortType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Requested date", "Scheduled date", "Medic name" }));
         cmbSortType.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cmbSortTypeActionPerformed(evt);
@@ -309,7 +331,8 @@ public class FrmAppointments extends View {
         });
 
         chkSortDescendant.setSelected(true);
-        chkSortDescendant.setText("Descendant");
+        chkSortDescendant.setText("Descending");
+        chkSortDescendant.setAutoscrolls(true);
         chkSortDescendant.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 chkSortDescendantActionPerformed(evt);
@@ -439,11 +462,11 @@ public class FrmAppointments extends View {
     }//GEN-LAST:event_txtMedicNameKeyReleased
 
     private void cmbSortTypeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbSortTypeActionPerformed
-        sortAppointments();
+        new Thread(() -> sortAppointments()).start();
     }//GEN-LAST:event_cmbSortTypeActionPerformed
 
     private void chkSortDescendantActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkSortDescendantActionPerformed
-        sortAppointments();
+        new Thread(() -> sortAppointments()).start();
     }//GEN-LAST:event_chkSortDescendantActionPerformed
 
 
@@ -457,6 +480,7 @@ public class FrmAppointments extends View {
     private javax.swing.JComboBox<String> cmbSortType;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -474,6 +498,7 @@ public class FrmAppointments extends View {
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JLabel lblTotalAppointments;
     private javax.swing.JPanel paginationPanel;
+    private javax.swing.JPanel pnlEmptyRecords;
     private javax.swing.JTextField txtMedicName;
     // End of variables declaration//GEN-END:variables
 }

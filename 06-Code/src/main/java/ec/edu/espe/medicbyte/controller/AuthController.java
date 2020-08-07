@@ -105,7 +105,7 @@ public class AuthController extends Controller {
                 JOptionPane.showMessageDialog(
                     signupView,
                     "Role 'patient' not found. please contact with administrator or reinstall application",
-                    email,
+                    "Database Error",
                     JOptionPane.ERROR_MESSAGE
                 );
                 return;
@@ -117,7 +117,7 @@ public class AuthController extends Controller {
                 JOptionPane.showMessageDialog(
                     signupView,
                     "Error while trying to create new user, please try again.",
-                    email,
+                    "Database Error",
                     JOptionPane.ERROR_MESSAGE
                 );
                 return;

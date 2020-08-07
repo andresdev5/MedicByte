@@ -95,10 +95,55 @@
   },
   {
     "id": 11,
-    "date": "06-08-2020",
-    "status": "PENDENT",
+    "date": "28-08-2020",
+    "status": "APPROVED",
     "description": "",
+    "medicId": 1,
     "patientId": 11,
+    "locationId": 2,
     "specialityId": 3
+  },
+  {
+    "id": 12,
+    "date": "28-08-2020",
+    "status": "REJECTED",
+    "description": "",
+    "patientId": 12,
+    "specialityId": 1
+  },
+  {
+    "id": 13,
+    "date": "10-08-2020",
+    "status": "CANCELLED",
+    "description": "",
+    "patientId": 12,
+    "specialityId": 3
+  },
+  {
+    "id": 14,
+    "date": "28-08-2020",
+    "status": "CANCELLED",
+    "description": "",
+    "patientId": 12,
+    "specialityId": 4
+  },
+  {
+    "id": 15,
+    "date": "13-08-2020",
+    "status": "CANCELLED",
+    "description": "",
+    "patientId": 12,
+    "specialityId": 1
+  },
+  {
+    "id": 16,
+    "date": "28-08-2020",
+    "hour": "09:00",
+    "status": "APPROVED",
+    "description": "",
+    "medicId": 16,
+    "patientId": 12,
+    "locationId": 2,
+    "specialityId": 4
   }
 ]

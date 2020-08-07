@@ -1,14 +1,13 @@
 package ec.edu.espe.medicbyte.view;
 
-import com.google.gson.GsonBuilder;
 import ec.edu.espe.medicbyte.model.Appointment;
 import ec.edu.espe.medicbyte.model.Location;
 import ec.edu.espe.medicbyte.model.Medic;
-import ec.edu.espe.medicbyte.view.ApproveAppointmentWindow.ApproveContext;
+import ec.edu.espe.medicbyte.view.ApproveAppointmentDialog.ApproveContext;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.function.Consumer;
-import javax.swing.JFrame;
+import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 
 import static javax.swing.JOptionPane.YES_NO_OPTION;
@@ -200,12 +199,16 @@ public class RequestedAppointmentItem extends javax.swing.JPanel {
     }//GEN-LAST:event_btnRejectActionPerformed
 
     private void btnApproveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnApproveActionPerformed
-        ApproveAppointmentWindow window = new ApproveAppointmentWindow(appointment, medics, locations, (context) -> {
+        ApproveAppointmentDialog dialog = new ApproveAppointmentDialog(appointment, medics, locations, (context) -> {
                approveCallback.accept(context);
         });
         
-        window.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        window.setVisible(true);
+        //dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+        dialog.setTitle("Approve an appointment");
+        dialog.setLocationRelativeTo(this.getParent());
+        dialog.setModal(true);
+        dialog.setVisible(true);
+        dialog.pack();
     }//GEN-LAST:event_btnApproveActionPerformed
 
 

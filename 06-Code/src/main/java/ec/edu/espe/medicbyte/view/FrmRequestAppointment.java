@@ -15,6 +15,7 @@ import jiconfont.swing.IconFontSwing;
  */
 public class FrmRequestAppointment extends View {
     public static enum StatusMessage { SUCCESS, ERROR }
+    private boolean requestingAppointment = false;
     
     private List<Speciality> specialities;
     /**
@@ -43,6 +44,10 @@ public class FrmRequestAppointment extends View {
         listen("success", (args) -> {
             txaDescription.setText("");
             datepkrAppointmentDate.clear();
+        });
+        
+        listen("submitComplete", (args) -> {
+            requestingAppointment = false;
         });
     }
     
@@ -234,7 +239,9 @@ public class FrmRequestAppointment extends View {
         LocalDate date;
         String description = "";
         
-        btnRequestAppointment.setEnabled(false);
+        if (requestingAppointment) {
+            return;
+        }
         
         speciality = specialities.stream().filter(s -> {
             return s.getName().equals((String) cmbSpeciality.getSelectedItem());
@@ -254,6 +261,8 @@ public class FrmRequestAppointment extends View {
             return;
         }
         
+        requestingAppointment = true;
+        btnRequestAppointment.setEnabled(false);
         date = datepkrAppointmentDate.getDate();
         
         if (!txaDescription.getText().trim().isEmpty()) {

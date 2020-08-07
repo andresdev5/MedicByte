@@ -10,23 +10,14 @@ import java.util.function.Function;
  * @author Andres Jonathan J.
  */
 public interface IAppointmentService {
-    public List<Appointment> getAllAppointments();
-    
-    public int getTotalAppointments();
-    
-    public boolean addPatientAppointment(Appointment appointment, Patient patient);
-    
-    public List<Appointment> getPatientAppointments(int userId);
-    
-    public Appointment getAppointment(int id);
-    
-    public Appointment findAppointment(Function<Appointment, Boolean> comparable);
-    
-    public boolean updateAppointment(Appointment appointment);
-    
-    public boolean deleteAppointment(Appointment appointment);
-    
-    public boolean deleteAppointment(int id);
-
-    public boolean addAppointment(Appointment appointment);
+    List<Appointment> getAllAppointments();
+    int getTotalAppointments();
+    boolean addPatientAppointment(Appointment appointment, Patient patient);
+    List<Appointment> getPatientAppointments(int userId);
+    Appointment getAppointment(int id);
+    Appointment findAppointment(Function<Appointment, Boolean> comparable);
+    boolean updateAppointment(Appointment appointment);
+    boolean deleteAppointment(Appointment appointment);
+    boolean deleteAppointment(int id);
+    boolean addAppointment(Appointment appointment);
 }

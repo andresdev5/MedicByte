@@ -61,6 +61,7 @@ public class Application extends Container {
         mainWindow.listen("logout", (args) -> {
             authService.logout();
             mainWindow.clearMenuItems();
+            mainWindow.display(null);
             mainWindow.dispose();
             router.run("auth");
         });
@@ -74,9 +75,16 @@ public class Application extends Container {
                     return true;
                 }
             ).withKey("manageAppointments"));
-        }
-        
-        if (!authService.getCurrentUser().hasRole("admin")) {
+            
+            mainWindow.addMenuItem(new MainWindow.MenuItem(
+                "Add medic",
+                FontAwesome.USER_PLUS,
+                () -> {
+                    router.run("medics", "add");
+                    return true;
+                }
+            ).withKey("addMedic"));
+        } else {
             mainWindow.addMenuItem(new MainWindow.MenuItem(
                 "Appointments",
                 FontAwesome.CALENDAR_CHECK_O,

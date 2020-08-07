@@ -123,6 +123,12 @@ public class FrmRegister extends View {
                     return false;
                 }
             break;
+            case PASSWORD:
+                if(txtPassword.getPassword().length < 4) {
+                    showError(field, "The password must have at least 4 characters");
+                    return false;
+                }
+            break;
             case PASSWORD2:
                 String password = String.valueOf(txtPassword.getPassword());
                 String password2 = String.valueOf(txtPassword2.getPassword());

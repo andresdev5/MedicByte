@@ -8,6 +8,7 @@ import java.awt.Component;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JButton;
@@ -62,17 +63,16 @@ public class MainWindow extends Window {
         public JPanel wrapper;
     }
     
+    private AtomicBoolean navigating = new AtomicBoolean(false);
     private List<MenuItemContext> menuItems = new ArrayList<>();
+    private PnlLoadingOverlay pnlLoading = new PnlLoadingOverlay();
     
     /** Creates new form FrmAppointments */
     public MainWindow() {
         super();
         initComponents();
-        btnAccount.setVisible(false);
-        btnNotifications.setVisible(false);
-        
-        avatar.setIcon(IconFontSwing.buildIcon(
-            FontAwesome.USER, 52, new Color(90, 90, 90)));
+        setLocationRelativeTo(null);
+        setupComponents();
     }
     
     @Override
@@ -114,8 +114,33 @@ public class MainWindow extends Window {
         revalidate();
     }
     
+    private void setupComponents() {
+        btnAccount.setVisible(false);
+        btnNotifications.setVisible(false);
+        avatar.setIcon(IconFontSwing.buildIcon(FontAwesome.USER, 52, new Color(90, 90, 90)));
+        setIconImage(IconFontSwing.buildImage(FontAwesome.HEARTBEAT, 16, new Color(82, 116, 147)));
+    }
+    
     private void setUserContext(User context) {
-        txaUsername.setText(context.getUsername());
+        String displayName;
+        
+        if (context.getProfile() != null 
+            && context.getProfile().getFullName() != null
+            && !context.getProfile().getFullName().trim().isEmpty()) {
+            displayName = context.getProfile().getFullName();
+        } else {
+            displayName = context.getUsername();
+        }
+        
+        displayName = displayName.substring(0, 1).toUpperCase() + displayName.substring(1);
+        txaUsername.setText(displayName);
+        
+        repaint();
+        revalidate();
+    }
+    
+    public void setStatusBarContent(String content) {
+        lblStatusbarContent.setText(content);
         repaint();
         revalidate();
     }
@@ -128,55 +153,69 @@ public class MainWindow extends Window {
     }
     
     public void selectMenuItem(String key) {
-        menuItems.stream().filter(i -> i.item.getKey().equals(key))
-            .forEach(item -> selectMenuItem(item.item));
-        
-        repaint();
-        revalidate();
+        MenuItemContext context = menuItems.stream().filter(i -> i.item.getKey().equals(key)).findFirst().orElse(null);
+        selectMenuItem(context.item);
     }
     
     public void selectMenuItem(MenuItem item) {
-        boolean accepted;
-                    
-        try {
-            accepted = item.getCallback().call();
-        } catch (Exception ex) {
-            Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
-            accepted = false;
-        }
-
-        if (!accepted) {
+        if (navigating.get()) {
             repaint();
             revalidate();
             return;
         }
         
-        MenuItemContext context = item.getContext();
-
-        context.wrapper.setOpaque(true);
-        context.button.setForeground(new Color(255, 255, 255));
-
-        if (item.getIcon() != null) {
-            context.button.setIcon(IconFontSwing.buildIcon(
-                    item.getIcon(), 15, new Color(255, 255, 255)));
-        }
-
-        menuItems.forEach(menuItem -> {
-            if (menuItem.item == item) {
+        display(pnlLoading);
+        setStatusBarContent(String.format("Navigating to %s...", item.label));
+        
+        new Thread(() -> {
+            boolean accepted;
+            
+            navigating.set(true);
+            
+            try {
+                accepted = item.getCallback().call();
+            } catch (Exception ex) {
+                Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+                accepted = false;
+            }
+            
+            setStatusBarContent("Done!");
+            
+            if (!accepted) {
+                repaint();
+                revalidate();
+                navigating.set(false);
                 return;
             }
 
-            menuItem.button.setForeground(new Color(71, 71, 71));
-            menuItem.wrapper.setOpaque(false);
+            MenuItemContext context = item.getContext();
 
-            if (menuItem.item.getIcon() != null) {
-                menuItem.button.setIcon(IconFontSwing.buildIcon(
-                        menuItem.item.getIcon(), 15, new Color(71, 71, 71)));
+            context.wrapper.setOpaque(true);
+            context.button.setForeground(new Color(255, 255, 255));
+
+            if (item.getIcon() != null) {
+                context.button.setIcon(IconFontSwing.buildIcon(
+                        item.getIcon(), 15, new Color(255, 255, 255)));
             }
-        });
 
-        repaint();
-        revalidate();
+            menuItems.forEach(menuItem -> {
+                if (menuItem.item == item) {
+                    return;
+                }
+
+                menuItem.button.setForeground(new Color(71, 71, 71));
+                menuItem.wrapper.setOpaque(false);
+
+                if (menuItem.item.getIcon() != null) {
+                    menuItem.button.setIcon(IconFontSwing.buildIcon(
+                            menuItem.item.getIcon(), 15, new Color(71, 71, 71)));
+                }
+            });
+
+            navigating.set(false);
+            repaint();
+            revalidate();
+        }).start();
     }
     
     public void addMenuItem(MenuItem item) {
@@ -259,6 +298,7 @@ public class MainWindow extends Window {
         lblStatusbarContent = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("MedicByte");
         setMinimumSize(new java.awt.Dimension(900, 400));
         setPreferredSize(new java.awt.Dimension(900, 550));
 
@@ -278,7 +318,7 @@ public class MainWindow extends Window {
         avatar.setOpaque(true);
 
         usernameScrollPanel.setBackground(new java.awt.Color(204, 204, 255));
-        usernameScrollPanel.setBorder(null);
+        usernameScrollPanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 3, 0, 0));
         usernameScrollPanel.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         usernameScrollPanel.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
         usernameScrollPanel.setOpaque(false);

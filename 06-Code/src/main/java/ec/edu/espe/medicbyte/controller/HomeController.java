@@ -40,6 +40,7 @@ public class HomeController extends Controller {
             mainWindow.selectMenuItem("appointments");
         } else {
             mainWindow.display(null);
+            mainWindow.selectMenuItem("manageAppointments");
         }
     }
 }

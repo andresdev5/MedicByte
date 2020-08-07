@@ -75,5 +75,40 @@
     "username": "andres",
     "email": "ajjacome2@espe.edu.ec",
     "password": "$2a$10$T1/n1hommbjp5S38MsNVAOSNb7EimeqRvyxt7mGLt0fmi60PgEJa."
+  },
+  {
+    "id": 12,
+    "roleId": 3,
+    "username": "Jonathan",
+    "email": "ajjacome@espe.edu.ec",
+    "password": "$2a$10$H5JBN0AUblDE0otYS8BsfOqIGsPK9t8eMDSZKs4JuYa7BlZ/BtyjC"
+  },
+  {
+    "id": 13,
+    "roleId": 4,
+    "username": "john_patric",
+    "email": "john_patrick@medicbyte.com",
+    "password": "$2a$10$9vMccvUOSBlngdUd/e837OHqEHZCS9SZRfbbKudLAOOsX.2pLP0aC"
+  },
+  {
+    "id": 14,
+    "roleId": 4,
+    "username": "harry_mason",
+    "email": "harry_mason@medicbyte.com",
+    "password": "$2a$10$DOhzfM/j4gYQP6r7uXXl8uslggFPFVkbnZGD9RB6WsbyBGSoNcNUi"
+  },
+  {
+    "id": 15,
+    "roleId": 4,
+    "username": "daryl_gray",
+    "email": "darylgray@medicbyte.com",
+    "password": "$2a$10$j28X9hUZj4URfvEVN6EKk.e.JfQwtxue1nzc5reogF9qeLjxa4z3a"
+  },
+  {
+    "id": 16,
+    "roleId": 4,
+    "username": "walter_sullivan",
+    "email": "walter_sullivan@medicbyte.com",
+    "password": "$2a$10$cySZVmv3zXoEhLm1V41G.eCOTUT9pbFlK4JnqwPHWiGCB.GcjwKW6"
   }
 ]

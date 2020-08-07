@@ -15,6 +15,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.inject.Inject;
+import ec.edu.espe.medicbyte.model.Patient;
 import ec.edu.espe.medicbyte.util.MedicModelSerializer;
 import java.io.File;
 import java.io.IOException;
@@ -26,6 +27,8 @@ import ec.edu.espe.medicbyte.service.ISpecialityService;
 import ec.edu.espe.medicbyte.service.ISpecialityService;
 import ec.edu.espe.medicbyte.service.IUserService;
 import ec.edu.espe.medicbyte.service.IUserService;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  *
@@ -58,15 +61,16 @@ public class MedicService implements IMedicService {
     }
     
     @Override
-    public boolean addMedic(User user, Speciality speciality, String fullName) {
-        Medic medic = new Medic(user);
+    public Medic addMedic(int userId, Speciality speciality) {
+        Medic medic = new Medic();
+        medic.setId(userId);
         medic.setSpeciality(speciality);
-        medic.getProfile().setFullName(fullName);
+        
         return addMedic(medic);
     }
     
     @Override
-    public boolean addMedic(Medic medic) {
+    public Medic addMedic(Medic medic) {
         List<Medic> medics = getAllMedics();
         
         boolean exists = medics.stream().filter(current -> {
@@ -74,7 +78,7 @@ public class MedicService implements IMedicService {
         }).count() > 0;
         
         if (exists) {
-            return false;
+            return null;
         }
         
         medics.add(medic);
@@ -85,10 +89,10 @@ public class MedicService implements IMedicService {
         try {
             Files.write(content.getBytes(), jsonFile);
         } catch (IOException exception) {
-            return false;
+            return null;
         }
         
-        return true;
+        return medic;
     }
     
     @Override

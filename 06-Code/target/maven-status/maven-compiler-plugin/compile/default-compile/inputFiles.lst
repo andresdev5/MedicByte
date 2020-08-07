@@ -3,7 +3,6 @@ C:\Users\jon_m\workspace\java\medicbyte_rep\src\main\java\ec\edu\espe\medicbyte\
 C:\Users\jon_m\workspace\java\medicbyte_rep\src\main\java\ec\edu\espe\medicbyte\util\PathUtils.java
 C:\Users\jon_m\workspace\java\medicbyte_rep\src\main\java\ec\edu\espe\medicbyte\service\impl\MedicService.java
 C:\Users\jon_m\workspace\java\medicbyte_rep\src\main\java\ec\edu\espe\medicbyte\controller\AuthController.java
-C:\Users\jon_m\workspace\java\medicbyte_rep\src\main\java\ec\edu\espe\medicbyte\view\ApproveAppointmentWindow.java
 C:\Users\jon_m\workspace\java\medicbyte_rep\src\main\java\ec\edu\espe\medicbyte\controller\HomeController.java
 C:\Users\jon_m\workspace\java\medicbyte_rep\src\main\java\ec\edu\espe\medicbyte\common\core\UIEvents.java
 C:\Users\jon_m\workspace\java\medicbyte_rep\src\main\java\ec\edu\espe\medicbyte\view\FrmRequestAppointment.java
@@ -45,10 +44,13 @@ C:\Users\jon_m\workspace\java\medicbyte_rep\src\main\java\ec\edu\espe\medicbyte\
 C:\Users\jon_m\workspace\java\medicbyte_rep\src\main\java\ec\edu\espe\medicbyte\service\impl\SpecialityService.java
 C:\Users\jon_m\workspace\java\medicbyte_rep\src\main\java\ec\edu\espe\medicbyte\service\IUserService.java
 C:\Users\jon_m\workspace\java\medicbyte_rep\src\main\java\ec\edu\espe\medicbyte\view\FrmAppointments.java
+C:\Users\jon_m\workspace\java\medicbyte_rep\src\main\java\ec\edu\espe\medicbyte\view\PnlLoadingOverlay.java
 C:\Users\jon_m\workspace\java\medicbyte_rep\src\main\java\ec\edu\espe\medicbyte\common\core\Window.java
+C:\Users\jon_m\workspace\java\medicbyte_rep\src\main\java\ec\edu\espe\medicbyte\view\FrmAddMedic.java
 C:\Users\jon_m\workspace\java\medicbyte_rep\src\main\java\ec\edu\espe\medicbyte\util\UserModelSerializer.java
 C:\Users\jon_m\workspace\java\medicbyte_rep\src\main\java\ec\edu\espe\medicbyte\controller\AppointmentsController.java
 C:\Users\jon_m\workspace\java\medicbyte_rep\src\main\java\ec\edu\espe\medicbyte\service\impl\RoleService.java
+C:\Users\jon_m\workspace\java\medicbyte_rep\src\main\java\ec\edu\espe\medicbyte\view\ApproveAppointmentDialog.java
 C:\Users\jon_m\workspace\java\medicbyte_rep\src\main\java\ec\edu\espe\medicbyte\common\core\Routed.java
 C:\Users\jon_m\workspace\java\medicbyte_rep\src\main\java\ec\edu\espe\medicbyte\view\AppointmentItem.java
 C:\Users\jon_m\workspace\java\medicbyte_rep\src\main\java\ec\edu\espe\medicbyte\common\Application.java

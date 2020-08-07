@@ -29,6 +29,7 @@ public abstract class Window extends JFrame implements ICommunicable {
     
     public void reveal() {
         pack();
+        setLocationRelativeTo(null);
         setVisible(true);
         revalidate();
     }

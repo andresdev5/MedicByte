@@ -124,7 +124,8 @@ public class UserService implements IUserService {
         }
         
         // create profile
-        createUserProfile(user);
+        UserProfile profile = createUserProfile(user);
+        user.setProfile(profile);
         
         return user;
     }
@@ -166,6 +167,33 @@ public class UserService implements IUserService {
         }
         
         return new ArrayList<>(Arrays.asList(profiles));
+    }
+    
+    @Override
+    public boolean updateUserProfile(int userId, UserProfile profile) {
+        if (!userExists(userId)) {
+            return false;
+        }
+        
+        List<UserProfile> profiles = getUserProfiles();
+        profiles = profiles.stream().map(p -> {
+            if (p.getUserId() == userId) {
+                return profile;
+            }
+            
+            return p;
+        }).collect(Collectors.toList());
+        
+        String content = gson.toJson(profiles);
+        File jsonFile = PathUtils.currentPath("data/user_profiles.json").toFile();
+        
+        try {
+            Files.write(content.getBytes(), jsonFile);
+        } catch (IOException exception) {
+            return false;
+        }
+        
+        return true;
     }
     
     private UserProfile createUserProfile(User user) {

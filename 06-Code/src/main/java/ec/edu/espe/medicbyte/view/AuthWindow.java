@@ -2,9 +2,12 @@ package ec.edu.espe.medicbyte.view;
 
 import ec.edu.espe.medicbyte.common.core.View;
 import ec.edu.espe.medicbyte.common.core.Window;
+import java.awt.Color;
 import java.awt.Component;
 import java.net.URL;
 import javax.swing.ImageIcon;
+import jiconfont.icons.font_awesome.FontAwesome;
+import jiconfont.swing.IconFontSwing;
 
 /**
  *
@@ -16,7 +19,7 @@ public class AuthWindow extends Window {
      */
     public AuthWindow() {
         initComponents();
-        setup();
+        setupComponents();
     }
 
     @Override
@@ -46,7 +49,10 @@ public class AuthWindow extends Window {
     @Override
     protected void onChange(String name, Object oldValue, Object newValue) {}
     
-    private void setup() {
+    private void setupComponents() {
+        setLocationRelativeTo(null);
+        setIconImage(IconFontSwing.buildImage(FontAwesome.HEARTBEAT, 16, new Color(82, 116, 147)));
+        
         URL logo = getClass().getResource("/images/logo.png");
         lblLogo.setIcon(new ImageIcon(logo));
         
@@ -69,6 +75,7 @@ public class AuthWindow extends Window {
         lblWireframe = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("MedicByte - Authentification");
         setMaximumSize(new java.awt.Dimension(750, 550));
         setMinimumSize(new java.awt.Dimension(750, 550));
         setPreferredSize(new java.awt.Dimension(750, 550));

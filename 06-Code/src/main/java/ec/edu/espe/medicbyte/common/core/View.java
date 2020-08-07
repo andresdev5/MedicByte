@@ -38,7 +38,9 @@ public abstract class View extends JPanel implements ICommunicable {
                 continue;
             }
 
-            event.getCallback().accept(parameters);
+            new Thread(() -> {
+                event.getCallback().accept(parameters);
+            }).start();
         }
     }
 
