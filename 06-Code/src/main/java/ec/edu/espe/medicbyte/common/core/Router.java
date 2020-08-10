@@ -2,6 +2,9 @@ package ec.edu.espe.medicbyte.common.core;
 
 import com.google.inject.Inject;
 import ec.edu.espe.medicbyte.common.Application;
+import ec.edu.espe.medicbyte.view.MainWindow;
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.subjects.SingleSubject;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -13,6 +16,7 @@ import java.util.logging.Logger;
 public class Router {
     private final Application container;
     private final ArrayList<Route> routes = new ArrayList<>();
+    private final SingleSubject onRunController = SingleSubject.create();
     
     @Inject
     public Router(Application container) {
@@ -48,30 +52,30 @@ public class Router {
         add(controllerClass, null, false);
     }
     
-    public void run(String key, String accessor) {
+    public Observable run(String key, String accessor) {
         if (key == null || !has(key)) {
-            return;
+            return Observable.empty();
         }
         
         Route route = get(key);
-        runController(route, accessor);
+        return runController(route, accessor);
     }
     
-    public void run(Class<? extends Controller> controllerClass, String accessor) {
+    public Observable run(Class<? extends Controller> controllerClass, String accessor) {
         if (controllerClass == null || !has(controllerClass)) {
-            return;
+            return Observable.empty();
         }
         
         Route route = get(controllerClass);
-        runController(route, accessor);
+        return runController(route, accessor);
     }
     
-    public void run(String key) {
-        run(key, null);
+    public Observable run(String key) {
+        return run(key, null);
     }
     
-    public void run(Class<? extends Controller> controllerClass) {
-        run(controllerClass, null);
+    public Observable run(Class<? extends Controller> controllerClass) {
+        return run(controllerClass, null);
     }
     
     public Route get(String key) {
@@ -104,9 +108,9 @@ public class Router {
         });
     }
     
-    private void runController(Route route, String accessor) {
+    private Observable runController(Route route, String accessor) {
         if (route == null) {
-            return;
+            return Observable.empty();
         }
         
         if (!route.isResolved()) {
@@ -118,12 +122,23 @@ public class Router {
         
         Controller controller = route.getController();
         
-        if (controller != null) {
-            if (accessor == null) {
-                controller.doInit();
-            } else {
-                controller.runAccessor(accessor);
+        Observable.create((emitter) -> {
+            if (controller != null) {
+                try {
+                    if (accessor == null) {
+                        controller.doInit();
+                    } else {
+                        controller.runAccessor(accessor);
+                    }
+                    
+                    onRunController.onSuccess(controller);
+                } catch (Exception exception) {
+                    Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, exception);
+                    onRunController.onError(exception);
+                }
             }
-        }
+        }).subscribe().dispose();
+        
+        return onRunController.toObservable();
     }
 }

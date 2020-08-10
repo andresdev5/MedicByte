@@ -110,5 +110,12 @@
     "username": "walter_sullivan",
     "email": "walter_sullivan@medicbyte.com",
     "password": "$2a$10$cySZVmv3zXoEhLm1V41G.eCOTUT9pbFlK4JnqwPHWiGCB.GcjwKW6"
+  },
+  {
+    "id": 17,
+    "roleId": 4,
+    "username": "Gregory_house",
+    "email": "house@medicbyte.com",
+    "password": "$2a$10$XVfO2C4Bds6Z9.8EmKseIODicDWsv2h1wpxrl55nMUrwXNPvJ8JT2"
   }
 ]

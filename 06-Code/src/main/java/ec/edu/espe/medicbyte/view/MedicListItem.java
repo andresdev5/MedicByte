@@ -18,7 +18,7 @@ public class MedicListItem extends javax.swing.JPanel {
     public MedicListItem(Medic medic) {
         initComponents();
         
-        lblMedicName.setText(medic.getProfile().getFullName());
+        lblMedicName.setText(medic.getDisplayName());
         lblSpecialityValue.setText(medic.getSpeciality().getName());
         lblMedicAvatar.setIcon(IconFontSwing.buildIcon(
             FontAwesome.USER_MD, 52, new Color(90, 90, 90)));

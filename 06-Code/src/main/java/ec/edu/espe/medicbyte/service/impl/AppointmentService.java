@@ -11,23 +11,32 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.inject.Inject;
 import ec.edu.espe.medicbyte.model.Appointment;
+import ec.edu.espe.medicbyte.model.Appointment.Status;
+import ec.edu.espe.medicbyte.model.Location;
+import ec.edu.espe.medicbyte.model.Medic;
 import ec.edu.espe.medicbyte.model.Patient;
+import ec.edu.espe.medicbyte.model.Speciality;
 import ec.edu.espe.medicbyte.util.PathUtils;
 import java.util.ArrayList;
 import java.util.List;
 import ec.edu.espe.medicbyte.service.IAppointmentService;
 import ec.edu.espe.medicbyte.service.ILocationService;
+import ec.edu.espe.medicbyte.service.IMedicService;
+import ec.edu.espe.medicbyte.service.IPatientService;
 import ec.edu.espe.medicbyte.service.ISpecialityService;
-import ec.edu.espe.medicbyte.util.AppointmentModelDeserializer;
-import ec.edu.espe.medicbyte.util.AppointmentModelSerializer;
+import ec.edu.espe.medicbyte.util.json.AppointmentModelDeserializer;
+import ec.edu.espe.medicbyte.util.json.AppointmentModelSerializer;
 import ec.edu.espe.medicbyte.util.IOUtils;
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  *
@@ -35,11 +44,20 @@ import java.util.stream.Collectors;
  */
 public class AppointmentService implements IAppointmentService {
     private final Gson gson;
+    private final IMedicService medicService;
+    private final IPatientService patientService;
+    private final ILocationService locationService;
+    private final ISpecialityService specialityService;
     
     @Inject()
     public AppointmentService(
-        MedicService medicService, PatientService patientService,
+        IMedicService medicService, IPatientService patientService,
         ILocationService locationService, ISpecialityService specialityService) {
+        this.medicService = medicService;
+        this.patientService = patientService;
+        this.locationService = locationService;
+        this.specialityService = specialityService;
+        
         PathUtils.ensureFiles(
             PathUtils.currentPath("data/appointments.json"),
             PathUtils.currentPath("data/patient_appointments.json")
@@ -66,13 +84,82 @@ public class AppointmentService implements IAppointmentService {
     public List<Appointment> getAllAppointments() {        
         File jsonFile = PathUtils.currentPath("data/appointments.json").toFile();
         String json = IOUtils.readFile(jsonFile);
-        Appointment[] appointments = gson.fromJson(json, Appointment[].class);
+        JsonElement jsonElement = JsonParser.parseString(json);
         
-        if (appointments == null) {
+        if (!jsonElement.isJsonArray()) {
             return new ArrayList<>();
         }
         
-        return new ArrayList<>(Arrays.asList(appointments));
+        JsonArray elements = jsonElement.getAsJsonArray();
+        
+        List<Appointment> appointments = new ArrayList<>();
+        List<Medic> medics = medicService.getAllMedics();
+        List<Patient> patients = patientService.getAllPatients();
+        List<Location> locations = locationService.getAllLocations();
+        List<Speciality> specialities = specialityService.getAllSpecialities();
+        
+        jsonElement.getAsJsonArray().forEach(element -> {
+            JsonObject row = element.getAsJsonObject();
+            Appointment appointment = new Appointment();
+            int id = row.get("id").getAsInt();
+            int patientId = row.get("patientId").getAsInt();
+            LocalDate date = LocalDate.parse(
+                row.get("date").getAsString(),
+                DateTimeFormatter.ofPattern("dd-MM-yyyy")
+            );
+            Status status = Status.valueOf(row.get("status").getAsString());
+            int specialityId = row.get("specialityId").getAsInt();
+            
+            Patient patient = patients.stream()
+                .filter(p -> p.getId() == patientId)
+                .findFirst().orElse(null);
+            
+            Speciality speciality = specialities.stream()
+                .filter(s -> s.getId() == specialityId)
+                .findFirst().orElse(null);
+            
+            appointment.setId(id);
+            appointment.setPatient(patient);
+            appointment.setDate(date);
+            appointment.setStatus(status);
+            appointment.setSpeciality(speciality);
+            
+            if (row.has("description") && !row.get("description").isJsonNull()) {
+                String description = row.get("description").getAsString();
+                appointment.setDescription(description);
+            }
+            
+            if (row.has("hour") && !row.get("hour").isJsonNull()) {
+                LocalTime hour = LocalTime.parse(
+                    row.get("hour").getAsString(),
+                    DateTimeFormatter.ofPattern("HH:mm")
+                );
+                appointment.setHour(hour);
+            }
+            
+            if (row.has("medicId")) {
+                int medicId = row.get("medicId").getAsInt();
+                Medic medic = medics.stream()
+                    .filter(m -> m.getId() == medicId)
+                    .findFirst()
+                    .orElse(null);
+                
+                appointment.setMedic(medic);
+            }
+            
+            if (row.has("locationId")) {
+                int locationId = row.get("locationId").getAsInt();
+                Location location = locations.stream()
+                    .filter(l -> l.getId() == locationId)
+                    .findFirst().orElse(null);
+                
+                appointment.setLocation(location);
+            }
+            
+            appointments.add(appointment);
+        });
+        
+        return appointments;
     }
     
     @Override

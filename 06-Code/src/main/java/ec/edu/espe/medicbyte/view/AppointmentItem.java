@@ -36,7 +36,7 @@ public class AppointmentItem extends javax.swing.JPanel {
         lblDateValue.setText(appointment.getDate().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")));
         
         if (appointment.getMedic() != null) {
-            lblMedicNameValue.setText(appointment.getMedic().getProfile().getFullName());
+            lblMedicNameValue.setText(appointment.getMedic().getDisplayName());
         }
         
         if (appointment.getHour() != null) {

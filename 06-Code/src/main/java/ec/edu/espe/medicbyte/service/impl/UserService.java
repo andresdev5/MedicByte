@@ -13,8 +13,8 @@ import com.google.inject.Inject;
 import ec.edu.espe.medicbyte.model.Role;
 import ec.edu.espe.medicbyte.model.UserProfile;
 import ec.edu.espe.medicbyte.util.IOUtils;
-import ec.edu.espe.medicbyte.util.UserModelDeserializer;
-import ec.edu.espe.medicbyte.util.UserModelSerializer;
+import ec.edu.espe.medicbyte.util.json.UserModelDeserializer;
+import ec.edu.espe.medicbyte.util.json.UserModelSerializer;
 import java.util.function.Function;
 import java.util.List;
 import java.io.File;
@@ -25,9 +25,12 @@ import java.util.stream.Collectors;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import ec.edu.espe.medicbyte.service.IRoleService;
 import ec.edu.espe.medicbyte.service.IUserService;
+import ec.edu.espe.medicbyte.util.json.ByteArrayToBase64TypeAdapter;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -47,7 +50,8 @@ public class UserService implements IUserService {
                 -> new JsonPrimitive(localDate.format(DateTimeFormatter.ofPattern("dd-MM-yyyy"))))
             .registerTypeAdapter(LocalDate.class,
                 (JsonDeserializer<LocalDate>) (jsonElement, type, context)
-                -> LocalDate.parse(jsonElement.getAsString(), DateTimeFormatter.ofPattern("dd-MM-yyyy")));
+                -> LocalDate.parse(jsonElement.getAsString(), DateTimeFormatter.ofPattern("dd-MM-yyyy")))
+            .registerTypeHierarchyAdapter(byte[].class, new ByteArrayToBase64TypeAdapter());
         
         gson = gsonBuilder.create();
         
@@ -124,7 +128,7 @@ public class UserService implements IUserService {
         }
         
         // create profile
-        UserProfile profile = createUserProfile(user);
+        UserProfile profile = createEmptyUserProfile(user);
         user.setProfile(profile);
         
         return user;
@@ -170,9 +174,9 @@ public class UserService implements IUserService {
     }
     
     @Override
-    public boolean updateUserProfile(int userId, UserProfile profile) {
+    public UserProfile updateUserProfile(int userId, UserProfile profile) {
         if (!userExists(userId)) {
-            return false;
+            return null;
         }
         
         List<UserProfile> profiles = getUserProfiles();
@@ -190,13 +194,15 @@ public class UserService implements IUserService {
         try {
             Files.write(content.getBytes(), jsonFile);
         } catch (IOException exception) {
-            return false;
+            Logger.getLogger(UserService.class.getName()).log(Level.SEVERE, null, exception);
+            return null;
         }
         
-        return true;
+        return profile;
     }
     
-    private UserProfile createUserProfile(User user) {
+    @Override
+    public UserProfile createEmptyUserProfile(User user) {
         List<UserProfile> profiles = getUserProfiles();
         UserProfile profile = new UserProfile();
         profile.setUserId(user.getId());

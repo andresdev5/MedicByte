@@ -1,8 +1,9 @@
 package ec.edu.espe.medicbyte.common.core;
 
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.HashMap;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -25,6 +26,12 @@ public abstract class Window extends JFrame implements ICommunicable {
     
     public Window() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        /*addWindowListener(new WindowAdapter() {
+            @Override public void windowClosed(WindowEvent event) {
+                //events.clear();
+                //vars.clear();
+            }
+        });*/
     }
     
     public void reveal() {
@@ -32,6 +39,10 @@ public abstract class Window extends JFrame implements ICommunicable {
         setLocationRelativeTo(null);
         setVisible(true);
         revalidate();
+    }
+    
+    public void close() {
+        dispose();
     }
 
     @Override
@@ -55,7 +66,6 @@ public abstract class Window extends JFrame implements ICommunicable {
         onChange(name, oldValue, newValue);
     }
     
-    public abstract void init();
     public abstract void display(View content);
     protected abstract void onChange(String name, Object oldValue, Object newValue);
 }

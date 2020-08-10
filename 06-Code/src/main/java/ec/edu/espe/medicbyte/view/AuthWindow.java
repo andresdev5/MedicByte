@@ -21,10 +21,14 @@ public class AuthWindow extends Window {
         initComponents();
         setupComponents();
     }
-
+    
     @Override
-    public void init() {
-        // ...
+    public void reveal() {
+        super.reveal();
+        setAlwaysOnTop(true);
+        toFront();
+        repaint();
+        setAlwaysOnTop(false);
     }
 
     @Override
@@ -76,9 +80,9 @@ public class AuthWindow extends Window {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("MedicByte - Authentification");
-        setMaximumSize(new java.awt.Dimension(750, 550));
-        setMinimumSize(new java.awt.Dimension(750, 550));
-        setPreferredSize(new java.awt.Dimension(750, 550));
+        setMaximumSize(new java.awt.Dimension(750, 600));
+        setMinimumSize(new java.awt.Dimension(750, 600));
+        setPreferredSize(new java.awt.Dimension(750, 600));
         setResizable(false);
 
         jPanel1.setLayout(new java.awt.GridLayout(1, 0));

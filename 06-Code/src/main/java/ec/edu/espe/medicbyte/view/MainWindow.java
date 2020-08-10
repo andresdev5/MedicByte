@@ -3,14 +3,20 @@ package ec.edu.espe.medicbyte.view;
 import ec.edu.espe.medicbyte.common.core.View;
 import ec.edu.espe.medicbyte.common.core.Window;
 import ec.edu.espe.medicbyte.model.User;
+import ec.edu.espe.medicbyte.model.UserProfile;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Image;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import jiconfont.IconCode;
@@ -57,7 +63,7 @@ public class MainWindow extends Window {
         public String getKey() { return key; }
     }
     
-    private static class MenuItemContext {
+    public static class MenuItemContext {
         public MenuItem item;
         public JButton button;
         public JPanel wrapper;
@@ -69,14 +75,18 @@ public class MainWindow extends Window {
     
     /** Creates new form FrmAppointments */
     public MainWindow() {
-        super();
         initComponents();
-        setLocationRelativeTo(null);
         setupComponents();
     }
     
     @Override
-    public void init() {}
+    public void reveal() {
+        super.reveal();
+        setAlwaysOnTop(true);
+        toFront();
+        repaint();
+        setAlwaysOnTop(false);
+    }
     
     @Override
     public void display(View view) {
@@ -115,28 +125,38 @@ public class MainWindow extends Window {
     }
     
     private void setupComponents() {
-        btnAccount.setVisible(false);
-        btnNotifications.setVisible(false);
+        setLocationRelativeTo(null);
+        //btnNotifications.setVisible(false);
         avatar.setIcon(IconFontSwing.buildIcon(FontAwesome.USER, 52, new Color(90, 90, 90)));
         setIconImage(IconFontSwing.buildImage(FontAwesome.HEARTBEAT, 16, new Color(82, 116, 147)));
+        
+        listen("finishLoadingEditProfileView", (args) -> {
+            setStatusBarContent("Done!");
+            navigating.set(false);
+        });
     }
     
     private void setUserContext(User context) {
-        String displayName;
+        UserProfile profile = context.getProfile();
+        String displayName = context.getDisplayName();
         
-        if (context.getProfile() != null 
-            && context.getProfile().getFullName() != null
-            && !context.getProfile().getFullName().trim().isEmpty()) {
-            displayName = context.getProfile().getFullName();
-        } else {
-            displayName = context.getUsername();
+        txaUsername.setText(displayName.substring(0, 1).toUpperCase() + displayName.substring(1));
+        
+        // set avatar
+        if (profile.getAvatar() != null) {
+            try {
+                Image image = ImageIO.read(new ByteArrayInputStream(profile.getAvatar()));
+                Image scaled = image.getScaledInstance(64, 64, Image.SCALE_SMOOTH);
+                avatar.setIcon(new ImageIcon(scaled));
+                avatar.repaint();
+                avatar.validate();
+            } catch (IOException exception) {
+                Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, exception);
+            }
         }
         
-        displayName = displayName.substring(0, 1).toUpperCase() + displayName.substring(1);
-        txaUsername.setText(displayName);
-        
         repaint();
-        revalidate();
+        validate();
     }
     
     public void setStatusBarContent(String content) {
@@ -288,7 +308,7 @@ public class MainWindow extends Window {
         usernameScrollPanel.getViewport().setOpaque(false);
         txaUsername = new javax.swing.JTextArea();
         btnNotifications = new javax.swing.JButton();
-        btnAccount = new javax.swing.JButton();
+        btnEditProfile = new javax.swing.JButton();
         btnLogout = new javax.swing.JButton();
         menu = new javax.swing.JPanel();
         container = new javax.swing.JPanel();
@@ -341,14 +361,21 @@ public class MainWindow extends Window {
         btnNotifications.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnNotifications.setFocusPainted(false);
 
-        btnAccount.setForeground(new java.awt.Color(126, 126, 126));
-        btnAccount.setText("Account");
-        btnAccount.setBorder(null);
-        btnAccount.setBorderPainted(false);
-        btnAccount.setContentAreaFilled(false);
-        btnAccount.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnAccount.setFocusPainted(false);
+        btnEditProfile.setFont(new java.awt.Font("Segoe UI", 0, 11)); // NOI18N
+        btnEditProfile.setForeground(new java.awt.Color(126, 126, 126));
+        btnEditProfile.setText("Edit profile");
+        btnEditProfile.setBorder(null);
+        btnEditProfile.setBorderPainted(false);
+        btnEditProfile.setContentAreaFilled(false);
+        btnEditProfile.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnEditProfile.setFocusPainted(false);
+        btnEditProfile.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditProfileActionPerformed(evt);
+            }
+        });
 
+        btnLogout.setFont(new java.awt.Font("Segoe UI", 0, 11)); // NOI18N
         btnLogout.setForeground(new java.awt.Color(126, 126, 126));
         btnLogout.setText("Logout");
         btnLogout.setBorder(null);
@@ -373,9 +400,9 @@ public class MainWindow extends Window {
                         .addComponent(avatar, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(8, 8, 8)
                         .addGroup(userInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnAccount)
+                            .addComponent(btnEditProfile)
                             .addComponent(btnLogout))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
                         .addComponent(btnNotifications, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
@@ -387,7 +414,7 @@ public class MainWindow extends Window {
                     .addComponent(avatar, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnNotifications, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(userInfoPanelLayout.createSequentialGroup()
-                        .addComponent(btnAccount)
+                        .addComponent(btnEditProfile)
                         .addGap(0, 0, 0)
                         .addComponent(btnLogout)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -480,9 +507,31 @@ public class MainWindow extends Window {
         emit("logout");
     }//GEN-LAST:event_btnLogoutActionPerformed
 
+    private void btnEditProfileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditProfileActionPerformed
+        if (navigating.get()) {
+            return;
+        }
+        
+        display(pnlLoading);
+        setStatusBarContent(String.format("Navigating to 'Edit profile'..."));
+        navigating.set(true);
+        
+        menuItems.forEach(menuItem -> {
+            menuItem.button.setForeground(new Color(71, 71, 71));
+            menuItem.wrapper.setOpaque(false);
+
+            if (menuItem.item.getIcon() != null) {
+                menuItem.button.setIcon(IconFontSwing.buildIcon(
+                        menuItem.item.getIcon(), 15, new Color(71, 71, 71)));
+            }
+        });
+        
+        emit("editProfile");
+    }//GEN-LAST:event_btnEditProfileActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel avatar;
-    private javax.swing.JButton btnAccount;
+    private javax.swing.JButton btnEditProfile;
     private javax.swing.JButton btnLogout;
     private javax.swing.JButton btnNotifications;
     private javax.swing.JPanel container;

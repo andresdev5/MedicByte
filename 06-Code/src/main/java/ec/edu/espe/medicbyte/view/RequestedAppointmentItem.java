@@ -34,15 +34,7 @@ public class RequestedAppointmentItem extends javax.swing.JPanel {
         initComponents();
         this.appointment = appointment;
         
-        if (appointment.getPatient().getProfile() != null
-            && appointment.getPatient().getProfile().getFullName() != null) {
-            String name = appointment.getPatient().getProfile().getFullName();
-            
-            lblPatientValue.setText(name.trim().isEmpty() ? appointment.getPatient().getUsername() : name);
-        } else {
-            lblPatientValue.setText(appointment.getPatient().getUsername());
-        }
-        
+        lblPatientValue.setText(appointment.getPatient().getDisplayName());
         lblRequestedDateValue.setText(appointment.getDate().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")));
         lblSpecialityValue.setText(appointment.getSpeciality().getName());
         this.medics = medics;

@@ -6,8 +6,9 @@ import ec.edu.espe.medicbyte.common.core.Router;
 import ec.edu.espe.medicbyte.common.core.WindowsManager;
 import ec.edu.espe.medicbyte.controller.AppointmentsController;
 import ec.edu.espe.medicbyte.controller.AuthController;
-import ec.edu.espe.medicbyte.controller.HomeController;
+import ec.edu.espe.medicbyte.controller.MainController;
 import ec.edu.espe.medicbyte.controller.MedicsController;
+import ec.edu.espe.medicbyte.controller.UserController;
 import ec.edu.espe.medicbyte.service.impl.AuthService;
 import ec.edu.espe.medicbyte.view.AuthWindow;
 import ec.edu.espe.medicbyte.view.MainWindow;
@@ -42,78 +43,16 @@ public class Application extends Container {
         
         // register all controllers
         router.add(AuthController.class, "auth");
+        router.add(MainController.class, "main");
         router.add(AppointmentsController.class, "appointments");
-        router.add(HomeController.class, "home");
         router.add(MedicsController.class, "medics");
+        router.add(UserController.class, "user");
         
         // register all windows
         windows.register(MainWindow.class);
         windows.register(AuthWindow.class);
         
-        router.run("auth");
-    }
-    
-    public void setMainWindowContext() {
-        Router router = resolve(Router.class);
-        AuthService authService = resolve(AuthService.class);
-        MainWindow mainWindow = resolve(WindowsManager.class).getAs(MainWindow.class);
-        
-        mainWindow.listen("logout", (args) -> {
-            authService.logout();
-            mainWindow.clearMenuItems();
-            mainWindow.display(null);
-            mainWindow.dispose();
-            router.run("auth");
-        });
-        
-        if (authService.getCurrentUser().hasRole("admin")) {
-            mainWindow.addMenuItem(new MainWindow.MenuItem(
-                "Manage appointments",
-                FontAwesome.CALENDAR_CHECK_O,
-                () -> {
-                    router.run("appointments", "manage");
-                    return true;
-                }
-            ).withKey("manageAppointments"));
-            
-            mainWindow.addMenuItem(new MainWindow.MenuItem(
-                "Add medic",
-                FontAwesome.USER_PLUS,
-                () -> {
-                    router.run("medics", "add");
-                    return true;
-                }
-            ).withKey("addMedic"));
-        } else {
-            mainWindow.addMenuItem(new MainWindow.MenuItem(
-                "Appointments",
-                FontAwesome.CALENDAR_CHECK_O,
-                () -> {
-                    router.run("appointments", "showAll");
-                    return true;
-                }
-            ).withKey("appointments"));
-        
-            mainWindow.addMenuItem(new MainWindow.MenuItem(
-                "Request new appointment",
-                FontAwesome.CALENDAR_PLUS_O,
-                () -> {
-                    router.run("appointments", "requestAppointment");
-                    return true;
-                }
-            ).withKey("requestAppointment"));
-        }
-        
-        mainWindow.addMenuItem(new MainWindow.MenuItem(
-            "Medics",
-            FontAwesome.USER_MD,
-            () -> {
-                router.run("medics", "showAll");
-                return true;
-            }
-        ).withKey("medics"));
-        
-        mainWindow.reveal();
+        router.run("main");
     }
     
     public static void main(String[] args) {

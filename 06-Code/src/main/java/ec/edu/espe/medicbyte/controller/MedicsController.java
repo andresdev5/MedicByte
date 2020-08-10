@@ -46,8 +46,8 @@ public class MedicsController extends Controller {
         this.specialityService = specialityService;
         this.window = windowsManager.getAs(MainWindow.class);
         
-        registerView(FrmMedics.class);
-        registerView(FrmAddMedic.class);
+        registerViewEvents(FrmMedics.class);
+        registerViewEvents(FrmAddMedic.class);
     }
     
     @Override

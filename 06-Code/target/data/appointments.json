@@ -145,5 +145,13 @@
     "patientId": 12,
     "locationId": 2,
     "specialityId": 4
+  },
+  {
+    "id": 17,
+    "date": "20-08-2020",
+    "status": "PENDENT",
+    "description": "",
+    "patientId": 12,
+    "specialityId": 2
   }
 ]

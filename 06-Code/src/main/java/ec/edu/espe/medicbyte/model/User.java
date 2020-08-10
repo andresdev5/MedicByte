@@ -67,4 +67,14 @@ public class User {
     public void setProfile(UserProfile profile) {
         this.profile = profile;
     }
+    
+    public String getDisplayName() {
+        if (getProfile() == null
+            || getProfile().getFullName() == null
+            || getProfile().getFullName().trim().isEmpty()) {
+            return getUsername();
+        }
+        
+        return getProfile().getFullName();
+    }
 }

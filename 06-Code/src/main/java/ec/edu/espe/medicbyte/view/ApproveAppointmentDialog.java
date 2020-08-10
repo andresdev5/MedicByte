@@ -30,7 +30,7 @@ public class ApproveAppointmentDialog extends javax.swing.JDialog {
                                        boolean isSelected,
                                        boolean cellHasFocus) {
             if (value instanceof Medic) {
-                value = ((Medic)value).getProfile().getFullName();
+                value = ((Medic)value).getDisplayName();
             }
             
             super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);

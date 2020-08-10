@@ -91,10 +91,10 @@
                                   <Component id="avatar" min="-2" pref="64" max="-2" attributes="0"/>
                                   <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="btnAccount" min="-2" max="-2" attributes="0"/>
+                                      <Component id="btnEditProfile" min="-2" max="-2" attributes="0"/>
                                       <Component id="btnLogout" alignment="0" min="-2" max="-2" attributes="0"/>
                                   </Group>
-                                  <EmptySpace pref="30" max="32767" attributes="0"/>
+                                  <EmptySpace pref="18" max="32767" attributes="0"/>
                                   <Component id="btnNotifications" min="-2" pref="21" max="-2" attributes="0"/>
                               </Group>
                           </Group>
@@ -110,7 +110,7 @@
                               <Component id="avatar" min="-2" pref="64" max="-2" attributes="0"/>
                               <Component id="btnNotifications" min="-2" pref="21" max="-2" attributes="0"/>
                               <Group type="102" attributes="0">
-                                  <Component id="btnAccount" min="-2" max="-2" attributes="0"/>
+                                  <Component id="btnEditProfile" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
                                   <Component id="btnLogout" min="-2" max="-2" attributes="0"/>
                               </Group>
@@ -190,12 +190,15 @@
                     <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="btnNotifications.setIcon(IconFontSwing.buildIcon(FontAwesome.BELL, 16));"/>
                   </AuxValues>
                 </Component>
-                <Component class="javax.swing.JButton" name="btnAccount">
+                <Component class="javax.swing.JButton" name="btnEditProfile">
                   <Properties>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="Segoe UI" size="11" style="0"/>
+                    </Property>
                     <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                       <Color blue="7e" green="7e" red="7e" type="rgb"/>
                     </Property>
-                    <Property name="text" type="java.lang.String" value="Account"/>
+                    <Property name="text" type="java.lang.String" value="Edit profile"/>
                     <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                       <Border info="null"/>
                     </Property>
@@ -206,9 +209,15 @@
                     </Property>
                     <Property name="focusPainted" type="boolean" value="false"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnEditProfileActionPerformed"/>
+                  </Events>
                 </Component>
                 <Component class="javax.swing.JButton" name="btnLogout">
                   <Properties>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="Segoe UI" size="11" style="0"/>
+                    </Property>
                     <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                       <Color blue="7e" green="7e" red="7e" type="rgb"/>
                     </Property>

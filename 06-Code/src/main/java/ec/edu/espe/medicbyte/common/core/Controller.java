@@ -66,7 +66,7 @@ public abstract class Controller {
         }
     }
     
-    protected final void registerView(Class<? extends View> viewClass) {
+    protected final void registerViewEvents(Class<? extends View> viewClass) {
         views.put(viewClass, instanceView(viewClass));
     }
 

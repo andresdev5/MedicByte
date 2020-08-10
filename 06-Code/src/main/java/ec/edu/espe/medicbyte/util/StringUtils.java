@@ -100,7 +100,7 @@ public class StringUtils {
         return parseHour(input) != null;
     }
     
-    public static boolean isValidCI(String id) {
+    public static boolean isValidIDCard(String id) {
         if (id.length() != 10) {
             return false;
         }

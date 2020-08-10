@@ -15,7 +15,6 @@ public class WindowsManager {
     public void register(Class<? extends Window> windowClass) {
         try {
             Window window = windowClass.newInstance();
-            window.init();
             windows.put(windowClass, window);
         } catch (InstantiationException | IllegalAccessException e) {
             e.printStackTrace();

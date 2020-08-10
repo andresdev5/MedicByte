@@ -16,7 +16,6 @@ import ec.edu.espe.medicbyte.service.IAuthService;
 import ec.edu.espe.medicbyte.service.IPatientService;
 import ec.edu.espe.medicbyte.service.IRoleService;
 import ec.edu.espe.medicbyte.service.IUserService;
-import ec.edu.espe.medicbyte.view.MainWindow;
 import javax.swing.JOptionPane;
 
 /**
@@ -71,22 +70,23 @@ public class AuthController extends Controller {
                 return;
             }
             
-            User currentUser = authService.getCurrentUser();
-            MainWindow mainWindow = windowsManager.getAs(MainWindow.class);
-            
-            application.setMainWindowContext();
-            mainWindow.set("userContext", currentUser);
-            window.dispose();
-            router.run("home");
+            window.close();
+            router.run("main");
         });
         
         signupView.listen("submit", (args) -> {
             String username = args.get(0);
             String email = args.get(1);
             char[] password = args.get(2);
+            String identifyCard = args.get(3);
             
             if (userService.userExists(username)) {
                 signupView.emit("showError", FrmRegister.Field.USERNAME, "username already taken");
+                return;
+            }
+            
+            if (patientService.getPatient(identifyCard) != null) {
+                signupView.emit("showError", FrmRegister.Field.IDENTIFY_CARD, "Identify card already registered");
                 return;
             }
             
@@ -123,7 +123,7 @@ public class AuthController extends Controller {
                 return;
             }
             
-            Patient patient = patientService.addPatient(created.getId(), "", false);
+            Patient patient = patientService.addPatient(created.getId(), identifyCard, false);
             
             window.display(loginView);
             loginView.emit(

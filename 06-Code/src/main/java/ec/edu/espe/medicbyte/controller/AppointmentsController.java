@@ -59,9 +59,9 @@ public class AppointmentsController extends Controller {
         this.patientService = patientService;
         this.locationService = locationService;
         
-        registerView(FrmAppointments.class);
-        registerView(FrmRequestAppointment.class);
-        registerView(FrmAppointmentsManager.class);
+        registerViewEvents(FrmAppointments.class);
+        registerViewEvents(FrmRequestAppointment.class);
+        registerViewEvents(FrmAppointmentsManager.class);
     }
     
     @Override

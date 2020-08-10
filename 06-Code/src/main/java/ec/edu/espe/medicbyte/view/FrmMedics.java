@@ -16,6 +16,7 @@ public class FrmMedics extends View {
      */
     public FrmMedics() {
         initComponents();
+        medicsScrollPanel.getVerticalScrollBar().setUnitIncrement(16);
         medicsScrollPanel.getViewport().setOpaque(false);
     }
 

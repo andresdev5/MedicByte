@@ -16,7 +16,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.inject.Inject;
 import ec.edu.espe.medicbyte.model.Patient;
-import ec.edu.espe.medicbyte.util.MedicModelSerializer;
+import ec.edu.espe.medicbyte.util.json.MedicModelSerializer;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;

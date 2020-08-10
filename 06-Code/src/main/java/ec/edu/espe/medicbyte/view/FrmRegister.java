@@ -18,7 +18,7 @@ import javax.swing.text.JTextComponent;
  */
 public class FrmRegister extends View {
     public static enum Field {
-        USERNAME, EMAIL, PASSWORD, PASSWORD2, TERMS
+        USERNAME, EMAIL, PASSWORD, PASSWORD2, IDENTIFY_CARD
     }
     
     /**
@@ -138,6 +138,12 @@ public class FrmRegister extends View {
                     return false;
                 }
             break;
+            case IDENTIFY_CARD:
+                if (!StringUtils.isValidIDCard(value)) {
+                    showError(field, "Invalid identify card");
+                    return false;
+                }
+            break;
         }
         
         hideError(field);
@@ -168,8 +174,9 @@ public class FrmRegister extends View {
         lblUsernameError = new javax.swing.JLabel();
         lblPasswordError = new javax.swing.JLabel();
         lblPassword2Error = new javax.swing.JLabel();
-        chkTerms = new javax.swing.JCheckBox();
         lblTermsError = new javax.swing.JLabel();
+        ftxtIdentifyCard = new javax.swing.JFormattedTextField();
+        jLabel7 = new javax.swing.JLabel();
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(103, 103, 103));
@@ -274,49 +281,55 @@ public class FrmRegister extends View {
         lblPassword2Error.setText("error");
         lblPassword2Error.setName("E_PASSWORD2"); // NOI18N
 
-        chkTerms.setBackground(new java.awt.Color(255, 255, 255));
-        chkTerms.setForeground(new java.awt.Color(99, 99, 99));
-        chkTerms.setText("Accept terms & conditions");
-        chkTerms.setBorder(javax.swing.BorderFactory.createEmptyBorder(12, 1, 1, 1));
-        chkTerms.setName("TERMS"); // NOI18N
-
         lblTermsError.setBackground(new java.awt.Color(240, 100, 100));
         lblTermsError.setFont(new java.awt.Font("Segoe UI", 0, 11)); // NOI18N
         lblTermsError.setForeground(new java.awt.Color(240, 84, 84));
         lblTermsError.setText("error");
-        lblTermsError.setName("E_TERMS"); // NOI18N
+        lblTermsError.setName("E_IDENTIFY_CARD"); // NOI18N
+
+        ftxtIdentifyCard.setName("IDENTIFY_CARD"); // NOI18N
+
+        jLabel7.setForeground(new java.awt.Color(99, 99, 99));
+        jLabel7.setText("Identiy card:");
+        jLabel7.setBorder(javax.swing.BorderFactory.createEmptyBorder(8, 0, 0, 0));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(19, 19, 19)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(ftxtIdentifyCard, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                         .addGroup(layout.createSequentialGroup()
-                            .addComponent(jLabel6)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(btnLogIn))
-                        .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(txtUsername, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 330, Short.MAX_VALUE)
-                        .addComponent(txtEmail, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(btnSignup, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(chkTerms, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(txtPassword, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(txtPassword2, javax.swing.GroupLayout.Alignment.LEADING))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblEmailPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 316, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblPassword2Error, javax.swing.GroupLayout.PREFERRED_SIZE, 316, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblUsernameError, javax.swing.GroupLayout.PREFERRED_SIZE, 316, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblPasswordError, javax.swing.GroupLayout.PREFERRED_SIZE, 316, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblTermsError))))
+                            .addContainerGap()
+                            .addComponent(lblTermsError, javax.swing.GroupLayout.PREFERRED_SIZE, 324, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                            .addGap(19, 19, 19)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel7)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addComponent(jLabel6)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(btnLogIn))
+                                    .addComponent(jLabel5)
+                                    .addComponent(jLabel4)
+                                    .addComponent(jLabel3)
+                                    .addComponent(jLabel2)
+                                    .addComponent(txtUsername, javax.swing.GroupLayout.DEFAULT_SIZE, 330, Short.MAX_VALUE)
+                                    .addComponent(txtEmail)
+                                    .addComponent(btnSignup, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLabel1)
+                                    .addComponent(txtPassword)
+                                    .addComponent(txtPassword2)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(6, 6, 6)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(lblEmailPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 316, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(lblPassword2Error, javax.swing.GroupLayout.PREFERRED_SIZE, 316, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(lblUsernameError, javax.swing.GroupLayout.PREFERRED_SIZE, 316, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(lblPasswordError, javax.swing.GroupLayout.PREFERRED_SIZE, 316, javax.swing.GroupLayout.PREFERRED_SIZE))))))))
                 .addContainerGap(19, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -348,11 +361,13 @@ public class FrmRegister extends View {
                 .addComponent(txtPassword2, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(3, 3, 3)
                 .addComponent(lblPassword2Error)
-                .addGap(0, 0, 0)
-                .addComponent(chkTerms)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel7)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(ftxtIdentifyCard, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblTermsError)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
                 .addComponent(btnSignup, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -394,8 +409,9 @@ public class FrmRegister extends View {
         String username = txtUsername.getText().trim();
         String email = txtEmail.getText().trim();
         char[] password = txtPassword.getPassword();
+        String identifyCard = ftxtIdentifyCard.getText();
         
-        emit("submit", username, email, password);
+        emit("submit", username, email, password, identifyCard);
     }//GEN-LAST:event_btnSignupActionPerformed
 
     private void signupFieldKeyUp(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_signupFieldKeyUp
@@ -413,13 +429,14 @@ public class FrmRegister extends View {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnLogIn;
     private javax.swing.JButton btnSignup;
-    private javax.swing.JCheckBox chkTerms;
+    private javax.swing.JFormattedTextField ftxtIdentifyCard;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel lblEmailPassword;
     private javax.swing.JLabel lblPassword2Error;
     private javax.swing.JLabel lblPasswordError;

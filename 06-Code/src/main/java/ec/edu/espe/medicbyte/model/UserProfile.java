@@ -10,6 +10,7 @@ public class UserProfile {
     public static enum Gender { MALE, FEMALE, UNSPECIFIED }
     
     private int userId;
+    private byte[] avatar;
     private String fullName;
     private String phone;
     private Gender gender;
@@ -21,6 +22,14 @@ public class UserProfile {
 
     public void setUserId(int userId) {
         this.userId = userId;
+    }
+
+    public byte[] getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(byte[] avatarId) {
+        this.avatar = avatarId;
     }
     
     public String getFullName() {

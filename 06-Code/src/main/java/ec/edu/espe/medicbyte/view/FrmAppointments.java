@@ -24,6 +24,7 @@ public class FrmAppointments extends View {
      */
     public FrmAppointments() {
         initComponents();
+        appointmentsScrollPanel.getVerticalScrollBar().setUnitIncrement(16);
         appointmentsScrollPanel.getViewport().setOpaque(false);
         
         Arrays.asList(Appointment.Status.values())
@@ -97,7 +98,7 @@ public class FrmAppointments extends View {
                     return false;
                 }
 
-                String medicName = appointment.getMedic().getProfile().getFullName().toLowerCase();
+                String medicName = appointment.getMedic().getDisplayName().toLowerCase();
                 String term = txtMedicName.getText().toLowerCase();
                 return medicName.contains(term);
             });
@@ -132,7 +133,7 @@ public class FrmAppointments extends View {
                 break;
             case "medic name":
                 comparable = Comparator.comparing(a -> {
-                    String medicName = (a.getMedic() == null ? "" : a.getMedic().getProfile().getFullName());
+                    String medicName = (a.getMedic() == null ? "" : a.getMedic().getDisplayName());
                     return medicName;
                 });
                 break;

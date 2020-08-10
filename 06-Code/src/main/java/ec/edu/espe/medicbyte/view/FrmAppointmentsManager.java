@@ -21,6 +21,7 @@ public class FrmAppointmentsManager extends View {
      */
     public FrmAppointmentsManager() {
         initComponents();
+        appointmentsScrollPanel.getVerticalScrollBar().setUnitIncrement(16);
         appointmentsScrollPanel.getViewport().setOpaque(false);
         btnRescheduledRequests.setVisible(false);
         

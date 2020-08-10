@@ -14,7 +14,6 @@ ec\edu\espe\medicbyte\view\MainWindow$MenuItemContext.class
 ec\edu\espe\medicbyte\view\FrmRegister$4.class
 ec\edu\espe\medicbyte\model\Medic.class
 ec\edu\espe\medicbyte\common\MainModule.class
-ec\edu\espe\medicbyte\util\MedicModelSerializer.class
 ec\edu\espe\medicbyte\view\FrmRegister$7.class
 ec\edu\espe\medicbyte\common\core\UIEventContext.class
 ec\edu\espe\medicbyte\controller\PatientsController.class
@@ -23,7 +22,6 @@ ec\edu\espe\medicbyte\view\FrmRequestAppointment.class
 ec\edu\espe\medicbyte\view\FrmAppointments.class
 ec\edu\espe\medicbyte\view\FrmRequestAppointment$2.class
 ec\edu\espe\medicbyte\view\FrmRegister$1.class
-ec\edu\espe\medicbyte\util\AppointmentModelSerializer.class
 ec\edu\espe\medicbyte\view\FrmLogin$StatusMessage.class
 ec\edu\espe\medicbyte\view\MainWindow.class
 ec\edu\espe\medicbyte\common\Application.class
@@ -36,7 +34,6 @@ ec\edu\espe\medicbyte\model\UserProfile.class
 ec\edu\espe\medicbyte\model\Patient.class
 ec\edu\espe\medicbyte\common\core\Model.class
 ec\edu\espe\medicbyte\service\impl\AppointmentService.class
-ec\edu\espe\medicbyte\util\UserModelSerializer.class
 ec\edu\espe\medicbyte\model\Appointment.class
 ec\edu\espe\medicbyte\common\core\Route.class
 ec\edu\espe\medicbyte\view\FrmLogin$1.class
@@ -63,7 +60,6 @@ ec\edu\espe\medicbyte\service\IMedicService.class
 ec\edu\espe\medicbyte\model\Appointment$Status.class
 ec\edu\espe\medicbyte\view\FrmAppointments$1.class
 ec\edu\espe\medicbyte\model\Permission.class
-ec\edu\espe\medicbyte\util\UserModelDeserializer.class
 ec\edu\espe\medicbyte\service\IPatientService.class
 ec\edu\espe\medicbyte\model\Speciality.class
 ec\edu\espe\medicbyte\view\FrmRegister$Field.class
@@ -72,7 +68,6 @@ ec\edu\espe\medicbyte\view\FrmRequestAppointment$StatusMessage.class
 ec\edu\espe\medicbyte\view\RequestedAppointmentItem.class
 ec\edu\espe\medicbyte\controller\AppointmentsController.class
 ec\edu\espe\medicbyte\view\FrmAppointmentsManager.class
-ec\edu\espe\medicbyte\controller\HomeController.class
 ec\edu\espe\medicbyte\view\RequestedAppointmentItem$1.class
 ec\edu\espe\medicbyte\model\Role.class
 ec\edu\espe\medicbyte\service\impl\UserService.class
@@ -83,7 +78,6 @@ ec\edu\espe\medicbyte\common\core\View.class
 ec\edu\espe\medicbyte\view\MedicListItem.class
 ec\edu\espe\medicbyte\view\FrmAppointments$2.class
 ec\edu\espe\medicbyte\model\Location.class
-ec\edu\espe\medicbyte\util\AppointmentModelDeserializer.class
 ec\edu\espe\medicbyte\service\impl\LocationService.class
 ec\edu\espe\medicbyte\view\FrmRegister$5.class
 ec\edu\espe\medicbyte\common\core\Router.class

@@ -19,5 +19,6 @@ public interface IUserService {
     User createUser(String username, String email, String password, Role role);
     UserProfile getUserProfile(int userId);
     List<UserProfile> getUserProfiles();
-    boolean updateUserProfile(int userId, UserProfile profile);
+    UserProfile updateUserProfile(int userId, UserProfile profile);
+    public UserProfile createEmptyUserProfile(User user);
 }
