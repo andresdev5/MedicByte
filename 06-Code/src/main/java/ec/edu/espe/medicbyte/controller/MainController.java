@@ -83,12 +83,6 @@ public class MainController extends Controller {
             
             mainWindow.emit("logoutResponse", confirm);
             
-            if (confirm == 0) {
-                mainWindow.clearMenuItems();
-                mainWindow.display(null);
-                mainWindow.close();
-                router.run("auth");
-            }
         });
         
         mainWindow.listen("editProfile", (args) -> {
