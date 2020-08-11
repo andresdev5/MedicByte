@@ -1,0 +1,18 @@
+[
+  {
+    "id": 1,
+    "date": "29-08-2020",
+    "status": "PENDENT",
+    "description": "",
+    "patientId": 12,
+    "specialityId": 5
+  },
+  {
+    "id": 2,
+    "date": "29-08-2020",
+    "status": "PENDENT",
+    "description": "",
+    "patientId": 12,
+    "specialityId": 4
+  }
+]

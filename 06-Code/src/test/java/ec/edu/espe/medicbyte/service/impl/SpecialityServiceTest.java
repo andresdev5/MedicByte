@@ -1,7 +1,15 @@
 package ec.edu.espe.medicbyte.service.impl;
 
 import com.google.gson.Gson;
+import ec.edu.espe.medicbyte.model.Speciality;
+import ec.edu.espe.medicbyte.util.IOUtils;
+import ec.edu.espe.medicbyte.util.PathUtils;
+import java.io.File;
+import java.nio.file.Files;
+import java.util.Arrays;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  *
@@ -10,44 +18,33 @@ import org.junit.jupiter.api.Test;
 public class SpecialityServiceTest {
     private final Gson gson = new Gson();
     
-    public SpecialityServiceTest() {
-        
-    }
-
-    /**
-     * Test of addSpeciality method, of class SpecialityService.
-     */
     @Test
-    public void testAddSpeciality() {
-        
+    public void testDatabaseJsonExists() {
+        assertTrue(Files.exists(PathUtils.currentPath("test-data/specialities.json")));
     }
 
-    /**
-     * Test of getAllSpecialities method, of class SpecialityService.
-     */
     @Test
     public void testGetAllSpecialities() {
-    }
-
-    /**
-     * Test of getTotalSpecialities method, of class SpecialityService.
-     */
-    @Test
-    public void testGetTotalSpecialities() {
-    }
-
-    /**
-     * Test of getSpeciality method, of class SpecialityService.
-     */
-    @Test
-    public void testGetSpeciality_int() {
-    }
-
-    /**
-     * Test of getSpeciality method, of class SpecialityService.
-     */
-    @Test
-    public void testGetSpeciality_String() {
+        File jsonFile = PathUtils.currentPath("test-data/specialities.json").toFile();
+        String json = IOUtils.readFile(jsonFile);
+        
+        Speciality[] specialities = gson.fromJson(json, Speciality[].class);
+        
+        assertNotNull(specialities);
     }
     
+    @Test
+    public void testGetSpeciality() {
+        File jsonFile = PathUtils.currentPath("test-data/specialities.json").toFile();
+        String json = IOUtils.readFile(jsonFile);
+        int expectedId = 1;
+        
+        Speciality[] specialities = gson.fromJson(json, Speciality[].class);
+        
+        boolean exists = Arrays.asList(specialities).stream().anyMatch(speciality -> {
+            return speciality.getId() == expectedId;
+        });
+        
+        assertTrue(exists);
+    }
 }
