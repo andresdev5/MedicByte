@@ -7,13 +7,13 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.text.ParseException;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.Enumeration;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.activation.MimetypesFileTypeMap;
 import javax.imageio.ImageIO;
 import javax.swing.AbstractButton;
 import javax.swing.ImageIcon;
@@ -21,7 +21,6 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import javax.swing.text.MaskFormatter;
 import jiconfont.icons.font_awesome.FontAwesome;
 import jiconfont.swing.IconFontSwing;
 
@@ -42,6 +41,7 @@ public class FrmEditProfile extends View {
     private final JFileChooser fileChooser = new JFileChooser();
     private UserProfileContext userProfileContext;
     private boolean savingProfile = false;
+    private final AtomicBoolean processingAvatar = new AtomicBoolean(false);
     
     /**
      * Creates new form FrmEditProfile
@@ -49,6 +49,32 @@ public class FrmEditProfile extends View {
     public FrmEditProfile() {
         initComponents();
         setupComponents();
+    }
+    
+    private void setupComponents() {
+        FileFilter imageFilter = new FileNameExtensionFilter(
+            "Image files", ImageIO.getReaderFileSuffixes());
+        fileChooser.setFileFilter(imageFilter);
+        fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        fileChooser.setMultiSelectionEnabled(false);
+        fileChooser.setAcceptAllFileFilterUsed(false);
+        
+        btnChangeAvatar.setIcon(IconFontSwing.buildIcon(FontAwesome.PLUS_CIRCLE, 15, new Color(255, 255, 255)));
+        btnChangeAvatar.setBackground(new Color(0, 0, 0, 100));
+        lblUploadingAvatar.setIcon(IconFontSwing.buildIcon(FontAwesome.SPINNER, 15, new Color(255, 255, 255)));
+        lblUploadingAvatar.setBackground(new Color(0, 0, 0, 100));
+        lblUploadingAvatar.setVisible(false);
+        
+        lblErrorFullName.setVisible(false);
+        lblErrorPhone.setVisible(false);
+        lblErrorBirthdate.setVisible(false);
+        
+        datepkrBirthDate.getSettings().setFormatForDatesCommonEra("dd-MM-yyyy");
+        datepkrBirthDate.getSettings().setFormatForDatesBeforeCommonEra("dd-MM-yyyy");
+        datepkrBirthDate.getSettings()
+            .setDateRangeLimits(LocalDate.MIN, LocalDate.of(2004, Month.JANUARY, 1));
+        
+        lblStatusMessage.setVisible(false);
         
         listen("updatedProfile", (args) -> {
             savingProfile = false;
@@ -67,41 +93,6 @@ public class FrmEditProfile extends View {
                 }
             }).start();
         });
-    }
-    
-    private void setupComponents() {
-        FileFilter imageFilter = new FileNameExtensionFilter(
-            "Image files", ImageIO.getReaderFileSuffixes());
-        fileChooser.setFileFilter(imageFilter);
-        fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-        fileChooser.setMultiSelectionEnabled(false);
-        fileChooser.setAcceptAllFileFilterUsed(false);
-        
-        btnChangeAvatar.setIcon(IconFontSwing.buildIcon(FontAwesome.PLUS_CIRCLE, 15, new Color(255, 255, 255)));
-        btnChangeAvatar.setBackground(new Color(0, 0, 0, 100));
-        
-        try {
-            MaskFormatter mask = new MaskFormatter("(593) ##########") {
-                @Override
-                public char getPlaceholderCharacter() {
-                    return '0';
-                }
-            };
-            mask.install(fmttxtPhoneNumber);
-        } catch (ParseException ex) {
-            Logger.getLogger(FrmEditProfile.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        lblErrorFullName.setVisible(false);
-        lblErrorPhone.setVisible(false);
-        lblErrorBirthdate.setVisible(false);
-        
-        datepkrBirthDate.getSettings().setFormatForDatesCommonEra("dd-MM-yyyy");
-        datepkrBirthDate.getSettings().setFormatForDatesBeforeCommonEra("dd-MM-yyyy");
-        datepkrBirthDate.getSettings()
-            .setDateRangeLimits(LocalDate.MIN, LocalDate.of(2004, Month.JANUARY, 1));
-        
-        lblStatusMessage.setVisible(false);
     }
     
     @Override
@@ -128,7 +119,7 @@ public class FrmEditProfile extends View {
         }
         
         if (userProfileContext.phone != null) {
-            fmttxtPhoneNumber.setText(userProfileContext.phone);
+            txtPhoneNumber.setText(userProfileContext.phone);
         }
         
         if (userProfileContext.birthDate != null) {
@@ -164,6 +155,7 @@ public class FrmEditProfile extends View {
         txtFullName = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
+        lblUploadingAvatar = new javax.swing.JLabel();
         btnChangeAvatar = new javax.swing.JButton();
         lblAvatar = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
@@ -172,7 +164,6 @@ public class FrmEditProfile extends View {
         jRadioButton1 = new javax.swing.JRadioButton();
         jRadioButton2 = new javax.swing.JRadioButton();
         jRadioButton3 = new javax.swing.JRadioButton();
-        fmttxtPhoneNumber = new javax.swing.JFormattedTextField();
         lblErrorFullName = new javax.swing.JLabel();
         lblErrorPhone = new javax.swing.JLabel();
         lblErrorBirthdate = new javax.swing.JLabel();
@@ -181,12 +172,21 @@ public class FrmEditProfile extends View {
         lblStatusMessage = new javax.swing.JLabel();
         filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(10, 12), new java.awt.Dimension(10, 12), new java.awt.Dimension(10, 12));
         btnSave = new javax.swing.JButton();
+        jLabel6 = new javax.swing.JLabel();
+        txtPhoneNumber = new javax.swing.JTextField();
 
         jLabel2.setText("Full name:");
 
         jLabel3.setText("Phone:");
 
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        lblUploadingAvatar.setBackground(new java.awt.Color(0, 0, 0));
+        lblUploadingAvatar.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
+        lblUploadingAvatar.setForeground(new java.awt.Color(255, 255, 255));
+        lblUploadingAvatar.setText("Uploading...");
+        lblUploadingAvatar.setOpaque(true);
+        jPanel1.add(lblUploadingAvatar, new org.netbeans.lib.awtextra.AbsoluteConstraints(8, 40, 80, 18));
 
         btnChangeAvatar.setBackground(new java.awt.Color(0, 0, 0));
         btnChangeAvatar.setBorder(javax.swing.BorderFactory.createEmptyBorder(2, 2, 2, 2));
@@ -220,13 +220,6 @@ public class FrmEditProfile extends View {
         btngrpGender.add(jRadioButton3);
         jRadioButton3.setText("Unspecified");
         jRadioButton3.setName("unspecified"); // NOI18N
-
-        try {
-            fmttxtPhoneNumber.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("(593) ##########")));
-        } catch (java.text.ParseException ex) {
-            ex.printStackTrace();
-        }
-        fmttxtPhoneNumber.setName(""); // NOI18N
 
         lblErrorFullName.setText("{{ error_fullName }}");
         lblErrorFullName.setFont(new java.awt.Font("Segoe UI", 0, 11)); // NOI18N
@@ -280,6 +273,8 @@ public class FrmEditProfile extends View {
             }
         });
 
+        jLabel6.setText("(+593)");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -295,7 +290,6 @@ public class FrmEditProfile extends View {
                         .addGap(28, 28, 28)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(lblErrorPhone, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel3)
                             .addComponent(lblErrorFullName)
                             .addComponent(jLabel2)
@@ -305,10 +299,14 @@ public class FrmEditProfile extends View {
                             .addComponent(jRadioButton3)
                             .addComponent(jLabel1)
                             .addComponent(lblErrorBirthdate, javax.swing.GroupLayout.DEFAULT_SIZE, 260, Short.MAX_VALUE)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(txtFullName, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(fmttxtPhoneNumber, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 259, Short.MAX_VALUE))
-                            .addComponent(datepkrBirthDate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(txtFullName)
+                            .addComponent(datepkrBirthDate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(jLabel6)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(txtPhoneNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(lblErrorPhone, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap(23, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -329,8 +327,10 @@ public class FrmEditProfile extends View {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(fmttxtPhoneNumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, 0)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel6)
+                            .addComponent(txtPhoneNumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(3, 3, 3)
                         .addComponent(lblErrorPhone)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel5)
@@ -355,43 +355,49 @@ public class FrmEditProfile extends View {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnChangeAvatarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChangeAvatarActionPerformed
+        if (processingAvatar.get()) {
+            return;
+        }
+        
         int selection = fileChooser.showOpenDialog(this);
         
+        processingAvatar.set(true);
+        
         if (selection == JFileChooser.APPROVE_OPTION) {
-            File imageFile = fileChooser.getSelectedFile();
-            BufferedImage bufferedImage = null;
-
-            try {
-                bufferedImage = ImageIO.read(imageFile);
-            } catch (Exception exception) {}
-
-            if (bufferedImage == null) {
-                JOptionPane.showMessageDialog(
-                    getRootPane(),
-                    "Selected file is not a valid image or has an invalid format",
-                    "Wrong image format",
-                    JOptionPane.ERROR_MESSAGE
-                );
-                return;
-            }
-               
-            System.out.println(new MimetypesFileTypeMap()
-                .getContentType(imageFile)
-                .split("/")[0]);
-
-            if (bufferedImage.getWidth() < 96 || bufferedImage.getHeight() < 96) {
-                JOptionPane.showMessageDialog(
-                    getRootPane(),
-                    "Image size must be greater than or equal to 96x96",
-                    "Image too small",
-                    JOptionPane.ERROR_MESSAGE
-                );
-                return;
-            }
-            
-            Image scaled = bufferedImage.getScaledInstance(96, 96, Image.SCALE_SMOOTH);
-            
             new Thread(() -> {
+                File imageFile = fileChooser.getSelectedFile();
+                BufferedImage bufferedImage = null;
+                lblUploadingAvatar.setVisible(true);
+
+                try {
+                    bufferedImage = ImageIO.read(imageFile);
+                } catch (IOException exception) {}
+
+                if (bufferedImage == null) {
+                    JOptionPane.showMessageDialog(
+                        getRootPane(),
+                        "Selected file is not a valid image or has an invalid format",
+                        "Wrong image format",
+                        JOptionPane.ERROR_MESSAGE
+                    );
+                    lblUploadingAvatar.setVisible(false);
+                    return;
+                }
+
+                if (bufferedImage.getWidth() < 96 || bufferedImage.getHeight() < 96) {
+                    JOptionPane.showMessageDialog(
+                        getRootPane(),
+                        "Image size must be greater than or equal to 96x96",
+                        "Image too small",
+                        JOptionPane.ERROR_MESSAGE
+                    );
+                    lblUploadingAvatar.setVisible(false);
+                    return;
+                }
+
+                Image scaled = bufferedImage.getScaledInstance(96, 96, Image.SCALE_SMOOTH);
+
+
                 BufferedImage bimage = new BufferedImage(
                     scaled.getWidth(null), scaled.getHeight(null), BufferedImage.TYPE_INT_ARGB);
                 Graphics2D bGr = bimage.createGraphics();
@@ -400,13 +406,17 @@ public class FrmEditProfile extends View {
 
                 userProfileContext.avatar = bimage;
                 updateProfileUI();
+                lblUploadingAvatar.setVisible(false);
+                processingAvatar.set(false);
             }).start();
+        } else {
+            processingAvatar.set(false);
         }
     }//GEN-LAST:event_btnChangeAvatarActionPerformed
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
         String fullName = txtFullName.getText().trim();
-        String phone = fmttxtPhoneNumber.getText().replace("(593)", "").trim();
+        String phone = txtPhoneNumber.getText().replace("(593)", "").trim();
         String dateText = datepkrBirthDate.getText();
         
         if (savingProfile) {
@@ -466,12 +476,12 @@ public class FrmEditProfile extends View {
     private javax.swing.ButtonGroup btngrpGender;
     private com.github.lgooddatepicker.components.DatePicker datepkrBirthDate;
     private javax.swing.Box.Filler filler1;
-    private javax.swing.JFormattedTextField fmttxtPhoneNumber;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JRadioButton jRadioButton1;
@@ -482,6 +492,8 @@ public class FrmEditProfile extends View {
     private javax.swing.JLabel lblErrorFullName;
     private javax.swing.JLabel lblErrorPhone;
     private javax.swing.JLabel lblStatusMessage;
+    private javax.swing.JLabel lblUploadingAvatar;
     private javax.swing.JTextField txtFullName;
+    private javax.swing.JTextField txtPhoneNumber;
     // End of variables declaration//GEN-END:variables
 }

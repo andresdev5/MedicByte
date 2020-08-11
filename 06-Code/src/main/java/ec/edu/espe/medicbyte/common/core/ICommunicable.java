@@ -1,5 +1,6 @@
 package ec.edu.espe.medicbyte.common.core;
 
+import io.reactivex.rxjava3.core.Observable;
 import java.util.function.Consumer;
 
 /**

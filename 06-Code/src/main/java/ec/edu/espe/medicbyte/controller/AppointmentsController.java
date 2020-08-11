@@ -58,10 +58,6 @@ public class AppointmentsController extends Controller {
         this.appointmentService = appointmentService;
         this.patientService = patientService;
         this.locationService = locationService;
-        
-        registerViewEvents(FrmAppointments.class);
-        registerViewEvents(FrmRequestAppointment.class);
-        registerViewEvents(FrmAppointmentsManager.class);
     }
     
     @Override
@@ -70,7 +66,7 @@ public class AppointmentsController extends Controller {
     @Routed("showAll")
     public void showAllAppointments() {
         MainWindow window = windowsManager.getAs(MainWindow.class);
-        View view = getView(FrmAppointments.class);
+        View view = new FrmAppointments();
         List<Appointment> appointments = appointmentService.getAllAppointments().stream()
             .filter(appointment -> appointment.getPatient().getId() == authService.getCurrentUser().getId())
             .collect(Collectors.toList());
@@ -102,7 +98,7 @@ public class AppointmentsController extends Controller {
     @Routed("manage")
     public void manageAppointments() {
         MainWindow mainWindow = windowsManager.getAs(MainWindow.class);
-        View view = getView(FrmAppointmentsManager.class);
+        View view = new FrmAppointmentsManager();
         List<Appointment> requestedAppointments = appointmentService.getAllAppointments().stream()
             .filter(appointment -> appointment.getStatus() == Appointment.Status.PENDENT)
             .collect(Collectors.toList());
@@ -149,7 +145,7 @@ public class AppointmentsController extends Controller {
     
     @Routed("requestAppointment")
     public void requestAppointment() {
-        View view = getView(FrmRequestAppointment.class);
+        View view = new FrmRequestAppointment();
         
         view.set("medics", medicService.getAllMedics());
         view.set("specialities", specialityService.getAllSpecialities());

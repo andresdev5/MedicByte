@@ -23,6 +23,9 @@ public class AuthWindow extends Window {
     }
     
     @Override
+    public void init() {}
+    
+    @Override
     public void reveal() {
         super.reveal();
         setAlwaysOnTop(true);

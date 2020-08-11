@@ -29,7 +29,6 @@ public class MedicsController extends Controller {
     private final IUserService userService;
     private final IRoleService roleService;
     private final ISpecialityService specialityService;
-    private final MainWindow window;
     
     @Inject()
     public MedicsController(
@@ -44,10 +43,6 @@ public class MedicsController extends Controller {
         this.userService = userService;
         this.roleService = roleService;
         this.specialityService = specialityService;
-        this.window = windowsManager.getAs(MainWindow.class);
-        
-        registerViewEvents(FrmMedics.class);
-        registerViewEvents(FrmAddMedic.class);
     }
     
     @Override
@@ -55,7 +50,7 @@ public class MedicsController extends Controller {
     
     @Routed("add")
     public void addMedic() {
-        View view = getView(FrmAddMedic.class);
+        View view = new FrmAddMedic();
         view.set("specialities", specialityService.getAllSpecialities());
         
         view.listen("submit", (args) -> {
@@ -116,13 +111,13 @@ public class MedicsController extends Controller {
             );
         });
         
-        window.display(view);
+        windowsManager.getAs(MainWindow.class).display(view);
     }
     
     @Routed("showAll")
     public void showAllMedics() {
-        View view = getView(FrmMedics.class);
+        View view = new FrmMedics();
         view.set("medics", medicService.getAllMedics());
-        window.display(view);
+        windowsManager.getAs(MainWindow.class).display(view);
     }
 }

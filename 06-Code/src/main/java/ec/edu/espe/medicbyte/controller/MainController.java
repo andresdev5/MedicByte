@@ -49,6 +49,9 @@ public class MainController extends Controller {
         
         if (mainWindow == null) {
             mainWindow = windowsManager.getAs(MainWindow.class);
+        } else {
+            windowsManager.rebind(MainWindow.class);
+            mainWindow = windowsManager.getAs(MainWindow.class);
         }
         
         setupMainWindow();
@@ -80,6 +83,8 @@ public class MainController extends Controller {
                 "Salir",
                 JOptionPane.YES_NO_OPTION
             );
+            
+            mainWindow.emit("logoutResponse", confirm);
             
             if (confirm == 0) {
                 mainWindow.clearMenuItems();

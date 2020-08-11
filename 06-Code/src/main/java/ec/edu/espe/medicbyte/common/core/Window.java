@@ -26,12 +26,12 @@ public abstract class Window extends JFrame implements ICommunicable {
     
     public Window() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        /*addWindowListener(new WindowAdapter() {
+        addWindowListener(new WindowAdapter() {
             @Override public void windowClosed(WindowEvent event) {
-                //events.clear();
-                //vars.clear();
+                events.clear();
+                vars.clear();
             }
-        });*/
+        });
     }
     
     public void reveal() {
@@ -47,16 +47,18 @@ public abstract class Window extends JFrame implements ICommunicable {
 
     @Override
     public void emit(String eventName, UIEventArguments parameters) {
-        events.stream()
-            .filter(event -> event.getName().equals(eventName))
-            .forEachOrdered(event -> event.getCallback().accept(parameters));
+        events.stream().filter(event -> event.getName().equals(eventName)).forEachOrdered(event -> {
+            new Thread(() -> {
+                event.getCallback().accept(parameters);
+            }).start();
+        });
     }
 
     @Override
     public void emit(String eventName, Object... args) {
         emit(eventName, new UIEventArguments(args));
     }
-
+    
     @Override
     public void listen(String eventName, Consumer<UIEventArguments> callback) {
         events.add(new UIEventContext(eventName, callback));
@@ -66,6 +68,8 @@ public abstract class Window extends JFrame implements ICommunicable {
         onChange(name, oldValue, newValue);
     }
     
+    
+    protected abstract void init();
     public abstract void display(View content);
     protected abstract void onChange(String name, Object oldValue, Object newValue);
 }

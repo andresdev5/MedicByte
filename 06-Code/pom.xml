@@ -11,24 +11,6 @@
         <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
     <dependencies>
-        <!-- https://mvnrepository.com/artifact/org.fusesource.jansi/jansi -->
-        <dependency>
-            <groupId>org.fusesource.jansi</groupId>
-            <artifactId>jansi</artifactId>
-            <version>1.18</version>
-        </dependency>
-        <!-- https://mvnrepository.com/artifact/org.jline/jline -->
-        <dependency>
-            <groupId>org.jline</groupId>
-            <artifactId>jline</artifactId>
-            <version>3.15.0</version>
-        </dependency>
-        <!-- https://mvnrepository.com/artifact/net.java.dev.jna/jna -->
-        <dependency>
-            <groupId>net.java.dev.jna</groupId>
-            <artifactId>jna</artifactId>
-            <version>5.5.0</version>
-        </dependency>
         <!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
         <dependency>
             <groupId>com.google.code.gson</groupId>
@@ -118,6 +100,30 @@
             <artifactId>LGoodDatePicker</artifactId>
             <version>10.3.1</version>
         </dependency>
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-java</artifactId>
+            <scope>test</scope>
+            <version>2.44.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.opera</groupId>
+            <artifactId>operadriver</artifactId>
+            <scope>test</scope>
+            <version>1.5</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.seleniumhq.selenium</groupId>
+                    <artifactId>selenium-remote-driver</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+            <version>4.11</version>
+        </dependency>
     </dependencies>
     <build>
         <resources>
@@ -137,6 +143,7 @@
                       <goal>shade</goal>
                     </goals>
                     <configuration>
+                        <minimizeJar>false</minimizeJar>
                       <transformers>
                         <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
                           <mainClass>ec.edu.espe.medicbyte.common.Application</mainClass>

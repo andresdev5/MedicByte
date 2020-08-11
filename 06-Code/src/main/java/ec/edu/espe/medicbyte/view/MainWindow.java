@@ -72,11 +72,24 @@ public class MainWindow extends Window {
     private AtomicBoolean navigating = new AtomicBoolean(false);
     private List<MenuItemContext> menuItems = new ArrayList<>();
     private PnlLoadingOverlay pnlLoading = new PnlLoadingOverlay();
+    private AtomicBoolean awaitingLogout = new AtomicBoolean(false);
     
     /** Creates new form FrmAppointments */
     public MainWindow() {
         initComponents();
         setupComponents();
+    }
+    
+    @Override
+    public void init() {
+        listen("finishLoadingEditProfileView", (args) -> {
+            setStatusBarContent("Done!");
+            navigating.set(false);
+        });
+        
+        listen("logoutResponse", args -> {
+            awaitingLogout.set(false);
+        });
     }
     
     @Override
@@ -126,19 +139,17 @@ public class MainWindow extends Window {
     
     private void setupComponents() {
         setLocationRelativeTo(null);
-        //btnNotifications.setVisible(false);
+        btnNotifications.setVisible(false);
         avatar.setIcon(IconFontSwing.buildIcon(FontAwesome.USER, 52, new Color(90, 90, 90)));
         setIconImage(IconFontSwing.buildImage(FontAwesome.HEARTBEAT, 16, new Color(82, 116, 147)));
-        
-        listen("finishLoadingEditProfileView", (args) -> {
-            setStatusBarContent("Done!");
-            navigating.set(false);
-        });
     }
     
     private void setUserContext(User context) {
         UserProfile profile = context.getProfile();
         String displayName = context.getDisplayName();
+        
+        avatar.setIcon(null);
+        avatar.revalidate();
         
         txaUsername.setText(displayName.substring(0, 1).toUpperCase() + displayName.substring(1));
         
@@ -152,7 +163,10 @@ public class MainWindow extends Window {
                 avatar.validate();
             } catch (IOException exception) {
                 Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, exception);
+                avatar.setIcon(IconFontSwing.buildIcon(FontAwesome.USER, 52, new Color(90, 90, 90)));
             }
+        } else {
+            avatar.setIcon(IconFontSwing.buildIcon(FontAwesome.USER, 52, new Color(90, 90, 90)));
         }
         
         repaint();
@@ -173,7 +187,11 @@ public class MainWindow extends Window {
     }
     
     public void selectMenuItem(String key) {
-        MenuItemContext context = menuItems.stream().filter(i -> i.item.getKey().equals(key)).findFirst().orElse(null);
+        MenuItemContext context = menuItems.stream()
+            .filter(i -> i.item.getKey().equals(key))
+            .findFirst()
+            .orElse(null);
+        
         selectMenuItem(context.item);
     }
     
@@ -504,6 +522,11 @@ public class MainWindow extends Window {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogoutActionPerformed
+        if (awaitingLogout.get()) {
+            return;
+        }
+        
+        awaitingLogout.set(true);
         emit("logout");
     }//GEN-LAST:event_btnLogoutActionPerformed
 

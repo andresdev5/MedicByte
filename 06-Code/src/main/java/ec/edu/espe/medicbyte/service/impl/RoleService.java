@@ -10,9 +10,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
-import ec.edu.espe.medicbyte.service.IRoleService;
 import ec.edu.espe.medicbyte.service.IRoleService;
 
 /**
@@ -20,7 +18,7 @@ import ec.edu.espe.medicbyte.service.IRoleService;
  * @author Andres Jonathan J.
  */
 public class RoleService implements IRoleService {
-    private Gson gson = new Gson();
+    private final Gson gson = new Gson();
     
     public RoleService() {
         PathUtils.ensureFiles(

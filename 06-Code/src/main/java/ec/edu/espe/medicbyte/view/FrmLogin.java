@@ -3,6 +3,8 @@ package ec.edu.espe.medicbyte.view;
 import ec.edu.espe.medicbyte.common.core.View;
 import java.awt.Color;
 
+import static java.awt.Event.ENTER;
+
 /**
  *
  * @author Junior Jurado
@@ -159,6 +161,11 @@ public class FrmLogin extends View {
 
         txtPassword.setMinimumSize(new java.awt.Dimension(64, 32));
         txtPassword.setPreferredSize(new java.awt.Dimension(89, 32));
+        txtPassword.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtPasswordKeyReleased(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -240,6 +247,14 @@ public class FrmLogin extends View {
     private void btnCreateAccountActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateAccountActionPerformed
         emit("swapToSignup");
     }//GEN-LAST:event_btnCreateAccountActionPerformed
+
+    private void txtPasswordKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPasswordKeyReleased
+        if (evt.getKeyCode() != ENTER) {
+            return;
+        }
+        
+        btnLoginActionPerformed(null);
+    }//GEN-LAST:event_txtPasswordKeyReleased
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -200,6 +200,9 @@
           <Dimension value="[89, 32]"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtPasswordKeyReleased"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>
