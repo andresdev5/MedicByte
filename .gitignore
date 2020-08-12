@@ -4,3 +4,4 @@
 !06-Code/target/data/*
 06-Code/src/test/java/**/*.java
 *.vpp.bak*
+/06-Code/target/

@@ -59,23 +59,5 @@ public class ValidationUtils {
         return lastDigit == (higher - total);
     }
     
-    public static boolean isValidEmail(String email) {
-        return email.matches(EMAIL_REGEX);
-    }
-    
-    public static boolean isValidDate(String input, String format) {
-        return parseDate(input, format) != null;
-    }
-    
-    public static boolean isValidDate(String input) {
-        return parseDate(input) != null;
-    }
-    
-    public static boolean isValidHour(String input, String format) {
-        return parseHour(input, format) != null;
-    }
-    
-    public static boolean isValidHour(String input) {
-        return parseHour(input) != null;
-    }
+
 }
