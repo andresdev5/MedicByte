@@ -1,0 +1,17 @@
+[
+    {
+        "id":1,"name":"Admin","permissions":[]
+    },
+    {
+        "id":2,"name":"Operator","permissions":[]
+    },
+    {
+        "id":3,"name":"Patient","permissions":[]
+    },
+    {
+        "id":4,"name":"Medic","permissions":[]
+    },
+    {
+        "id":5,"name":"Nurse","permissions":[]
+    }
+]

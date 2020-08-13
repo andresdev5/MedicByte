@@ -1,5 +1,6 @@
 06-Code/nbproject/private/
-06-Code/target/
+06-Code/target/**/*
 !06-Code/target/data/
+!06-Code/target/data/*
 06-Code/src/test/java/**/*.java
 *.vpp.bak*
