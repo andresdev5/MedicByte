@@ -131,6 +131,7 @@ public class AuthController extends Controller {
                 FrmLogin.StatusMessage.SUCCESS,
                 String.format("%s account created successfully", username)
             );
+            signupView.emit("success");
         });
         
         loginView.listen("swapToSignup", (args) -> {

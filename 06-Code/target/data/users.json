@@ -5,7 +5,7 @@
     "username": "admin",
     "email": "admin@medicbyte.com",
     "password": "$2y$12$UyvJ5Cv9p4XCjtQamRxu/OXOTDnhwldvPLEBlLO55FEgPuoxtvHcS",
-    "registeredAt":"1597293031358"
+    "registeredAt": 1597293031358
   },
   {
     "id": 2,
@@ -13,7 +13,7 @@
     "username": "andres",
     "email": "ajjacome@espe.edu.ec",
     "password": "$2a$10$H5JBN0AUblDE0otYS8BsfOqIGsPK9t8eMDSZKs4JuYa7BlZ/BtyjC",
-    "registeredAt":"1597293031358"
+    "registeredAt": 1597293031358
   },
   {
     "id": 3,
@@ -21,143 +21,78 @@
     "username": "valerie_hadenton",
     "email": "cstelle2@boston.com",
     "password": "ZGSMLX",
-    "registeredAt": "1591740148000"
-  }, {
+    "registeredAt": 1591740148000
+  },
+  {
     "id": 4,
     "roleId": 3,
     "username": "dave_vango",
     "email": "peliot3@scribd.com",
     "password": "VD8Gcyq",
-    "registeredAt": "1591506305000"
-  }, {
+    "registeredAt": 1591506305000
+  },
+  {
     "id": 5,
     "roleId": 3,
     "username": "cole_kenwyn",
     "email": "tkettlesting4@yahoo.co.jp",
     "password": "H3Mqs5oGr7",
-    "registeredAt": "1591994476000"
-  }, {
+    "registeredAt": 1591994476000
+  },
+  {
     "id": 6,
     "roleId": 3,
     "username": "darrell_birrell",
     "email": "ehuggons5@seattletimes.com",
     "password": "0sN45S503hr",
-    "registeredAt": "1596801301000"
-  }, {
-    "id": 7,
-    "roleId": 3,
-    "username": "deck_ossulton",
-    "email": "dsnook6@microsoft.com",
-    "password": "ou1nnB53",
-    "registeredAt": "1591086958000"
-  }, {
-    "id": 8,
-    "roleId": 3,
-    "username": "timotheus_onians",
-    "email": "sfrohock7@shareasale.com",
-    "password": "uGTjyIWnxP",
-    "registeredAt": "1595308522000"
-  }, {
-    "id": 9,
-    "roleId": 3,
-    "username": "etan_curson",
-    "email": "kbaynard8@scientificamerican.com",
-    "password": "DSIWuz13j3",
-    "registeredAt": "1594570074000"
-  }, {
-    "id": 10,
-    "roleId": 3,
-    "username": "rahel_geroldi",
-    "email": "ajelk9@paypal.com",
-    "password": "IhX7GI3g6",
-    "registeredAt": "1596686960000"
+    "registeredAt": 1596801301000
   },
   {
-  "id": 11,
-  "roleId": 3,
-  "username2": "glen_coburn",
-  "username": "Sharity Callingham",
-  "email": "scallingham0@angelfire.com",
-  "password": "rGTSJ2A",
-  "registeredAt": "1592744067000"
-}, {
-  "id": 12,
-  "roleId": 3,
-  "username2": "sadie_janson",
-  "username": "Monah Andrzejewski",
-  "email": "mandrzejewski1@chicagotribune.com",
-  "password": "W0fBbQcfV",
-  "registeredAt": "1591362193000"
-},
-{
-  "id": 13,
-  "roleId": 4,
-  "username": "lkrishtopaittis0",
-  "email": "lkrishtopaittis0@dion.ne.jp",
-  "password": "X8BnSY",
-  "registeredAt": "1595276883000"
-}, {
-  "id": 14,
-  "roleId": 4,
-  "username": "mbatalini1",
-  "email": "mbatalini1@csmonitor.com",
-  "password": "HVU6Vl79rt23",
-  "registeredAt": "1592737953000"
-}, {
-  "id": 15,
-  "roleId": 4,
-  "username": "mfellenor2",
-  "email": "mfellenor2@sohu.com",
-  "password": "kuEghz1aI",
-  "registeredAt": "1592922497000"
-}, {
-  "id": 16,
-  "roleId": 4,
-  "username": "rjacson3",
-  "email": "rjacson3@i2i.jp",
-  "password": "sPV0ijw",
-  "registeredAt": "1591485549000"
-}, {
-  "id": 17,
-  "roleId": 4,
-  "username": "abloor4",
-  "email": "abloor4@hexun.com",
-  "password": "dH12kaidf8",
-  "registeredAt": "1594002125000"
-}, {
-  "id": 18,
-  "roleId": 4,
-  "username": "rtaverner5",
-  "email": "rtaverner5@canalblog.com",
-  "password": "8KrFVzCLc",
-  "registeredAt": "1597254446000"
-}, {
-  "id": 19,
-  "roleId": 4,
-  "username": "aaffuso6",
-  "email": "aaffuso6@drupal.org",
-  "password": "V3FF13UDJ",
-  "registeredAt": "1593741605000"
-}, {
-  "id": 20,
-  "roleId": 4,
-  "username": "lkleinlerer7",
-  "email": "lkleinlerer7@pinterest.com",
-  "password": "Wi25NnQoPak",
-  "registeredAt": "1594205596000"
-}, {
-  "id": 21,
-  "roleId": 4,
-  "username": "logborne8",
-  "email": "logborne8@washingtonpost.com",
-  "password": "4Q9ZmLntcqf",
-  "registeredAt": "1592812909000"
-}, {
-  "id": 22,
-  "roleId": 4,
-  "username": "ecamillo9",
-  "email": "ecamillo9@google.it",
-  "password": "tOSNGLPl1bpo",
-  "registeredAt": "1594763193000"
-}
+    "id": 7,
+    "roleId": 4,
+    "username": "lkrishtopaittis0",
+    "email": "lkrishtopaittis0@dion.ne.jp",
+    "password": "X8BnSY",
+    "registeredAt": 1595276883000
+  },
+  {
+    "id": 8,
+    "roleId": 4,
+    "username": "mbatalini1",
+    "email": "mbatalini1@csmonitor.com",
+    "password": "HVU6Vl79rt23",
+    "registeredAt": 1592737953000
+  },
+  {
+    "id": 9,
+    "roleId": 4,
+    "username": "mfellenor2",
+    "email": "mfellenor2@sohu.com",
+    "password": "kuEghz1aI",
+    "registeredAt": 1592922497000
+  },
+  {
+    "id": 10,
+    "roleId": 4,
+    "username": "rjacson3",
+    "email": "rjacson3@i2i.jp",
+    "password": "sPV0ijw",
+    "registeredAt": 1591485549000
+  },
+  {
+    "id": 11,
+    "roleId": 4,
+    "username": "abloor4",
+    "email": "abloor4@hexun.com",
+    "password": "dH12kaidf8",
+    "registeredAt": 1594002125000
+  },
+  {
+    "id": 12,
+    "roleId": 4,
+    "username": "rtaverner5",
+    "email": "rtaverner5@canalblog.com",
+    "password": "8KrFVzCLc",
+    "registeredAt": 1597254446000
+  }
 ]

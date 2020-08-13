@@ -21,6 +21,8 @@ public class FrmRegister extends View {
         USERNAME, EMAIL, PASSWORD, PASSWORD2, IDENTIFY_CARD
     }
     
+    private boolean registering = false;
+    
     /**
      * Creates new form FrmRegister
      */
@@ -28,12 +30,21 @@ public class FrmRegister extends View {
         initComponents();
         setup();
         
-        listen("showError", (args) -> showError(args.get(0), args.get(1)));
+        listen("showError", (args) -> {
+            showError(args.get(0), args.get(1));
+            btnSignup.setEnabled(true);
+            registering = false;
+        });
         listen("hideError", (args) -> hideError(args.get(0)));
         listen("hideErrors", (args) -> {
             for (Field field : Field.values()) {
                 hideError(field);
             }
+        });
+        
+        listen("success", (args) -> {
+            btnSignup.setEnabled(true);
+            registering = false;
         });
     }
     
@@ -382,6 +393,10 @@ public class FrmRegister extends View {
     }//GEN-LAST:event_btnLogInActionPerformed
 
     private void btnSignupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSignupActionPerformed
+        if (registering) {
+            return;
+        }
+        
         List<String> fieldNames = Stream.of(Field.values())
             .map(field -> field.name())
             .collect(Collectors.toList());
@@ -405,6 +420,9 @@ public class FrmRegister extends View {
         if (errors > 0) {
             return;
         }
+        
+        registering = true;
+        btnSignup.setEnabled(false);
         
         String username = txtUsername.getText().trim();
         String email = txtEmail.getText().trim();

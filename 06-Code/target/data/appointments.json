@@ -4,7 +4,7 @@
     "date": "27-11-2020",
     "status": "PENDENT",
     "description": "",
-    "patientId": 4,
+    "patientId": 5,
     "specialityId": 1
   },
   {
@@ -12,7 +12,7 @@
     "date": "01-07-2020",
     "status": "PENDENT",
     "description": "",
-    "patientId": 7,
+    "patientId": 3,
     "specialityId": 2
   },
   {
@@ -20,7 +20,7 @@
     "date": "16-08-2020",
     "status": "PENDENT",
     "description": "",
-    "patientId": 9,
+    "patientId": 4,
     "specialityId": 5
   },
   {
@@ -29,7 +29,7 @@
     "hour": "10:30",
     "status": "APPROVED",
     "description": "",
-    "medicId": 13,
+    "medicId": 7,
     "patientId": 2,
     "locationId": 2,
     "specialityId": 5
