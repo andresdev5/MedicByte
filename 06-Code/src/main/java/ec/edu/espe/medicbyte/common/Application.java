@@ -8,12 +8,16 @@ import ec.edu.espe.medicbyte.controller.AppointmentsController;
 import ec.edu.espe.medicbyte.controller.AuthController;
 import ec.edu.espe.medicbyte.controller.MainController;
 import ec.edu.espe.medicbyte.controller.MedicsController;
+import ec.edu.espe.medicbyte.controller.PatientsController;
 import ec.edu.espe.medicbyte.controller.UserController;
 import ec.edu.espe.medicbyte.service.impl.AuthService;
 import ec.edu.espe.medicbyte.view.AuthWindow;
 import ec.edu.espe.medicbyte.view.MainWindow;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.UIManager;
 import jiconfont.icons.font_awesome.FontAwesome;
+import jiconfont.icons.font_awesome.FontAwesomeSolid;
 import jiconfont.swing.IconFontSwing;
 
 /**
@@ -34,12 +38,13 @@ public class Application extends Container {
         FlatLightLaf.install();
         
         try {
-            UIManager.setLookAndFeel( new FlatLightLaf() );
-        } catch(Exception ex) {
-            System.err.println( "Failed to initialize LaF" );
+            UIManager.setLookAndFeel(new FlatLightLaf());
+        } catch(Exception exception) {
+            Logger.getLogger(Application.class.getName()).log(Level.SEVERE, null, exception);
         }
         
         IconFontSwing.register(FontAwesome.getIconFont());
+        IconFontSwing.register(FontAwesomeSolid.getIconFont());
         
         // register all controllers
         router.add(AuthController.class, "auth");
@@ -47,6 +52,7 @@ public class Application extends Container {
         router.add(AppointmentsController.class, "appointments");
         router.add(MedicsController.class, "medics");
         router.add(UserController.class, "user");
+        router.add(PatientsController.class, "patients");
         
         // register all windows
         windows.register(MainWindow.class);

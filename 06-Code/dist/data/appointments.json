@@ -10,9 +10,17 @@
   {
     "id": 2,
     "date": "18-09-2020",
-    "status": "PENDENT",
+    "status": "CANCELLED",
     "description": "",
     "patientId": 12,
     "specialityId": 4
+  },
+  {
+    "id": 3,
+    "date": "20-08-2020",
+    "status": "PENDENT",
+    "description": "",
+    "patientId": 12,
+    "specialityId": 1
   }
 ]

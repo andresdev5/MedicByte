@@ -15,6 +15,7 @@ import javax.swing.JLabel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.text.JTextComponent;
+import org.apache.commons.lang3.RandomStringUtils;
 
 /**
  *
@@ -417,6 +418,11 @@ public class FrmAddMedic extends View {
             return;
         }
         
+        if (component instanceof JTextComponent && ((JTextComponent) component).getText().isEmpty()) {
+            hideFieldErrorStatus(field);
+            return;
+        }
+        
         FieldValidationStatus status = validateField(field, component);
         showFieldErrorStatus(status);
     }//GEN-LAST:event_txtFieldKeyReleased
@@ -430,20 +436,16 @@ public class FrmAddMedic extends View {
         char mask = txtPassword.getEchoChar();
         
         if (mask == '\0') {
+            lblRevealPassword.setText("Reveal");
             txtPassword.setEchoChar('\u25CF');
         } else {
+            lblRevealPassword.setText("Hide");
             txtPassword.setEchoChar('\0');
         }
     }//GEN-LAST:event_lblRevealPasswordMouseClicked
 
     private void lblGeneratePasswordMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblGeneratePasswordMouseClicked
-        final byte[] buffer = new byte[5];
-        Random random = new Random();
-        
-        random.nextBytes(buffer);
-        String password = BaseEncoding.base64Url().omitPadding().encode(buffer);
-        
-        txtPassword.setText(password);
+        txtPassword.setText(RandomStringUtils.randomAlphanumeric(20));
     }//GEN-LAST:event_lblGeneratePasswordMouseClicked
     
     private void showFieldErrorStatus(FieldValidationStatus status) {
@@ -469,6 +471,17 @@ public class FrmAddMedic extends View {
         errorLabel.setText(status.getMessage());
     }
     
+    private void hideFieldErrorStatus(Field field) {
+        JLabel target = Stream.of(pnlForm.getComponents()).filter(component -> {
+            // error:FIELD
+            return component.getName() != null
+                && component.getName().startsWith("error:")
+                && component.getName().substring(6).equalsIgnoreCase(field.name());
+        }).findFirst().map(c -> (JLabel)c).orElse(null);
+        
+        target.setVisible(false);
+    }
+    
     private FieldValidationStatus validateField(Field field, Component component) {
         if (component instanceof JTextComponent
             && ((JTextComponent)component).getText().trim().isEmpty()) {
@@ -486,8 +499,11 @@ public class FrmAddMedic extends View {
                 }
             } break;
             case FULLNAME:
-                if(((JTextField)component).getText().length() < 2) {
+                String content = ((JTextField)component).getText();
+                if(content.length() < 2) {
                     return new FieldValidationStatus(field, false, "Full name must have at least 2 characters");
+                } else if (!content.matches("^[\\w'\\-,.][^0-9_!¡?÷?¿\\/\\+=@#$%ˆ&*(){}|~<>;:[\\\\]]{2,}$")) {
+                    return new FieldValidationStatus(field, false, "Fullname has invalid characters");
                 }
             break;
             case EMAIL: {

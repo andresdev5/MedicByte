@@ -2,7 +2,12 @@ package ec.edu.espe.medicbyte.view;
 
 import ec.edu.espe.medicbyte.common.core.View;
 import ec.edu.espe.medicbyte.model.Medic;
+import ec.edu.espe.medicbyte.model.Speciality;
+import ec.edu.espe.medicbyte.model.User;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.List;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -10,14 +15,31 @@ import java.util.List;
  */
 public class FrmMedics extends View {
     private List<Medic> medics;
+    private User currentUser;
+    private boolean editingMedic = false;
     
     /**
      * Creates new form FrmMedics
      */
     public FrmMedics() {
         initComponents();
+        setupComponents();
+    }
+    
+    private void setupComponents() {
         medicsScrollPanel.getVerticalScrollBar().setUnitIncrement(16);
         medicsScrollPanel.getViewport().setOpaque(false);
+        
+        listen("MedicUpdated", (args) -> {
+            Medic medic = args.get(0);
+            JOptionPane.showMessageDialog(
+                getRootPane(),
+                String.format("medic %s succesfully updated", medic.getDisplayName()),
+                "Updated medic",
+                JOptionPane.INFORMATION_MESSAGE
+            );
+            updateMedicsList(medics);
+        });
     }
 
     /**
@@ -169,11 +191,13 @@ public class FrmMedics extends View {
 
     @Override
     protected void onChange(String name, Object oldValue, Object newValue) {
+        if (name.equals("currentUser")) {
+            this.currentUser = (User) newValue;
+        }
+        
         if (name.equals("medics")) {
             medics = (List<Medic>) newValue;
-            medicsContainer.removeAll();
-            medics.forEach(medic -> medicsContainer.add(new MedicListItem(medic)));
-            lblTotalItems.setText(String.valueOf(medics.size()));
+            updateMedicsList(medics);
         }
     }
     
@@ -182,6 +206,46 @@ public class FrmMedics extends View {
     
     @Override
     protected void onLeave() {}
+    
+    private void updateMedicsList(List<Medic> medics) {
+        medicsContainer.removeAll();
+        medics.forEach(medic -> {
+            MedicListItem item = new MedicListItem(medic, currentUser);
+            item.listen("editMedic", (args) -> editMedic(args.get(0)));
+            medicsContainer.add(item);
+        });
+        lblTotalItems.setText(String.valueOf(medics.size()));
+        
+        repaint();
+        revalidate();
+    }
+    
+    private void editMedic(Medic medic) {
+        List<Speciality> specialities = (List<Speciality>) get("specialities");
+        
+        if (editingMedic) {
+            return;
+        }
+        
+        editingMedic = true;
+        
+        DlgEditMedic dialog = new DlgEditMedic(medic, specialities, (saved) -> {
+            emit("updateMedic", saved);
+        });
+        
+        dialog.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosed(WindowEvent event) {
+                editingMedic = false;
+            }
+        });
+        
+        dialog.setTitle("Edit medic");
+        dialog.setLocationRelativeTo(this.getParent());
+        dialog.setModal(true);
+        dialog.setVisible(true);
+        dialog.pack();
+    }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;

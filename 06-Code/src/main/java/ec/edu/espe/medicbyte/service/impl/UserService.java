@@ -26,9 +26,13 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
 import ec.edu.espe.medicbyte.service.IRoleService;
 import ec.edu.espe.medicbyte.service.IUserService;
 import ec.edu.espe.medicbyte.util.json.ByteArrayToBase64TypeAdapter;
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -43,6 +47,15 @@ public class UserService implements IUserService {
     public UserService(IRoleService roleService) {        
         GsonBuilder gsonBuilder = new GsonBuilder().setPrettyPrinting();
         gsonBuilder
+            .registerTypeAdapter(LocalDateTime.class,
+                (JsonSerializer<LocalDateTime>) (dateTime, type, context) -> {
+                Instant instant = dateTime.atZone(ZoneId.systemDefault()).toInstant();
+                Date date = Date.from(instant);
+                return new JsonPrimitive(date.getTime());
+            })
+            .registerTypeAdapter(LocalDateTime.class,
+                (JsonDeserializer<LocalDateTime>) (jsonElement, type, context)
+                -> Instant.ofEpochMilli(jsonElement.getAsLong()).atZone(ZoneId.systemDefault()).toLocalDateTime())
             .registerTypeAdapter(User.class, new UserModelSerializer())
             .registerTypeAdapter(User.class, new UserModelDeserializer(this, roleService))
             .registerTypeAdapter(LocalDate.class,

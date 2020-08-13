@@ -291,6 +291,7 @@ public class AppointmentItem extends javax.swing.JPanel {
         btnReschedule.setBorderPainted(false);
         btnReschedule.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnReschedule.setFocusPainted(false);
+        btnReschedule.setFocusable(false);
         btnReschedule.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         btnReschedule.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
         btnReschedule.setOpaque(true);
@@ -322,6 +323,7 @@ public class AppointmentItem extends javax.swing.JPanel {
         btnCancel.setBorderPainted(false);
         btnCancel.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnCancel.setFocusPainted(false);
+        btnCancel.setFocusable(false);
         btnCancel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         btnCancel.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
         btnCancel.setOpaque(true);

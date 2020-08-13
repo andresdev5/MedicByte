@@ -83,9 +83,7 @@ public class AuthWindow extends Window {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("MedicByte - Authentification");
-        setMaximumSize(new java.awt.Dimension(750, 600));
         setMinimumSize(new java.awt.Dimension(750, 600));
-        setPreferredSize(new java.awt.Dimension(750, 600));
         setResizable(false);
 
         jPanel1.setLayout(new java.awt.GridLayout(1, 0));

@@ -142,6 +142,7 @@ public class PatientService implements IPatientService {
             patient.setEmail(user.getEmail());
             patient.setRole(user.getRole());
             patient.setProfile(user.getProfile());
+            patient.setRegisteredAt(user.getRegisteredAt());
             
             String idCard = object.get("idCard").getAsString();
             patient.setIdCard(idCard);

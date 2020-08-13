@@ -356,6 +356,7 @@
                                   <Color id="Cursor de Mano"/>
                                 </Property>
                                 <Property name="focusPainted" type="boolean" value="false"/>
+                                <Property name="focusable" type="boolean" value="false"/>
                                 <Property name="horizontalAlignment" type="int" value="4"/>
                                 <Property name="horizontalTextPosition" type="int" value="4"/>
                                 <Property name="opaque" type="boolean" value="true"/>
@@ -423,6 +424,7 @@
                                   <Color id="Cursor de Mano"/>
                                 </Property>
                                 <Property name="focusPainted" type="boolean" value="false"/>
+                                <Property name="focusable" type="boolean" value="false"/>
                                 <Property name="horizontalAlignment" type="int" value="4"/>
                                 <Property name="horizontalTextPosition" type="int" value="4"/>
                                 <Property name="opaque" type="boolean" value="true"/>

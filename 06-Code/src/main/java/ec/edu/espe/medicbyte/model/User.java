@@ -1,5 +1,8 @@
 package ec.edu.espe.medicbyte.model;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 /**
  * 
  * @author Andres Jonathan J.
@@ -11,6 +14,7 @@ public class User {
     private String password;
     private Role role;
     private UserProfile profile;
+    private LocalDateTime registeredAt;
 
     public final int getId() {
         return id;
@@ -66,6 +70,14 @@ public class User {
 
     public void setProfile(UserProfile profile) {
         this.profile = profile;
+    }
+
+    public LocalDateTime getRegisteredAt() {
+        return registeredAt;
+    }
+
+    public void setRegisteredAt(LocalDateTime registeredAt) {
+        this.registeredAt = registeredAt;
     }
     
     public String getDisplayName() {

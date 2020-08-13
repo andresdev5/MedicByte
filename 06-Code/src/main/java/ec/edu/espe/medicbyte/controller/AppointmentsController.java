@@ -14,7 +14,7 @@ import ec.edu.espe.medicbyte.service.ILocationService;
 import ec.edu.espe.medicbyte.service.IMedicService;
 import ec.edu.espe.medicbyte.service.IPatientService;
 import ec.edu.espe.medicbyte.service.ISpecialityService;
-import ec.edu.espe.medicbyte.view.ApproveAppointmentDialog.ApproveContext;
+import ec.edu.espe.medicbyte.view.DlgApproveAppointment.ApproveContext;
 import ec.edu.espe.medicbyte.view.FrmAppointments;
 import ec.edu.espe.medicbyte.view.FrmAppointmentsManager;
 import ec.edu.espe.medicbyte.view.FrmRequestAppointment;

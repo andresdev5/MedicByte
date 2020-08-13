@@ -11,6 +11,7 @@ import ec.edu.espe.medicbyte.service.IAuthService;
 import ec.edu.espe.medicbyte.service.IUserService;
 import javax.swing.JOptionPane;
 import jiconfont.icons.font_awesome.FontAwesome;
+import jiconfont.icons.font_awesome.FontAwesomeSolid;
 
 /**
  *
@@ -146,5 +147,16 @@ public class MainController extends Controller {
                 return true;
             }
         ).withKey("medics"));
+        
+        if (user.hasRole("Admin")) {
+            mainWindow.addMenuItem(new MainWindow.MenuItem(
+                "Patients",
+                FontAwesomeSolid.USER_INJURED,
+                () -> {
+                    router.run("patients");
+                    return true;
+                }
+            ).withKey("patients"));
+        }
     }
 }

@@ -10,6 +10,7 @@ import ec.edu.espe.medicbyte.model.Role;
 import ec.edu.espe.medicbyte.model.Speciality;
 import ec.edu.espe.medicbyte.model.User;
 import ec.edu.espe.medicbyte.model.UserProfile;
+import ec.edu.espe.medicbyte.service.IAuthService;
 import ec.edu.espe.medicbyte.service.IMedicService;
 import ec.edu.espe.medicbyte.service.IRoleService;
 import ec.edu.espe.medicbyte.service.ISpecialityService;
@@ -29,6 +30,7 @@ public class MedicsController extends Controller {
     private final IUserService userService;
     private final IRoleService roleService;
     private final ISpecialityService specialityService;
+    private final IAuthService authService;
     
     @Inject()
     public MedicsController(
@@ -36,13 +38,15 @@ public class MedicsController extends Controller {
         IMedicService medicService,
         IUserService userService,
         IRoleService roleService,
-        ISpecialityService specialityService
+        ISpecialityService specialityService,
+        IAuthService authService
     ) {
         this.windowsManager = windowsManager;
         this.medicService = medicService;
         this.userService = userService;
         this.roleService = roleService;
         this.specialityService = specialityService;
+        this.authService = authService;
     }
     
     @Override
@@ -117,7 +121,16 @@ public class MedicsController extends Controller {
     @Routed("showAll")
     public void showAllMedics() {
         View view = new FrmMedics();
+        
+        view.set("currentUser", authService.getCurrentUser());
+        view.set("specialities", specialityService.getAllSpecialities());
         view.set("medics", medicService.getAllMedics());
+        view.listen("updateMedic", (args) -> {
+            Medic medic = args.get(0);
+            medicService.updateMedic(medic);
+            view.emit("MedicUpdated", medic);
+        });
+        
         windowsManager.getAs(MainWindow.class).display(view);
     }
 }

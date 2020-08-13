@@ -3,7 +3,7 @@ package ec.edu.espe.medicbyte.view;
 import ec.edu.espe.medicbyte.model.Appointment;
 import ec.edu.espe.medicbyte.model.Location;
 import ec.edu.espe.medicbyte.model.Medic;
-import ec.edu.espe.medicbyte.view.ApproveAppointmentDialog.ApproveContext;
+import ec.edu.espe.medicbyte.view.DlgApproveAppointment.ApproveContext;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.function.Consumer;
@@ -191,7 +191,7 @@ public class RequestedAppointmentItem extends javax.swing.JPanel {
     }//GEN-LAST:event_btnRejectActionPerformed
 
     private void btnApproveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnApproveActionPerformed
-        ApproveAppointmentDialog dialog = new ApproveAppointmentDialog(appointment, medics, locations, (context) -> {
+        DlgApproveAppointment dialog = new DlgApproveAppointment(appointment, medics, locations, (context) -> {
                approveCallback.accept(context);
         });
         

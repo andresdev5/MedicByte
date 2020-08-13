@@ -14,4 +14,6 @@ public interface IMedicService {
     Medic addMedic(Medic medic);
     Medic addMedic(int userId, Speciality speciality);
     Medic getMedic(int id);
+    boolean updateMedic(Medic medic);
+    boolean updateAllMedics(List<Medic> medics);
 }
