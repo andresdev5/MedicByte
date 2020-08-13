@@ -1,5 +1,5 @@
 # MedicByte
 
 Medical appointment system
-ProjectGui
 
+![MedicByte](https://raw.githubusercontent.com/whitedev93/MedicByte/master/background.png)
