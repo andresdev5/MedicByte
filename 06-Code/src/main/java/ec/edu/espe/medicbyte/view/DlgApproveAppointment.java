@@ -5,6 +5,7 @@ import ec.edu.espe.medicbyte.model.Location;
 import ec.edu.espe.medicbyte.model.Medic;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
@@ -96,6 +97,12 @@ public class DlgApproveAppointment extends javax.swing.JDialog {
         
         cmbMedics.setRenderer(new MedicsListCellRenderer());
         cmbLocations.setRenderer(new LocationListCellRenderer());
+        cmbMedics.setMaximumSize(new Dimension(240, 30));
+        cmbMedics.setPreferredSize(new Dimension(240, 30));
+        cmbMedics.setMinimumSize(new Dimension(240, 30));
+        cmbLocations.setMaximumSize(new Dimension(240, 30));
+        cmbLocations.setPreferredSize(new Dimension(240, 30));
+        cmbLocations.setMinimumSize(new Dimension(240, 30));
         
         medics.forEach(medic -> cmbMedics.addItem(medic));
         locations.forEach(location -> cmbLocations.addItem(location));
@@ -169,11 +176,11 @@ public class DlgApproveAppointment extends javax.swing.JDialog {
         jLabel3.setText("Location:");
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
 
-        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel4.setText("Hour:");
+        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
 
-        lblHourError.setForeground(new java.awt.Color(255, 102, 102));
         lblHourError.setText("{{ error }}");
+        lblHourError.setForeground(new java.awt.Color(255, 102, 102));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -182,6 +189,7 @@ public class DlgApproveAppointment extends javax.swing.JDialog {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(pnlCmbMedics, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(pnlCmbLocations, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
@@ -195,7 +203,6 @@ public class DlgApproveAppointment extends javax.swing.JDialog {
                                 .addComponent(datepkrDate, javax.swing.GroupLayout.DEFAULT_SIZE, 240, Short.MAX_VALUE)
                                 .addComponent(lblDateError, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jLabel2)
-                                .addComponent(pnlCmbMedics, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(lblMedicError, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addComponent(jLabel3)
                             .addComponent(jLabel4)
@@ -228,7 +235,7 @@ public class DlgApproveAppointment extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
-                .addComponent(pnlCmbLocations, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(pnlCmbLocations, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnApprove)

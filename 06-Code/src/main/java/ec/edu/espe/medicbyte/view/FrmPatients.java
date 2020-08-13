@@ -44,6 +44,7 @@ public class FrmPatients extends View {
     private void updatePatientsList(List<Patient> patients) {
         patientsContainer.removeAll();
         
+        patients.sort(Comparator.comparingInt(Patient::getId));
         patients.forEach(patient -> {
             PatientListItem item = new PatientListItem(patient, currentUser);
             patientsContainer.add(item);

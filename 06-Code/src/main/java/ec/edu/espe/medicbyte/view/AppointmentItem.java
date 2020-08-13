@@ -3,7 +3,11 @@ package ec.edu.espe.medicbyte.view;
 import ec.edu.espe.medicbyte.model.Appointment;
 import ec.edu.espe.medicbyte.util.StringUtils;
 import java.awt.Color;
+import java.awt.Image;
+import java.io.ByteArrayInputStream;
 import java.time.format.DateTimeFormatter;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import jiconfont.icons.font_awesome.FontAwesome;
 import jiconfont.swing.IconFontSwing;
@@ -89,6 +93,22 @@ public class AppointmentItem extends javax.swing.JPanel {
         
         btnReschedule.setVisible(false);
         lblMedicAvatar.setIcon(IconFontSwing.buildIcon(FontAwesome.USER_MD, 56, new Color(115, 115, 115)));
+        
+        
+        if (appointment.getMedic() != null
+            && appointment.getMedic().getProfile() != null
+            && appointment.getMedic().getProfile().getAvatar() != null) {
+            new Thread(() -> {
+                try {
+                    byte[] avatar = appointment.getMedic().getProfile().getAvatar();
+                    Image image = ImageIO.read(new ByteArrayInputStream(avatar));
+                    Image scaled = image.getScaledInstance(64, 64, Image.SCALE_SMOOTH);
+                    lblMedicAvatar.setIcon(new ImageIcon(scaled));
+                    repaint();
+                    revalidate();
+                } catch (Exception e) {}
+            }).start();
+        }
     }
     
     public void onCancel(Runnable callback) {

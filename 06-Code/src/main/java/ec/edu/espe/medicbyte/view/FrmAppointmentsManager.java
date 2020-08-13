@@ -4,6 +4,7 @@ import ec.edu.espe.medicbyte.common.core.View;
 import ec.edu.espe.medicbyte.model.Appointment;
 import ec.edu.espe.medicbyte.model.Location;
 import ec.edu.espe.medicbyte.model.Medic;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.swing.JOptionPane;
@@ -47,6 +48,7 @@ public class FrmAppointmentsManager extends View {
         
         if (name.equals("requestedAppointments")) {
             List<Appointment> appointments = (List<Appointment>) newValue;
+            appointments.sort(Comparator.comparingInt(Appointment::getId).reversed());
             appointmentsContainer.removeAll();
             appointments.forEach(appointment -> {
                 List<Medic> specializedMedics = medics.stream()

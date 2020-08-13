@@ -6,6 +6,7 @@ import ec.edu.espe.medicbyte.model.Speciality;
 import ec.edu.espe.medicbyte.model.User;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.Comparator;
 import java.util.List;
 import javax.swing.JOptionPane;
 
@@ -209,6 +210,7 @@ public class FrmMedics extends View {
     
     private void updateMedicsList(List<Medic> medics) {
         medicsContainer.removeAll();
+        medics.sort(Comparator.comparingInt(Medic::getId).reversed());
         medics.forEach(medic -> {
             MedicListItem item = new MedicListItem(medic, currentUser);
             item.listen("editMedic", (args) -> editMedic(args.get(0)));

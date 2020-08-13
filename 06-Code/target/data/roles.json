@@ -10,8 +10,5 @@
     },
     {
         "id":4,"name":"Medic","permissions":[]
-    },
-    {
-        "id":5,"name":"Nurse","permissions":[]
     }
 ]

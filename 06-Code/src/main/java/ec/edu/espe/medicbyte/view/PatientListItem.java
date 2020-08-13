@@ -3,7 +3,10 @@ package ec.edu.espe.medicbyte.view;
 import ec.edu.espe.medicbyte.model.Patient;
 import ec.edu.espe.medicbyte.model.User;
 import java.awt.Color;
+import java.awt.Image;
+import java.io.ByteArrayInputStream;
 import java.time.format.DateTimeFormatter;
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import jiconfont.icons.font_awesome.FontAwesomeSolid;
 import jiconfont.swing.IconFontSwing;
@@ -38,7 +41,16 @@ public class PatientListItem extends javax.swing.JPanel {
             FontAwesomeSolid.USER, 52, new Color(90, 90, 90)));
         
         if (patient.getProfile() != null && patient.getProfile().getAvatar() != null) {
-            lblPatientAvatar.setIcon(new ImageIcon(patient.getProfile().getAvatar()));
+            new Thread(() -> {
+                try {
+                    byte[] avatar = patient.getProfile().getAvatar();
+                    Image image = ImageIO.read(new ByteArrayInputStream(avatar));
+                    Image scaled = image.getScaledInstance(64, 64, Image.SCALE_SMOOTH);
+                    lblPatientAvatar.setIcon(new ImageIcon(scaled));
+                    repaint();
+                    revalidate();
+                } catch (Exception e) {}
+            }).start();
         }
         
         if (patient.getRegisteredAt() != null) {

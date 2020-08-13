@@ -22,5 +22,37 @@
         "phone": "+59322590099",
         "latitude": -0.1260838,
         "longitude": -78.4873319
+    },
+    {
+        "id": 4,
+        "name": "Hospital de Especialidades Eugenio Espejo",
+        "direction": "Av. Gran Colombia, Quito 170136",
+        "phone": "+59302230212",
+        "latitude": -0.2147131,
+        "longitude": -78.5003856
+    },
+    {
+        "id": 5,
+        "name": "Hospital Pediátrico Baca Ortiz",
+        "direction": "",
+        "phone" : "",
+        "latitude": -0.2028697,
+        "longitude": -78.486101
+    },
+    {
+        "id": 6,
+        "name": "Hospital Gineco Obstétrico Isidro Ayora",
+        "direction": "Los Rios, Quito 170136",
+        "phone" : "+593999557470",
+        "latitude": -0.2148333,
+        "longitude": -78.501899
+    },
+    {
+        "id": 7,
+        "name": "Hospital Quito No.1 de la Policía Nacional",
+        "direction": "Av. Mariana de Jesús, Quito",
+        "phone" : "+59322443218",
+        "latitude": -0.1825058,
+        "longitude": -78.5070529
     }
 ]

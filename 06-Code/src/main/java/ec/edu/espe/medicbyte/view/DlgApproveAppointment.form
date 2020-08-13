@@ -52,10 +52,11 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" attributes="0">
+              <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="pnlCmbLocations" alignment="0" max="32767" attributes="0"/>
+                      <Component id="pnlCmbMedics" max="32767" attributes="0"/>
+                      <Component id="pnlCmbLocations" max="32767" attributes="0"/>
                       <Group type="102" alignment="1" attributes="0">
                           <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                           <Component id="btnCancel" min="-2" max="-2" attributes="0"/>
@@ -69,7 +70,6 @@
                                   <Component id="datepkrDate" alignment="0" pref="240" max="32767" attributes="0"/>
                                   <Component id="lblDateError" alignment="0" max="32767" attributes="0"/>
                                   <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
-                                  <Component id="pnlCmbMedics" alignment="0" max="32767" attributes="0"/>
                                   <Component id="lblMedicError" max="32767" attributes="0"/>
                               </Group>
                               <Component id="jLabel3" alignment="0" min="-2" max="-2" attributes="0"/>
@@ -108,7 +108,7 @@
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
                   <EmptySpace pref="7" max="32767" attributes="0"/>
-                  <Component id="pnlCmbLocations" min="-2" max="-2" attributes="0"/>
+                  <Component id="pnlCmbLocations" min="-2" pref="30" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="btnApprove" alignment="3" min="-2" max="-2" attributes="0"/>

@@ -129,6 +129,7 @@ public class UserService implements IUserService {
         user.setEmail(email);
         user.setPassword(BCrypt.hashpw(plainPassword, salt));
         user.setRole(role);
+        user.setRegisteredAt(LocalDateTime.now());
         users.add(user);
         
         String content = gson.toJson(users.toArray());

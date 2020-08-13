@@ -1,32 +1,33 @@
 [
-    {
-        "userId": 2,
-        "specialityId": 3
-    },
-    {
-        "userId": 3,
-        "specialityId": 2
-    },
-	{
-	  "userId": 4,
-	  "specialityId": 2
-	}, {
-	  "userId": 5,
-	  "specialityId": 5
-	}, {
-	  "userId": 6,
-	  "specialityId": 1
-	}, {
-	  "userId": 7,
-	  "specialityId": 3
-	}, {
-	  "userId": 8,
-	  "specialityId": 1
-	}, {
-	  "userId": 9,
-	  "specialityId": 4
-	}, {
-	  "userId": 10,
-	  "specialityId": 5
-	}
+  {
+  "userId": 13,
+  "specialityId": 5
+}, {
+  "userId": 14,
+  "specialityId": 3
+}, {
+  "userId": 15,
+  "specialityId": 2
+}, {
+  "userId": 16,
+  "specialityId": 4
+}, {
+  "userId": 17,
+  "specialityId": 2
+}, {
+  "userId": 18,
+  "specialityId": 1
+}, {
+  "userId": 19,
+  "specialityId": 3
+}, {
+  "userId": 20,
+  "specialityId": 1
+}, {
+  "userId": 21,
+  "specialityId": 3
+}, {
+  "userId": 22,
+  "specialityId": 3
+}
 ]

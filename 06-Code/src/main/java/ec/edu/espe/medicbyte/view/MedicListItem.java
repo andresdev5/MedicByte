@@ -4,6 +4,9 @@ import ec.edu.espe.medicbyte.common.core.View;
 import ec.edu.espe.medicbyte.model.Medic;
 import ec.edu.espe.medicbyte.model.User;
 import java.awt.Color;
+import java.awt.Image;
+import java.io.ByteArrayInputStream;
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import jiconfont.icons.font_awesome.FontAwesome;
 import jiconfont.swing.IconFontSwing;
@@ -38,7 +41,16 @@ public class MedicListItem extends View {
         btnEditMedic.setVisible(false);
         
         if (medic.getProfile() != null && medic.getProfile().getAvatar() != null) {
-            lblMedicAvatar.setIcon(new ImageIcon(medic.getProfile().getAvatar()));
+            new Thread(() -> {
+                try {
+                    byte[] avatar = medic.getProfile().getAvatar();
+                    Image image = ImageIO.read(new ByteArrayInputStream(avatar));
+                    Image scaled = image.getScaledInstance(64, 64, Image.SCALE_SMOOTH);
+                    lblMedicAvatar.setIcon(new ImageIcon(scaled));
+                    repaint();
+                    revalidate();
+                } catch (Exception e) {}
+            }).start();
         }
         
         if (currentUser.hasRole("admin")) {
