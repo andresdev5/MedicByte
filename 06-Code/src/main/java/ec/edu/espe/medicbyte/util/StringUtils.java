@@ -39,7 +39,13 @@ public class StringUtils {
         return text.substring(0, end) + "...";
     }
     
-    
+    public static String repeat(String sequence, int times) {
+        if (times <= 0) {
+            return "";
+        }
+        
+        return new String(new char[times]).replace("\0", sequence);
+    }
     
     public static Date parseDate(String input, String format) {
          try {
@@ -49,7 +55,10 @@ public class StringUtils {
         }
     }
     
-     
+    public static Date parseDate(String input) {
+         return parseDate(input, "dd/MM/yyyy");
+    }
+    
     public static LocalTime parseHour(String input, String format) {
         DateTimeFormatter timeFormat = DateTimeFormatter
             .ofPattern(format)
@@ -66,5 +75,7 @@ public class StringUtils {
         return parseHour(input, "HH:mm");
     }
 
-   
+    private static int textWidth(String str) {
+        return (int) (str.length() - str.replaceAll(NON_THIN, "").length() / 2);
+    }
 }
