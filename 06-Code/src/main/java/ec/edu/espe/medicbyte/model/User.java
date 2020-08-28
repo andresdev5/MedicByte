@@ -1,28 +1,28 @@
 package ec.edu.espe.medicbyte.model;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import dev.morphia.annotations.Entity;
+import dev.morphia.annotations.Field;
+import dev.morphia.annotations.Index;
+import dev.morphia.annotations.IndexOptions;
+import dev.morphia.annotations.Indexes;
+import dev.morphia.annotations.Reference;
+import ec.edu.espe.medicbyte.common.core.Model;
+import org.bson.types.ObjectId;
 
 /**
  * 
  * @author Andres Jonathan J.
  */
-public class User {
-    private int id;
+@Entity("users")
+@Indexes(
+    @Index(fields = @Field("username"), options = @IndexOptions(unique = true))
+)
+public class User extends Model {
     private String username;
     private String email;
     private String password;
-    private Role role;
-    private UserProfile profile;
-    private LocalDateTime registeredAt;
-
-    public final int getId() {
-        return id;
-    }
-
-    public final void setId(int id) {
-        this.id = id;
-    }
+    @Reference private Role role;
+    @Reference private UserProfile profile;
 
     public final String getUsername() {
         return username;
@@ -60,8 +60,8 @@ public class User {
         return role.getName().equalsIgnoreCase(roleName);
     }
     
-    public final boolean hasRole(int id) {
-        return role.getId() == id;
+    public final boolean hasRole(ObjectId roleId) {
+        return role.getId() == roleId;
     }
 
     public UserProfile getProfile() {
@@ -70,14 +70,6 @@ public class User {
 
     public void setProfile(UserProfile profile) {
         this.profile = profile;
-    }
-
-    public LocalDateTime getRegisteredAt() {
-        return registeredAt;
-    }
-
-    public void setRegisteredAt(LocalDateTime registeredAt) {
-        this.registeredAt = registeredAt;
     }
     
     public String getDisplayName() {

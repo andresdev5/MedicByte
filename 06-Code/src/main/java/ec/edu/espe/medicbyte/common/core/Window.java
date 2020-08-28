@@ -9,14 +9,31 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
+/**
+ * This class represents a GUI window, each window inherit from JFrame
+ * 
+ * @author Andres Jonathan J.
+ */
 public abstract class Window extends JFrame implements ICommunicable {
     private final Set<UIEventContext> events = new HashSet<>();
     private final Map<String, Object> vars = new HashMap<>();
     
+    /**
+     * get a variable by key
+     * 
+     * @param key
+     * @return 
+     */
     public Object get(String key) {
         return vars.get(key);
     }
     
+    /**
+     * set a variable with a key
+     * 
+     * @param key
+     * @param value 
+     */
     public void set(String key, Object value) {
         Object oldValue = vars.get(key);
         
@@ -34,6 +51,9 @@ public abstract class Window extends JFrame implements ICommunicable {
         });
     }
     
+    /**
+     * show this window
+     */
     public void reveal() {
         pack();
         setLocationRelativeTo(null);
@@ -41,6 +61,9 @@ public abstract class Window extends JFrame implements ICommunicable {
         revalidate();
     }
     
+    /**
+     * close this window
+     */
     public void close() {
         dispose();
     }

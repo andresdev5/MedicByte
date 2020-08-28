@@ -2,7 +2,6 @@ package ec.edu.espe.medicbyte.view;
 
 import ec.edu.espe.medicbyte.common.core.View;
 import ec.edu.espe.medicbyte.model.Appointment;
-import ec.edu.espe.medicbyte.model.Medic;
 import ec.edu.espe.medicbyte.model.Speciality;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -36,7 +35,7 @@ public class FrmAppointments extends View {
         if (name.equals("appointments")) {
             appointments = (List<Appointment>) newValue;
             appointmentsContainer.removeAll();
-            appointments.sort(Comparator.comparingInt((Appointment a) -> a.getId()).reversed());
+            appointments.sort(Comparator.comparing((Appointment a) -> a.getCreatedAt()).reversed());
             appointments.forEach(appointment -> {
                 AppointmentItem item = new AppointmentItem(appointment);
                 item.onCancel(() -> emit("cancelAppointment", appointment));
@@ -125,7 +124,7 @@ public class FrmAppointments extends View {
         
         switch (type) {
             case "requested date":
-                comparable = Comparator.comparingInt(a -> a.getId());
+                comparable = Comparator.comparing(Appointment::getCreatedAt);
                 break;
             case "scheduled date":
                 comparable = Comparator.comparing(

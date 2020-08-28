@@ -67,30 +67,27 @@ public class AppointmentsController extends Controller {
     public void showAllAppointments() {
         MainWindow window = windowsManager.getAs(MainWindow.class);
         View view = new FrmAppointments();
-        List<Appointment> appointments = appointmentService.getAllAppointments().stream()
-            .filter(appointment -> appointment.getPatient().getId() == authService.getCurrentUser().getId())
-            .collect(Collectors.toList());
+        List<Appointment> appointments = appointmentService
+            .getPatientAppointments(authService.getCurrentUser().getId());
         
         view.listen("cancelAppointment", (args) -> {
             Appointment appointment = args.get(0);
             appointment.setStatus(Appointment.Status.CANCELLED);
             
-            System.out.println("cancelling...");
-            
             window.setStatusBarContent("updating appointment...");
-            appointmentService.updateAppointment(appointment);
+            appointmentService.save(appointment);
             window.setStatusBarContent("Done!");
             
             view.set(
                 "appointments", 
-                appointmentService.getAllAppointments().stream()
+                appointmentService.getAll().stream()
                     .filter(a -> a.getPatient().getId() == authService.getCurrentUser().getId())
                     .collect(Collectors.toList())
             );
         });
         
         view.set("appointments", appointments);
-        view.set("specialities", specialityService.getAllSpecialities());
+        view.set("specialities", specialityService.getAll());
         
         window.display(view);
     }
@@ -99,7 +96,7 @@ public class AppointmentsController extends Controller {
     public void manageAppointments() {
         MainWindow mainWindow = windowsManager.getAs(MainWindow.class);
         View view = new FrmAppointmentsManager();
-        List<Appointment> requestedAppointments = appointmentService.getAllAppointments().stream()
+        List<Appointment> requestedAppointments = appointmentService.getAll().stream()
             .filter(appointment -> appointment.getStatus() == Appointment.Status.PENDENT)
             .collect(Collectors.toList());
         
@@ -114,11 +111,11 @@ public class AppointmentsController extends Controller {
             appointment.setStatus(Appointment.Status.APPROVED);
             
             mainWindow.setStatusBarContent("Updating appointment...");
-            appointmentService.updateAppointment(appointment);
+            appointmentService.update(appointment);
             mainWindow.setStatusBarContent("Done!");
             
             view.emit("updatedAppointment");
-            view.set("requestedAppointments", appointmentService.getAllAppointments().stream()
+            view.set("requestedAppointments", appointmentService.getAll().stream()
                 .filter(a -> a.getStatus() == Appointment.Status.PENDENT)
                 .collect(Collectors.toList()));
         });
@@ -128,17 +125,17 @@ public class AppointmentsController extends Controller {
             appointment.setStatus(Appointment.Status.REJECTED);
             
             mainWindow.setStatusBarContent("Updating appointment...");
-            appointmentService.updateAppointment(appointment);
+            appointmentService.update(appointment);
             mainWindow.setStatusBarContent("Done!");
             
             view.emit("updatedAppointment");
-            view.set("requestedAppointments", appointmentService.getAllAppointments().stream()
+            view.set("requestedAppointments", appointmentService.getAll().stream()
                 .filter(a -> a.getStatus() == Appointment.Status.PENDENT)
                 .collect(Collectors.toList()));
         });
         
-        view.set("locations", locationService.getAllLocations());
-        view.set("medics", medicService.getAllMedics());
+        view.set("locations", locationService.getAll());
+        view.set("medics", medicService.getAll());
         view.set("requestedAppointments", requestedAppointments);
         mainWindow.display(view);
     }
@@ -147,8 +144,8 @@ public class AppointmentsController extends Controller {
     public void requestAppointment() {
         View view = new FrmRequestAppointment();
         
-        view.set("medics", medicService.getAllMedics());
-        view.set("specialities", specialityService.getAllSpecialities());
+        view.set("medics", medicService.getAll());
+        view.set("specialities", specialityService.getAll());
         
         view.listen("submit", (args) -> {
             Appointment appointment = new Appointment();
@@ -165,10 +162,10 @@ public class AppointmentsController extends Controller {
             appointment.setStatus(Appointment.Status.PENDENT);
             appointment.setDate(date);
             appointment.setDescription(description);
-            appointment.setPatient(patientService.getPatient(authService.getCurrentUser().getId()));
+            appointment.setPatient(patientService.get(authService.getCurrentUser().getId()));
             appointment.setSpeciality(speciality);
             
-            boolean created = appointmentService.addAppointment(appointment);
+            boolean created = appointmentService.save(appointment);
             
             if (!created) {
                 view.emit("showStatusMessage",

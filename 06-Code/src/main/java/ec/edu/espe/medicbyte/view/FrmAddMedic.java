@@ -1,14 +1,12 @@
 package ec.edu.espe.medicbyte.view;
 
-import com.google.common.io.BaseEncoding;
 import ec.edu.espe.medicbyte.common.core.View;
 import ec.edu.espe.medicbyte.model.Speciality;
-import ec.edu.espe.medicbyte.util.StringUtils;
+import ec.edu.espe.medicbyte.util.ValidationUtils;
 import java.awt.Color;
 import java.awt.Component;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import javax.swing.JLabel;
@@ -494,7 +492,7 @@ public class FrmAddMedic extends View {
                
                 if(value.length() < 3 || value.length() > 24) {
                     return new FieldValidationStatus(field, false, "Username must be between 3 and 24 characters");
-                } else if (!value.matches("^[a-zA-Z0-9\\-\\_\\.]+$")) {
+                } else if (!ValidationUtils.isValidUsername(value)) {
                     return new FieldValidationStatus(field, false, "Username can only have letters, numbers, hyphens or dots");
                 }
             } break;
@@ -502,14 +500,14 @@ public class FrmAddMedic extends View {
                 String content = ((JTextField)component).getText();
                 if(content.length() < 2) {
                     return new FieldValidationStatus(field, false, "Full name must have at least 2 characters");
-                } else if (!content.matches("^[\\w'\\-,.][^0-9_!¡?÷?¿\\/\\+=@#$%ˆ&*(){}|~<>;:[\\\\]]{2,}$")) {
+                } else if (!ValidationUtils.isValidFullName(content)) {
                     return new FieldValidationStatus(field, false, "Fullname has invalid characters");
                 }
             break;
             case EMAIL: {
                 String value = ((JTextField)component).getText();
                 
-                if (!StringUtils.isValidEmail(value)) {
+                if (!ValidationUtils.isValidEmail(value)) {
                     return new FieldValidationStatus(field, false, "Incorrect email");
                 }
             } break;

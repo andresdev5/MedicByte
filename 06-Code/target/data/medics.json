@@ -22,5 +22,9 @@
   {
     "userId": 12,
     "specialityId": 1
+  },
+  {
+    "userId": 15,
+    "specialityId": 6
   }
 ]

@@ -1,5 +1,11 @@
 package ec.edu.espe.medicbyte.model;
 
+import dev.morphia.annotations.Entity;
+import dev.morphia.annotations.Field;
+import dev.morphia.annotations.Index;
+import dev.morphia.annotations.IndexOptions;
+import dev.morphia.annotations.Indexes;
+import dev.morphia.annotations.Reference;
 import ec.edu.espe.medicbyte.common.core.Model;
 import java.util.List;
 import java.util.ArrayList;
@@ -8,10 +14,13 @@ import java.util.ArrayList;
  *
  * @author Andres Jonathan J.
  */
-public class Role implements Model {
-    private int id;
+@Entity("roles")
+@Indexes(
+    @Index(fields = @Field("name"), options = @IndexOptions(unique = true))
+)
+public class Role extends Model {
     private String name;
-    private List<Permission> permissions = new ArrayList<>();
+    @Reference private List<Permission> permissions = new ArrayList<>();
     
     public Role() {}
     
@@ -19,12 +28,9 @@ public class Role implements Model {
         this.name = name;
     }
     
-    public int getId() {
-        return id;
-    }
-    
-    public void setId(int id) {
-        this.id = id;
+    public Role(String name, List<Permission> permissions) {
+        this.name = name;
+        this.permissions = permissions;
     }
 
     public String getName() {

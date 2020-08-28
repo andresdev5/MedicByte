@@ -6,7 +6,8 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- *
+ * Decorator for a route
+ * 
  * @author Andres Jonathan J.
  */
 @Target( ElementType.METHOD )

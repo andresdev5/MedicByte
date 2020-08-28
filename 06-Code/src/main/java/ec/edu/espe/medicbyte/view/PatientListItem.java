@@ -6,8 +6,10 @@ import java.awt.Color;
 import java.awt.Image;
 import java.io.ByteArrayInputStream;
 import java.time.format.DateTimeFormatter;
+import java.util.function.Consumer;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
+import javax.swing.JPanel;
 import jiconfont.icons.font_awesome.FontAwesomeSolid;
 import jiconfont.swing.IconFontSwing;
 
@@ -15,11 +17,11 @@ import jiconfont.swing.IconFontSwing;
  *
  * @author Andres Jonathan J.
  */
-public class PatientListItem extends javax.swing.JPanel {
-
+public class PatientListItem extends JPanel {
     private final Patient patient;
-
     private final User currentUser;
+    private Runnable requestPatientReportCallback;
+    
     /**
      * Creates new form AppointmentItem
      * 
@@ -53,10 +55,14 @@ public class PatientListItem extends javax.swing.JPanel {
             }).start();
         }
         
-        if (patient.getRegisteredAt() != null) {
+        if (patient.getCreatedAt()!= null) {
             lblRegisteredAtValue.setText(
-                patient.getRegisteredAt().format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm")));
+                patient.getCreatedAt().format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm")));
         }
+    }
+    
+    public void onRequestPatientReport(Runnable callback) {
+        this.requestPatientReportCallback = callback;
     }
 
     /**
@@ -81,6 +87,8 @@ public class PatientListItem extends javax.swing.JPanel {
         jPanel4 = new javax.swing.JPanel();
         lblRegisteredAt = new javax.swing.JLabel();
         lblRegisteredAtValue = new javax.swing.JLabel();
+        jPanel5 = new javax.swing.JPanel();
+        btnPatientReport = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
 
         setBackground(new java.awt.Color(255, 255, 255));
@@ -127,7 +135,7 @@ public class PatientListItem extends javax.swing.JPanel {
             .addGroup(jPanel15Layout.createSequentialGroup()
                 .addGap(0, 0, 0)
                 .addComponent(lblPatientName)
-                .addGap(0, 327, Short.MAX_VALUE))
+                .addGap(0, 43, Short.MAX_VALUE))
         );
         jPanel15Layout.setVerticalGroup(
             jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -202,6 +210,27 @@ public class PatientListItem extends javax.swing.JPanel {
         gridBagConstraints.weighty = 1.0;
         jPanel14.add(jPanel3, gridBagConstraints);
 
+        jPanel5.setLayout(new javax.swing.BoxLayout(jPanel5, javax.swing.BoxLayout.X_AXIS));
+
+        btnPatientReport.setBackground(new java.awt.Color(241, 144, 102));
+        btnPatientReport.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnPatientReport.setForeground(new java.awt.Color(255, 255, 255));
+        btnPatientReport.setText("Generate report");
+        btnPatientReport.setBorder(javax.swing.BorderFactory.createEmptyBorder(3, 10, 3, 10));
+        btnPatientReport.setBorderPainted(false);
+        btnPatientReport.setFocusPainted(false);
+        btnPatientReport.setFocusable(false);
+        btnPatientReport.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPatientReportActionPerformed(evt);
+            }
+        });
+        jPanel5.add(btnPatientReport);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LAST_LINE_END;
+        jPanel14.add(jPanel5, gridBagConstraints);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
@@ -222,9 +251,14 @@ public class PatientListItem extends javax.swing.JPanel {
         jSeparator1.setOpaque(true);
         add(jSeparator1);
     }// </editor-fold>//GEN-END:initComponents
+    
+    private void btnPatientReportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPatientReportActionPerformed
+        requestPatientReportCallback.run();
+    }//GEN-LAST:event_btnPatientReportActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnPatientReport;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel12;
     private javax.swing.JPanel jPanel14;
@@ -232,6 +266,7 @@ public class PatientListItem extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JLabel lblIdentifyCard;
     private javax.swing.JLabel lblIdentifyCardValue;

@@ -2,6 +2,7 @@ package ec.edu.espe.medicbyte.view;
 
 import ec.edu.espe.medicbyte.common.core.View;
 import ec.edu.espe.medicbyte.util.StringUtils;
+import ec.edu.espe.medicbyte.util.ValidationUtils;
 import java.awt.Component;
 import java.util.Arrays;
 import java.util.List;
@@ -123,13 +124,13 @@ public class FrmRegister extends View {
                     return false;
                 }
                 
-                if (!value.matches("^[a-zA-Z0-9\\-\\_\\.]+$")) {
+                if (!ValidationUtils.isValidUsername(value)) {
                     showError(field, "Username can only have letters, numbers, hyphens or dots");
                     return false;
                 }
             break;
             case EMAIL:
-                if (!StringUtils.isValidEmail(value)) {
+                if (!ValidationUtils.isValidEmail(value)) {
                     showError(field, "Incorrect email");
                     return false;
                 }
@@ -150,7 +151,7 @@ public class FrmRegister extends View {
                 }
             break;
             case IDENTIFY_CARD:
-                if (!StringUtils.isValidIDCard(value)) {
+                if (!ValidationUtils.isValidIDCard(value)) {
                     showError(field, "Invalid identify card");
                     return false;
                 }

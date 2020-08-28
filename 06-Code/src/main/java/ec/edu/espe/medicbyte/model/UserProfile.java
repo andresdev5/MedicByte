@@ -1,28 +1,22 @@
 package ec.edu.espe.medicbyte.model;
 
+import dev.morphia.annotations.Entity;
+import ec.edu.espe.medicbyte.common.core.Model;
 import java.time.LocalDate;
+import java.time.Period;
 
 /**
  *
  * @author Andres Jonathan J.
  */
-public class UserProfile {
+@Entity("profiles")
+public class UserProfile extends Model {
     public static enum Gender { MALE, FEMALE, UNSPECIFIED }
-    
-    private int userId;
     private byte[] avatar;
     private String fullName;
     private String phone;
     private Gender gender;
     private LocalDate birthday;
-
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
 
     public byte[] getAvatar() {
         return avatar;
@@ -62,5 +56,13 @@ public class UserProfile {
 
     public void setBirthday(LocalDate birthday) {
         this.birthday = birthday;
+    }
+    
+    public int getAge() {
+        if (getBirthday() == null) {
+            return -1;
+        }
+        
+        return Period.between(getBirthday(), LocalDate.now()).getYears();
     }
 }

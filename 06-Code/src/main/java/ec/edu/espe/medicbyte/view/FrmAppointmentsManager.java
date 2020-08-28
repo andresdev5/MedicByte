@@ -48,11 +48,11 @@ public class FrmAppointmentsManager extends View {
         
         if (name.equals("requestedAppointments")) {
             List<Appointment> appointments = (List<Appointment>) newValue;
-            appointments.sort(Comparator.comparingInt(Appointment::getId).reversed());
+            appointments.sort(Comparator.comparing(Appointment::getCreatedAt).reversed());
             appointmentsContainer.removeAll();
             appointments.forEach(appointment -> {
                 List<Medic> specializedMedics = medics.stream()
-                    .filter(medic -> medic.getSpeciality().getId() == appointment.getSpeciality().getId())
+                    .filter(medic -> medic.getSpeciality().getName().equalsIgnoreCase(appointment.getSpeciality().getName()))
                     .collect(Collectors.toList());
                 RequestedAppointmentItem item = new RequestedAppointmentItem(appointment, specializedMedics, locations);
                 item.onApprove((context) -> emit("approvedAppointment", appointment, context));

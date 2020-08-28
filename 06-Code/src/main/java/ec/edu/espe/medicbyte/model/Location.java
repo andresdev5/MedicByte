@@ -1,25 +1,37 @@
 package ec.edu.espe.medicbyte.model;
 
+import dev.morphia.annotations.Entity;
+import dev.morphia.annotations.Field;
+import dev.morphia.annotations.Index;
+import dev.morphia.annotations.IndexOptions;
+import dev.morphia.annotations.Indexes;
+import ec.edu.espe.medicbyte.common.core.Model;
+
 /**
  *
  * @author Andres Jonathan J.
  */
-public class Location {
-    private int id;
+@Entity("locations")
+@Indexes(
+    @Index(fields = @Field("name"), options = @IndexOptions(unique = true))
+)
+public class Location extends Model {
     private String name;
     private String direction;
     private String phone;
     private double latitude;
     private double longitude;
+    
+    public Location() {}
 
-    public int getId() {
-        return id;
+    public Location(String name, String direction, String phone, double latitude, double longitude) {
+        this.name = name;
+        this.direction = direction;
+        this.phone = phone;
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
+    
     public String getName() {
         return name;
     }

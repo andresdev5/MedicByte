@@ -8,7 +8,6 @@ import ec.edu.espe.medicbyte.common.core.View;
 import ec.edu.espe.medicbyte.common.core.WindowsManager;
 import ec.edu.espe.medicbyte.model.Patient;
 import ec.edu.espe.medicbyte.model.Role;
-import ec.edu.espe.medicbyte.model.User;
 import ec.edu.espe.medicbyte.view.AuthWindow;
 import ec.edu.espe.medicbyte.view.FrmLogin;
 import ec.edu.espe.medicbyte.view.FrmRegister;
@@ -17,6 +16,7 @@ import ec.edu.espe.medicbyte.service.IPatientService;
 import ec.edu.espe.medicbyte.service.IRoleService;
 import ec.edu.espe.medicbyte.service.IUserService;
 import javax.swing.JOptionPane;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 
 /**
  *
@@ -60,7 +60,7 @@ public class AuthController extends Controller {
             String username = args.get(0);
             char[] password = args.get(1);
             
-            if (!userService.userExists(username)) {
+            if (!userService.exists(username)) {
                 loginView.emit("showError", "username", "User not exists");
                 loginView.emit("setEnabledBtnLogin", true);
                 return;
@@ -80,17 +80,17 @@ public class AuthController extends Controller {
             char[] password = args.get(2);
             String identifyCard = args.get(3);
             
-            if (userService.userExists(username)) {
+            if (userService.exists(username)) {
                 signupView.emit("showError", FrmRegister.Field.USERNAME, "username already taken");
                 return;
             }
             
-            if (patientService.getPatient(identifyCard) != null) {
+            if (patientService.get(identifyCard) != null) {
                 signupView.emit("showError", FrmRegister.Field.IDENTIFY_CARD, "Identify card already registered");
                 return;
             }
             
-            boolean emailExists = userService.getAllUsers().stream()
+            boolean emailExists = userService.getAll().stream()
                 .anyMatch(user -> user.getEmail() != null 
                     && user.getEmail().equalsIgnoreCase(email.toLowerCase()));
             
@@ -99,7 +99,7 @@ public class AuthController extends Controller {
                 return;
             }
             
-            Role patientRole = roleService.getRole("patient");
+            Role patientRole = roleService.get("patient");
             
             if (patientRole == null) {
                 JOptionPane.showMessageDialog(
@@ -111,9 +111,18 @@ public class AuthController extends Controller {
                 return;
             }
             
-            User created = userService.createUser(username, email, String.valueOf(password), patientRole);
+            Patient patient = new Patient();
+            patient.setIdCard(identifyCard);
+            patient.setUsername(username);
+            patient.setEmail(email);
+            patient.setPassword(BCrypt.hashpw(String.valueOf(password), BCrypt.gensalt()));
+            patient.setEmail(email);
+            patient.setRole(patientRole);
+            patient.setProfile(userService.createProfile());
             
-            if (created == null) {
+            boolean created = patientService.save(patient);
+            
+            if (!created) {
                 JOptionPane.showMessageDialog(
                     signupView,
                     "Error while trying to create new user, please try again.",
@@ -122,8 +131,6 @@ public class AuthController extends Controller {
                 );
                 return;
             }
-            
-            Patient patient = patientService.addPatient(created.getId(), identifyCard, false);
             
             window.display(loginView);
             loginView.emit(

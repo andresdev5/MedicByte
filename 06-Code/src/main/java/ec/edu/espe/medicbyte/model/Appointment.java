@@ -1,33 +1,27 @@
 package ec.edu.espe.medicbyte.model;
 
+import dev.morphia.annotations.Entity;
+import dev.morphia.annotations.Reference;
+import ec.edu.espe.medicbyte.common.core.Model;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.Date;
 
 /**
  *
  * @author Junior Stalin Jurado Peña - ESPE - DCCO
  */
-public class Appointment {
+@Entity("appointments")
+public class Appointment extends Model {
     public static enum Status { PENDENT, RESCHEDULED, APPROVED, CANCELLED, REJECTED, FINISHED }
     
-    private int id;
     private LocalDate date;
     private LocalTime hour;
-    private Medic medic;
-    private Patient patient;
-    private Speciality speciality;
-    private Location location;
+    @Reference private Medic medic;
+    @Reference private Patient patient;
+    @Reference private Speciality speciality;
+    @Reference private Location location;
     private Status status;
     private String description;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public LocalDate getDate() {
         return date;

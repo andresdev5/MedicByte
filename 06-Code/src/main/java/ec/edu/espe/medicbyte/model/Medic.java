@@ -1,22 +1,15 @@
 package ec.edu.espe.medicbyte.model;
 
+import dev.morphia.annotations.Reference;
+
 /**
  *
  * @author Michael Cobacango -ESPE -DCCO
  */
 public class Medic extends User {
-    private Speciality speciality;
+    @Reference private Speciality speciality;
     
     public Medic() {}
-    
-    public Medic(User user) {
-        this.setId(user.getId());
-        this.setUsername(user.getUsername());
-        this.setPassword(user.getPassword());
-        this.setEmail(user.getEmail());
-        this.setRole(user.getRole());
-        this.setProfile(user.getProfile());
-    }
 
     public Speciality getSpeciality() {
         return speciality;

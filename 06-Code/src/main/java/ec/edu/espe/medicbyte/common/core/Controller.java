@@ -16,7 +16,8 @@ import java.util.logging.Logger;
 
 
 /**
- *
+ * Base controller class
+ * 
  * @author Andres Jonathan J.
  */
 public abstract class Controller {
@@ -39,6 +40,9 @@ public abstract class Controller {
         this.init();
     }
     
+    /**
+     * set controller method accessors
+     */
     public final void setAccessors() {
         List<Method> methods = Arrays.asList(this.getClass().getMethods());
         Stream<Method> filtered = methods.stream().filter((Method method) -> {
@@ -52,6 +56,11 @@ public abstract class Controller {
         });
     }
     
+    /**
+     * call a decorated method accessor by key
+     * 
+     * @param key the accessor key
+     */
     public final void runAccessor(String key) {
         if (!accessors.containsKey(key)) {
             return;
@@ -66,14 +75,28 @@ public abstract class Controller {
         }
     }
     
+    /**
+     * Register a view event for the controller
+     * 
+     * @param viewClass the view class
+     */
     protected final void registerViewEvents(Class<? extends View> viewClass) {
         views.put(viewClass, instanceView(viewClass));
     }
 
+    /**
+     * get a view instance
+     * 
+     * @param viewClass the view class
+     * @return 
+     */
     protected final View getView(Class<? extends View> viewClass) {
         return views.get(viewClass);
     }
 
+    /**
+     * get and set all decorated controller methods
+     */
     private void setAnnotatedViewEvents() {
         Method[] methods = this.getClass().getDeclaredMethods();
 
@@ -90,6 +113,12 @@ public abstract class Controller {
         }
     }
     
+    /**
+     * get an view instance
+     * 
+     * @param viewClass the view class
+     * @return 
+     */
     private View instanceView(Class<? extends View> viewClass) {
         try {
             View view = viewClass.newInstance();

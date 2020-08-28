@@ -49,10 +49,6 @@ public class UserController extends Controller {
             
             savingProfile.set(true);
             
-            if (profile == null) {
-                profile = userService.createEmptyUserProfile(user);
-            }
-            
             if (saved.fullName != null && !saved.fullName.trim().isEmpty()) {
                 profile.setFullName(saved.fullName);
             }
@@ -79,8 +75,9 @@ public class UserController extends Controller {
                 }
             }
             
-            UserProfile updatedProfile = userService.updateUserProfile(user.getId(), profile);
-            user.setProfile(updatedProfile);
+            // TODO: fix this
+            //UserProfile updatedProfile = userService.updateUserProfile(user.getId(), profile);
+            //user.setProfile(updatedProfile);
             savingProfile.set(false);
             view.emit("updatedProfile");
             window.set("userContext", user);

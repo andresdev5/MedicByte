@@ -21,17 +21,16 @@ public class AuthService implements IAuthService {
 
     @Override
     public boolean login(String username, String password) {
-        User found = userService.findUser(user -> {
-            return user.getUsername().trim().equalsIgnoreCase(username)
-                && BCrypt.checkpw(password, user.getPassword());
-        });
+        User found = userService.get(username);
         
-        if (found != null) {
-            currentUser = found;
-            return true;
+        if (found == null) {
+            return false;
+        } else if (!BCrypt.checkpw(password, found.getPassword())) {
+            return false;
         }
-
-        return false;
+        
+        currentUser = found;
+        return true;
     }
 
     @Override

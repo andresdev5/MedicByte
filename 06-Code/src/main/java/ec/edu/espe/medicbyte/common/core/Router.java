@@ -10,7 +10,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
+ * Router class that handle controllers
+ * 
  * @author Andres Jonathan J.
  */
 public class Router {
@@ -23,6 +24,13 @@ public class Router {
         this.container = container;    
     }
     
+    /**
+     * Add a controller class to the router
+     * 
+     * @param controllerClass controller class
+     * @param key the key/alias for this route
+     * @param initialize if true the controller is instanced
+     */
     public void add(Class<? extends Controller> controllerClass, String key, boolean initialize) {
         if (has(controllerClass)) {
             return;
@@ -44,14 +52,32 @@ public class Router {
         }
     }
     
+    /**
+     * Add a controller class to the router
+     * 
+     * @param controllerClass controller class
+     * @param key the key/alias for this route
+     */
     public void add(Class<? extends Controller> controllerClass, String key) {
         add(controllerClass, key, false);
     }
     
+    /**
+     * Add a controller class to the router
+     * 
+     * @param controllerClass controller class
+     */
     public void add(Class<? extends Controller> controllerClass) {
         add(controllerClass, null, false);
     }
     
+    /**
+     * run a controller accessor
+     * 
+     * @param key
+     * @param accessor
+     * @return 
+     */
     public Observable run(String key, String accessor) {
         if (key == null || !has(key)) {
             return Observable.empty();
@@ -61,6 +87,13 @@ public class Router {
         return runController(route, accessor);
     }
     
+    /**
+     * run a controller accessor
+     * 
+     * @param controllerClass
+     * @param accessor
+     * @return 
+     */
     public Observable run(Class<? extends Controller> controllerClass, String accessor) {
         if (controllerClass == null || !has(controllerClass)) {
             return Observable.empty();
@@ -70,14 +103,32 @@ public class Router {
         return runController(route, accessor);
     }
     
+    /**
+     * run init method controller given a key
+     * 
+     * @param key
+     * @return 
+     */
     public Observable run(String key) {
         return run(key, null);
     }
     
+    /**
+     * run the init method controller given a class controller
+     * 
+     * @param controllerClass
+     * @return 
+     */
     public Observable run(Class<? extends Controller> controllerClass) {
         return run(controllerClass, null);
     }
     
+    /**
+     * get a route given a key
+     * 
+     * @param key
+     * @return 
+     */
     public Route get(String key) {
         Route found = routes.stream()
             .filter((route) -> route.getKey() != null && route.getKey().equals(key))
@@ -87,6 +138,12 @@ public class Router {
         return found;
     }
     
+    /**
+     * get a route given a controller class
+     * 
+     * @param target
+     * @return 
+     */
     public Route get(Class<? extends Controller> target) {
         Route found = routes.stream()
             .filter((route) -> route.getControllerClass() == target)
@@ -96,18 +153,34 @@ public class Router {
         return found;
     }
     
+    /**
+     * check if a controller was registered given a key
+     * @param key
+     * @return 
+     */
     public boolean has(String key) {
         return routes.stream().anyMatch((Route route) -> {
             return route.getKey() != null && route.getKey().equals(key);
         });
     }
     
+    /**
+     * 
+     * @param controllerClass
+     * @return 
+     */
     public boolean has(Class<? extends Controller> controllerClass) {
         return routes.stream().anyMatch((Route route) -> {
             return route.getControllerClass() == controllerClass;
         });
     }
     
+    /**
+     * run a controller by route and accessor
+     * @param route
+     * @param accessor
+     * @return 
+     */
     private Observable runController(Route route, String accessor) {
         if (route == null) {
             return Observable.empty();

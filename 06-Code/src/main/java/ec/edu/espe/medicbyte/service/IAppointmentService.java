@@ -1,23 +1,14 @@
 package ec.edu.espe.medicbyte.service;
 
+import ec.edu.espe.medicbyte.common.core.IDaoService;
 import ec.edu.espe.medicbyte.model.Appointment;
-import ec.edu.espe.medicbyte.model.Patient;
 import java.util.List;
-import java.util.function.Function;
+import org.bson.types.ObjectId;
 
 /**
  *
  * @author Andres Jonathan J.
  */
-public interface IAppointmentService {
-    List<Appointment> getAllAppointments();
-    int getTotalAppointments();
-    boolean addPatientAppointment(Appointment appointment, Patient patient);
-    List<Appointment> getPatientAppointments(int userId);
-    Appointment getAppointment(int id);
-    Appointment findAppointment(Function<Appointment, Boolean> comparable);
-    boolean updateAppointment(Appointment appointment);
-    boolean deleteAppointment(Appointment appointment);
-    boolean deleteAppointment(int id);
-    boolean addAppointment(Appointment appointment);
+public interface IAppointmentService extends IDaoService<Appointment> {
+    List<Appointment> getPatientAppointments(ObjectId patient);
 }

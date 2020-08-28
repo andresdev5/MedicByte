@@ -210,7 +210,7 @@ public class FrmMedics extends View {
     
     private void updateMedicsList(List<Medic> medics) {
         medicsContainer.removeAll();
-        medics.sort(Comparator.comparingInt(Medic::getId).reversed());
+        medics.sort(Comparator.comparing(Medic::getCreatedAt).reversed());
         medics.forEach(medic -> {
             MedicListItem item = new MedicListItem(medic, currentUser);
             item.listen("editMedic", (args) -> editMedic(args.get(0)));

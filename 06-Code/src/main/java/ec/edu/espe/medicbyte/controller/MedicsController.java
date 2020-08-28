@@ -19,6 +19,7 @@ import ec.edu.espe.medicbyte.view.FrmAddMedic;
 import ec.edu.espe.medicbyte.view.FrmMedics;
 import ec.edu.espe.medicbyte.view.MainWindow;
 import javax.swing.JOptionPane;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 
 /**
  *
@@ -55,7 +56,7 @@ public class MedicsController extends Controller {
     @Routed("add")
     public void addMedic() {
         View view = new FrmAddMedic();
-        view.set("specialities", specialityService.getAllSpecialities());
+        view.set("specialities", specialityService.getAll());
         
         view.listen("submit", (args) -> {
             String username = args.get(0);
@@ -64,12 +65,12 @@ public class MedicsController extends Controller {
             char[] password = args.get(3);
             Speciality speciality = args.get(4);
             
-            if (userService.userExists(username)) {
+            if (userService.exists(username)) {
                 view.emit("showError", FrmAddMedic.Field.USERNAME, "username already taken");
                 return;
             }
             
-            boolean emailExists = userService.getAllUsers().stream()
+            boolean emailExists = userService.getAll().stream()
                 .anyMatch(user -> user.getEmail() != null 
                     && user.getEmail().equalsIgnoreCase(email.toLowerCase()));
             
@@ -78,7 +79,7 @@ public class MedicsController extends Controller {
                 return;
             }
             
-            Role medicRole = roleService.getRole("medic");
+            Role medicRole = roleService.get("medic");
             
             if (medicRole == null) {
                 JOptionPane.showMessageDialog(
@@ -90,9 +91,20 @@ public class MedicsController extends Controller {
                 return;
             }
             
-            User created = userService.createUser(username, email, String.valueOf(password), medicRole);
+            UserProfile profile = userService.createProfile();
+            profile.setFullName(fullName);
+            
+            Medic medic = new Medic();
+            medic.setUsername(username);
+            medic.setPassword(BCrypt.hashpw(String.valueOf(password), BCrypt.gensalt()));
+            medic.setEmail(email);
+            medic.setRole(medicRole);
+            medic.setProfile(profile);
+            medic.setSpeciality(speciality);
+            
+            boolean created = medicService.save(medic);
                         
-            if (created == null) {
+            if (!created) {
                 JOptionPane.showMessageDialog(
                     view,
                     "Error while trying to create new user, please try again.",
@@ -101,12 +113,6 @@ public class MedicsController extends Controller {
                 );
                 return;
             }
-            
-            UserProfile profile = created.getProfile();
-            profile.setFullName(fullName);
-            
-            userService.updateUserProfile(created.getId(), profile);
-            Medic medic = medicService.addMedic(created.getId(), speciality);
             
             view.emit(
                 "submitComplete",
@@ -123,11 +129,11 @@ public class MedicsController extends Controller {
         View view = new FrmMedics();
         
         view.set("currentUser", authService.getCurrentUser());
-        view.set("specialities", specialityService.getAllSpecialities());
-        view.set("medics", medicService.getAllMedics());
+        view.set("specialities", specialityService.getAll());
+        view.set("medics", medicService.getAll());
         view.listen("updateMedic", (args) -> {
             Medic medic = args.get(0);
-            medicService.updateMedic(medic);
+            medicService.update(medic);
             view.emit("MedicUpdated", medic);
         });
         

@@ -70,11 +70,6 @@ public class MainController extends Controller {
     public void setupMainWindow() {
         User user = authService.getCurrentUser();
         
-        if (user.getProfile() == null) {
-            UserProfile profile = userService.createEmptyUserProfile(user);
-            user.setProfile(profile);
-        }
-        
         mainWindow.set("userContext", user);
         
         mainWindow.listen("logout", (args) -> {

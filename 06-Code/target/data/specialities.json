@@ -18,5 +18,9 @@
     {
         "id": 5,
         "name": "Neurology"
+    },
+    {
+        "id": 6,
+        "name": "Ginecology"
     }
 ]

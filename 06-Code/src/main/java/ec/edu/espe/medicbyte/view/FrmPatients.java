@@ -26,7 +26,7 @@ public class FrmPatients extends View {
     protected void onChange(String name, Object oldValue, Object newValue) {
         if (name.equals("patients")) {
             patients = (List<Patient>) newValue;
-            patients.sort(Comparator.comparingInt(Patient::getId).reversed());
+            patients.sort(Comparator.comparing(Patient::getCreatedAt).reversed());
             updatePatientsList(patients);
         }
         
@@ -44,9 +44,10 @@ public class FrmPatients extends View {
     private void updatePatientsList(List<Patient> patients) {
         patientsContainer.removeAll();
         
-        patients.sort(Comparator.comparingInt(Patient::getId));
+        patients.sort(Comparator.comparing(Patient::getCreatedAt));
         patients.forEach(patient -> {
             PatientListItem item = new PatientListItem(patient, currentUser);
+            item.onRequestPatientReport(() -> emit("requestPatientReport", patient));
             patientsContainer.add(item);
         });
         

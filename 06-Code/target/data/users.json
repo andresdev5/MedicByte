@@ -11,7 +11,7 @@
     "id": 2,
     "roleId": 3,
     "username": "andres",
-    "email": "ajjacome@espe.edu.ec",
+    "email": "ajjacome2@espe.edu.ec",
     "password": "$2a$10$H5JBN0AUblDE0otYS8BsfOqIGsPK9t8eMDSZKs4JuYa7BlZ/BtyjC",
     "registeredAt": 1597293031358
   },
@@ -94,5 +94,29 @@
     "email": "rtaverner5@canalblog.com",
     "password": "8KrFVzCLc",
     "registeredAt": 1597254446000
+  },
+  {
+    "id": 13,
+    "roleId": 3,
+    "username": "pepito",
+    "email": "pepito@pepito.com",
+    "password": "$2a$10$vX6mb4hmBLl5Bg0uJ45I...KWVPgjRh4out1E5Psa6uuvVUY5Dvmy",
+    "registeredAt": 1597330587371
+  },
+  {
+    "id": 14,
+    "roleId": 3,
+    "username": "junior_stalin",
+    "email": "s_stalin999@hotmail.com",
+    "password": "$2a$10$5G9IE1wNmghPdp9s0TjKZ.AoXVqFmbt9XF1TSjKS3QrZIWXVcGKb6",
+    "registeredAt": 1597331028814
+  },
+  {
+    "id": 15,
+    "roleId": 4,
+    "username": "camila",
+    "email": "cami_vene@hotmail.com",
+    "password": "$2a$10$XzUbWjQKaNfQ/NMYUrtgyuxigt4aynJ3htyMYrQRVvHRkP9xjrRWW",
+    "registeredAt": 1597331269604
   }
 ]

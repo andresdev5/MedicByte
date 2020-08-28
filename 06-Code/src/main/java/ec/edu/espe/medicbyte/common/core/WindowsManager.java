@@ -12,6 +12,11 @@ public class WindowsManager {
         setSwingLookAndFeel();
     }
 
+    /**
+     * register a window class
+     * 
+     * @param windowClass 
+     */
     public void register(Class<? extends Window> windowClass) {
         try {
             Window window = windowClass.newInstance();
@@ -22,6 +27,11 @@ public class WindowsManager {
         }
     }
 
+    /**
+     * get a window instance by its class
+     * @param windowClass
+     * @return 
+     */
     public Window get(Class<? extends Window> windowClass) {
         if (!windows.containsKey(windowClass)) {
             return null;
@@ -30,10 +40,21 @@ public class WindowsManager {
         return windows.get(windowClass);
     }
     
+    /**
+     * get a window instance by its class
+     * 
+     * @param <T>
+     * @param windowClass
+     * @return 
+     */
     public <T extends Window> T getAs(Class<T> windowClass) {
         return (T) get(windowClass);
     }
     
+    /**
+     * rebind a window instance and register again
+     * @param windowClass 
+     */
     public void rebind(Class<? extends Window> windowClass) {
         if (!windows.containsKey(windowClass)) {
             return;

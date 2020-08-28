@@ -1,16 +1,10 @@
 package ec.edu.espe.medicbyte.common.core;
 
-import io.reactivex.rxjava3.core.Observable;
-import io.reactivex.rxjava3.subjects.AsyncSubject;
-import io.reactivex.rxjava3.subjects.SingleSubject;
-import java.util.ArrayList;
 import java.util.HashMap;
 import javax.swing.JPanel;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 
 /**
