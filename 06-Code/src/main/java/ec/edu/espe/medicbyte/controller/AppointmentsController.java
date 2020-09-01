@@ -51,6 +51,7 @@ public class AppointmentsController extends Controller {
         IAppointmentService appointmentService,
         IPatientService patientService,
         ILocationService locationService
+
     ) {
         this.windowsManager = windowsManager;
         this.router = router;
