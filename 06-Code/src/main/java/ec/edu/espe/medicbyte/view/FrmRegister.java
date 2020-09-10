@@ -1,11 +1,11 @@
 package ec.edu.espe.medicbyte.view;
 
 import ec.edu.espe.medicbyte.common.core.View;
-import ec.edu.espe.medicbyte.util.StringUtils;
 import ec.edu.espe.medicbyte.util.ValidationUtils;
 import java.awt.Component;
 import java.util.Arrays;
 import java.util.List;
+import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import javax.swing.JCheckBox;
@@ -18,6 +18,7 @@ import javax.swing.text.JTextComponent;
  * @author Michael Cobacango
  */
 public class FrmRegister extends View {
+    ResourceBundle lang = ResourceBundle.getBundle("ec/edu/espe/medicbyte/view/Bundle");
     public static enum Field {
         USERNAME, EMAIL, PASSWORD, PASSWORD2, IDENTIFY_CARD
     }
@@ -113,31 +114,31 @@ public class FrmRegister extends View {
         }
         
         if (isEmpty) {
-            showError(field, "this field is required");
+            showError(field, lang.getString("this_field_required"));
             return false;
         }
         
         switch (field) {
             case USERNAME:
                 if (value.length() < 3 || value.length() > 24) {
-                    showError(field, "Username must have between 3 and 24 characters");
+                    showError(field, String.format(lang.getString("username_length_between"), 3, 24));
                     return false;
                 }
                 
                 if (!ValidationUtils.isValidUsername(value)) {
-                    showError(field, "Username can only have letters, numbers, hyphens or dots");
+                    showError(field, lang.getString("username_wrong_format_error"));
                     return false;
                 }
             break;
             case EMAIL:
                 if (!ValidationUtils.isValidEmail(value)) {
-                    showError(field, "Incorrect email");
+                    showError(field, lang.getString("wrong_email_error"));
                     return false;
                 }
             break;
             case PASSWORD:
                 if(txtPassword.getPassword().length < 4) {
-                    showError(field, "The password must have at least 4 characters");
+                    showError(field, String.format(lang.getString("password_length_error"), 4));
                     return false;
                 }
             break;
@@ -146,13 +147,13 @@ public class FrmRegister extends View {
                 String password2 = String.valueOf(txtPassword2.getPassword());
                 
                 if (!password.equals(password2)) {
-                    showError(field, "passwords doesn't match");
+                    showError(field, lang.getString("password_not_match_error"));
                     return false;
                 }
             break;
             case IDENTIFY_CARD:
                 if (!ValidationUtils.isValidIDCard(value)) {
-                    showError(field, "Invalid identify card");
+                    showError(field, lang.getString("invalid_id_card_error"));
                     return false;
                 }
             break;
@@ -192,10 +193,11 @@ public class FrmRegister extends View {
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(103, 103, 103));
-        jLabel1.setText("Register");
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("ec/edu/espe/medicbyte/view/Bundle"); // NOI18N
+        jLabel1.setText(bundle.getString("FrmRegister.jLabel1.text")); // NOI18N
 
         jLabel2.setForeground(new java.awt.Color(99, 99, 99));
-        jLabel2.setText("Username:");
+        jLabel2.setText(bundle.getString("FrmRegister.jLabel2.text")); // NOI18N
         jLabel2.setBorder(javax.swing.BorderFactory.createEmptyBorder(8, 0, 0, 0));
 
         txtUsername.setName("USERNAME"); // NOI18N
@@ -206,7 +208,7 @@ public class FrmRegister extends View {
         });
 
         jLabel3.setForeground(new java.awt.Color(99, 99, 99));
-        jLabel3.setText("Email:");
+        jLabel3.setText(bundle.getString("FrmRegister.jLabel3.text")); // NOI18N
         jLabel3.setBorder(javax.swing.BorderFactory.createEmptyBorder(8, 0, 0, 0));
 
         txtEmail.setName("EMAIL"); // NOI18N
@@ -219,7 +221,7 @@ public class FrmRegister extends View {
         btnSignup.setBackground(new java.awt.Color(29, 209, 161));
         btnSignup.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
         btnSignup.setForeground(new java.awt.Color(255, 255, 255));
-        btnSignup.setText("Register");
+        btnSignup.setText(bundle.getString("FrmRegister.btnSignup.text")); // NOI18N
         btnSignup.setBorder(javax.swing.BorderFactory.createEmptyBorder(7, 1, 7, 1));
         btnSignup.setBorderPainted(false);
         btnSignup.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -232,16 +234,16 @@ public class FrmRegister extends View {
         });
 
         jLabel4.setForeground(new java.awt.Color(99, 99, 99));
-        jLabel4.setText("Password:");
+        jLabel4.setText(bundle.getString("FrmRegister.jLabel4.text")); // NOI18N
         jLabel4.setBorder(javax.swing.BorderFactory.createEmptyBorder(8, 0, 0, 0));
 
         jLabel5.setForeground(new java.awt.Color(99, 99, 99));
-        jLabel5.setText("Confirm password:");
+        jLabel5.setText(bundle.getString("FrmRegister.jLabel5.text")); // NOI18N
         jLabel5.setBorder(javax.swing.BorderFactory.createEmptyBorder(8, 0, 0, 0));
 
         btnLogIn.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
         btnLogIn.setForeground(new java.awt.Color(54, 138, 185));
-        btnLogIn.setText("Log in");
+        btnLogIn.setText(bundle.getString("FrmRegister.btnLogIn.text")); // NOI18N
         btnLogIn.setBorder(null);
         btnLogIn.setBorderPainted(false);
         btnLogIn.setContentAreaFilled(false);
@@ -253,7 +255,7 @@ public class FrmRegister extends View {
         });
 
         jLabel6.setForeground(new java.awt.Color(99, 99, 99));
-        jLabel6.setText("Do you have an account?");
+        jLabel6.setText(bundle.getString("FrmRegister.jLabel6.text")); // NOI18N
 
         txtPassword.setName("PASSWORD"); // NOI18N
         txtPassword.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -272,37 +274,37 @@ public class FrmRegister extends View {
         lblEmailPassword.setBackground(new java.awt.Color(240, 100, 100));
         lblEmailPassword.setFont(new java.awt.Font("Segoe UI", 0, 11)); // NOI18N
         lblEmailPassword.setForeground(new java.awt.Color(240, 84, 84));
-        lblEmailPassword.setText("error");
+        lblEmailPassword.setText(bundle.getString("FrmRegister.lblEmailPassword.text")); // NOI18N
         lblEmailPassword.setName("E_EMAIL"); // NOI18N
 
         lblUsernameError.setBackground(new java.awt.Color(240, 100, 100));
         lblUsernameError.setFont(new java.awt.Font("Segoe UI", 0, 11)); // NOI18N
         lblUsernameError.setForeground(new java.awt.Color(240, 84, 84));
-        lblUsernameError.setText("error");
+        lblUsernameError.setText(bundle.getString("FrmRegister.lblUsernameError.text")); // NOI18N
         lblUsernameError.setName("E_USERNAME"); // NOI18N
 
         lblPasswordError.setBackground(new java.awt.Color(240, 100, 100));
         lblPasswordError.setFont(new java.awt.Font("Segoe UI", 0, 11)); // NOI18N
         lblPasswordError.setForeground(new java.awt.Color(240, 84, 84));
-        lblPasswordError.setText("error");
+        lblPasswordError.setText(bundle.getString("FrmRegister.lblPasswordError.text")); // NOI18N
         lblPasswordError.setName("E_PASSWORD"); // NOI18N
 
         lblPassword2Error.setBackground(new java.awt.Color(240, 100, 100));
         lblPassword2Error.setFont(new java.awt.Font("Segoe UI", 0, 11)); // NOI18N
         lblPassword2Error.setForeground(new java.awt.Color(240, 84, 84));
-        lblPassword2Error.setText("error");
+        lblPassword2Error.setText(bundle.getString("FrmRegister.lblPassword2Error.text")); // NOI18N
         lblPassword2Error.setName("E_PASSWORD2"); // NOI18N
 
         lblTermsError.setBackground(new java.awt.Color(240, 100, 100));
         lblTermsError.setFont(new java.awt.Font("Segoe UI", 0, 11)); // NOI18N
         lblTermsError.setForeground(new java.awt.Color(240, 84, 84));
-        lblTermsError.setText("error");
+        lblTermsError.setText(bundle.getString("FrmRegister.lblTermsError.text")); // NOI18N
         lblTermsError.setName("E_IDENTIFY_CARD"); // NOI18N
 
         ftxtIdentifyCard.setName("IDENTIFY_CARD"); // NOI18N
 
         jLabel7.setForeground(new java.awt.Color(99, 99, 99));
-        jLabel7.setText("Identiy card:");
+        jLabel7.setText(bundle.getString("FrmRegister.jLabel7.text")); // NOI18N
         jLabel7.setBorder(javax.swing.BorderFactory.createEmptyBorder(8, 0, 0, 0));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);

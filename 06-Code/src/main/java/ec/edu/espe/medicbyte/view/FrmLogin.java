@@ -2,6 +2,7 @@ package ec.edu.espe.medicbyte.view;
 
 import ec.edu.espe.medicbyte.common.core.View;
 import java.awt.Color;
+import java.util.ResourceBundle;
 
 import static java.awt.Event.ENTER;
 
@@ -10,6 +11,7 @@ import static java.awt.Event.ENTER;
  * @author Junior Jurado
  */
 public class FrmLogin extends View {
+    ResourceBundle lang = ResourceBundle.getBundle("ec/edu/espe/medicbyte/view/Bundle");
     public static enum StatusMessage { SUCCESS, ERROR, WARNING, INFO }
 
     /**
@@ -108,18 +110,19 @@ public class FrmLogin extends View {
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(103, 103, 103));
-        jLabel1.setText("Log in");
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("ec/edu/espe/medicbyte/view/Bundle"); // NOI18N
+        jLabel1.setText(bundle.getString("FrmLogin.jLabel1.text")); // NOI18N
 
         jLabel2.setForeground(new java.awt.Color(99, 99, 99));
-        jLabel2.setText("Username or email:");
+        jLabel2.setText(bundle.getString("FrmLogin.jLabel2.text")); // NOI18N
 
         jLabel3.setForeground(new java.awt.Color(99, 99, 99));
-        jLabel3.setText("Password:");
+        jLabel3.setText(bundle.getString("FrmLogin.jLabel3.text")); // NOI18N
 
         btnLogin.setBackground(new java.awt.Color(71, 170, 226));
         btnLogin.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
         btnLogin.setForeground(new java.awt.Color(255, 255, 255));
-        btnLogin.setText("Log in");
+        btnLogin.setText(bundle.getString("FrmLogin.btnLogin.text")); // NOI18N
         btnLogin.setBorder(javax.swing.BorderFactory.createEmptyBorder(7, 1, 7, 1));
         btnLogin.setBorderPainted(false);
         btnLogin.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -133,11 +136,11 @@ public class FrmLogin extends View {
 
         jLabel4.setForeground(new java.awt.Color(103, 103, 103));
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel4.setText("- OR -");
+        jLabel4.setText(bundle.getString("FrmLogin.jLabel4.text")); // NOI18N
 
         btnCreateAccount.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
         btnCreateAccount.setForeground(new java.awt.Color(54, 138, 185));
-        btnCreateAccount.setText("Create an account");
+        btnCreateAccount.setText(bundle.getString("FrmLogin.btnCreateAccount.text")); // NOI18N
         btnCreateAccount.setBorderPainted(false);
         btnCreateAccount.setContentAreaFilled(false);
         btnCreateAccount.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -148,11 +151,11 @@ public class FrmLogin extends View {
         });
 
         lblUsernameError.setForeground(new java.awt.Color(240, 84, 84));
-        lblUsernameError.setText("error");
+        lblUsernameError.setText(bundle.getString("FrmLogin.lblUsernameError.text")); // NOI18N
         lblUsernameError.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 5, 0));
 
         lblPasswordError.setForeground(new java.awt.Color(240, 84, 84));
-        lblPasswordError.setText("error");
+        lblPasswordError.setText(bundle.getString("FrmLogin.lblPasswordError.text")); // NOI18N
 
         lblStatusMessage.setBackground(new java.awt.Color(201, 246, 195));
         lblStatusMessage.setForeground(new java.awt.Color(39, 167, 79));
@@ -226,13 +229,13 @@ public class FrmLogin extends View {
         char[] password = txtPassword.getPassword();
         
         if (username.trim().isEmpty()) {
-            lblUsernameError.setText("this field is required");
+            lblUsernameError.setText(lang.getString("this_field_required"));
             lblUsernameError.setVisible(true);
             return;
         }
         
         if (txtPassword.getText().trim().isEmpty()) {
-            lblPasswordError.setText("this field is required");
+            lblPasswordError.setText(lang.getString("this_field_required"));
             lblPasswordError.setVisible(true);
             return;
         }

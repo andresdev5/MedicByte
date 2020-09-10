@@ -122,7 +122,8 @@ public class MedicListItem extends View {
 
         jPanel15.setOpaque(false);
 
-        lblMedicName.setText("{{ name }}");
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("ec/edu/espe/medicbyte/view/Bundle"); // NOI18N
+        lblMedicName.setText(bundle.getString("MedicListItem.lblMedicName.text")); // NOI18N
 
         javax.swing.GroupLayout jPanel15Layout = new javax.swing.GroupLayout(jPanel15);
         jPanel15.setLayout(jPanel15Layout);
@@ -148,9 +149,9 @@ public class MedicListItem extends View {
 
         lblSpeciality.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         lblSpeciality.setForeground(new java.awt.Color(71, 71, 71));
-        lblSpeciality.setText("Speciality:");
+        lblSpeciality.setText(bundle.getString("MedicListItem.lblSpeciality.text")); // NOI18N
 
-        lblSpecialityValue.setText("-");
+        lblSpecialityValue.setText(bundle.getString("MedicListItem.lblSpecialityValue.text")); // NOI18N
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -187,7 +188,7 @@ public class MedicListItem extends View {
         btnEditMedic.setBackground(new java.awt.Color(52, 152, 219));
         btnEditMedic.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnEditMedic.setForeground(new java.awt.Color(255, 255, 255));
-        btnEditMedic.setText("Edit medic");
+        btnEditMedic.setText(bundle.getString("MedicListItem.btnEditMedic.text")); // NOI18N
         btnEditMedic.setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 9, 4, 9));
         btnEditMedic.setBorderPainted(false);
         btnEditMedic.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));

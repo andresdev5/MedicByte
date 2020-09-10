@@ -175,16 +175,17 @@ public class FrmEditProfile extends View {
         jLabel6 = new javax.swing.JLabel();
         txtPhoneNumber = new javax.swing.JTextField();
 
-        jLabel2.setText("Full name:");
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("ec/edu/espe/medicbyte/view/Bundle"); // NOI18N
+        jLabel2.setText(bundle.getString("FrmEditProfile.jLabel2.text")); // NOI18N
 
-        jLabel3.setText("Phone:");
+        jLabel3.setText(bundle.getString("FrmEditProfile.jLabel3.text")); // NOI18N
 
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         lblUploadingAvatar.setBackground(new java.awt.Color(0, 0, 0));
         lblUploadingAvatar.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
         lblUploadingAvatar.setForeground(new java.awt.Color(255, 255, 255));
-        lblUploadingAvatar.setText("Uploading...");
+        lblUploadingAvatar.setText(bundle.getString("FrmEditProfile.lblUploadingAvatar.text")); // NOI18N
         lblUploadingAvatar.setOpaque(true);
         jPanel1.add(lblUploadingAvatar, new org.netbeans.lib.awtextra.AbsoluteConstraints(8, 40, 80, 18));
 
@@ -205,39 +206,39 @@ public class FrmEditProfile extends View {
         lblAvatar.setOpaque(true);
         jPanel1.add(lblAvatar, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 96, 96));
 
-        jLabel1.setText("Birth date:");
+        jLabel1.setText(bundle.getString("FrmEditProfile.jLabel1.text")); // NOI18N
 
-        jLabel5.setText("Gender:");
+        jLabel5.setText(bundle.getString("FrmEditProfile.jLabel5.text")); // NOI18N
 
         btngrpGender.add(jRadioButton1);
-        jRadioButton1.setText("Male");
+        jRadioButton1.setText(bundle.getString("FrmEditProfile.jRadioButton1.text")); // NOI18N
         jRadioButton1.setName("male"); // NOI18N
 
         btngrpGender.add(jRadioButton2);
-        jRadioButton2.setText("Female");
+        jRadioButton2.setText(bundle.getString("FrmEditProfile.jRadioButton2.text")); // NOI18N
         jRadioButton2.setName("female"); // NOI18N
 
         btngrpGender.add(jRadioButton3);
-        jRadioButton3.setText("Unspecified");
+        jRadioButton3.setText(bundle.getString("FrmEditProfile.jRadioButton3.text")); // NOI18N
         jRadioButton3.setName("unspecified"); // NOI18N
 
-        lblErrorFullName.setText("{{ error_fullName }}");
+        lblErrorFullName.setText(bundle.getString("FrmEditProfile.lblErrorFullName.text")); // NOI18N
         lblErrorFullName.setFont(new java.awt.Font("Segoe UI", 0, 11)); // NOI18N
         lblErrorFullName.setForeground(new java.awt.Color(255, 102, 102));
         lblErrorFullName.setName("error:FULLNAME"); // NOI18N
 
-        lblErrorPhone.setText("{{ error_phone }}");
+        lblErrorPhone.setText(bundle.getString("FrmEditProfile.lblErrorPhone.text")); // NOI18N
         lblErrorPhone.setFont(new java.awt.Font("Segoe UI", 0, 11)); // NOI18N
         lblErrorPhone.setForeground(new java.awt.Color(255, 102, 102));
         lblErrorPhone.setName("error:PHONE"); // NOI18N
 
-        lblErrorBirthdate.setText("{{ error_birthdate }}");
+        lblErrorBirthdate.setText(bundle.getString("FrmEditProfile.lblErrorBirthdate.text")); // NOI18N
         lblErrorBirthdate.setFont(new java.awt.Font("Segoe UI", 0, 11)); // NOI18N
         lblErrorBirthdate.setForeground(new java.awt.Color(255, 102, 102));
         lblErrorBirthdate.setName("error:BIRTHDATE"); // NOI18N
 
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel4.setText("min size: 96 x 96");
+        jLabel4.setText(bundle.getString("FrmEditProfile.jLabel4.text")); // NOI18N
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 11)); // NOI18N
 
         jPanel2.setOpaque(false);
@@ -266,14 +267,14 @@ public class FrmEditProfile extends View {
                 .addContainerGap())
         );
 
-        btnSave.setText("Save");
+        btnSave.setText(bundle.getString("FrmEditProfile.btnSave.text")); // NOI18N
         btnSave.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSaveActionPerformed(evt);
             }
         });
 
-        jLabel6.setText("(+593)");
+        jLabel6.setText(bundle.getString("FrmEditProfile.jLabel6.text")); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);

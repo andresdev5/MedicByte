@@ -9,6 +9,7 @@ import java.awt.Dimension;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.ResourceBundle;
 import java.util.function.Consumer;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JButton;
@@ -22,6 +23,7 @@ import jiconfont.swing.IconFontSwing;
  * @author Andres Jonathan J.
  */
 public class DlgApproveAppointment extends javax.swing.JDialog {
+    ResourceBundle lang = ResourceBundle.getBundle("ec/edu/espe/medicbyte/view/Bundle");
     public class MedicsListCellRenderer extends DefaultListCellRenderer {
 
         public Component getListCellRendererComponent(
@@ -139,26 +141,27 @@ public class DlgApproveAppointment extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
 
-        jLabel1.setText("Date:");
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("ec/edu/espe/medicbyte/view/Bundle"); // NOI18N
+        jLabel1.setText(bundle.getString("DlgApproveAppointment.jLabel1.text")); // NOI18N
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
 
-        jLabel2.setText("Medic:");
+        jLabel2.setText(bundle.getString("DlgApproveAppointment.jLabel2.text")); // NOI18N
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
 
-        lblDateError.setText("{{ error }}");
+        lblDateError.setText(bundle.getString("DlgApproveAppointment.lblDateError.text")); // NOI18N
         lblDateError.setForeground(new java.awt.Color(255, 102, 102));
 
-        lblMedicError.setText("{{ error }}");
+        lblMedicError.setText(bundle.getString("DlgApproveAppointment.lblMedicError.text")); // NOI18N
         lblMedicError.setForeground(new java.awt.Color(255, 102, 102));
 
-        btnApprove.setText("Approve");
+        btnApprove.setText(bundle.getString("DlgApproveAppointment.btnApprove.text")); // NOI18N
         btnApprove.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnApproveActionPerformed(evt);
             }
         });
 
-        btnCancel.setText("Cancel");
+        btnCancel.setText(bundle.getString("DlgApproveAppointment.btnCancel.text")); // NOI18N
         btnCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCancelActionPerformed(evt);
@@ -173,13 +176,13 @@ public class DlgApproveAppointment extends javax.swing.JDialog {
         pnlCmbLocations.setPreferredSize(new java.awt.Dimension(100, 30));
         pnlCmbLocations.setLayout(new javax.swing.BoxLayout(pnlCmbLocations, javax.swing.BoxLayout.LINE_AXIS));
 
-        jLabel3.setText("Location:");
+        jLabel3.setText(bundle.getString("DlgApproveAppointment.jLabel3.text")); // NOI18N
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
 
-        jLabel4.setText("Hour:");
+        jLabel4.setText(bundle.getString("DlgApproveAppointment.jLabel4.text")); // NOI18N
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
 
-        lblHourError.setText("{{ error }}");
+        lblHourError.setText(bundle.getString("DlgApproveAppointment.lblHourError.text")); // NOI18N
         lblHourError.setForeground(new java.awt.Color(255, 102, 102));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -274,13 +277,13 @@ public class DlgApproveAppointment extends javax.swing.JDialog {
         ApproveContext context = new ApproveContext();
                 
         if (timepkrHour.getText().trim().isEmpty()) {
-            lblHourError.setText("this field is required");
+            lblHourError.setText(lang.getString("this_field_required"));
             lblHourError.setVisible(true);
             return;
         }
         
         if (datepkrDate.getText().trim().isEmpty()) {
-            lblDateError.setText("this field is required");
+            lblDateError.setText(lang.getString("this_field_required"));
             lblDateError.setVisible(true);
             return;
         }
@@ -290,7 +293,7 @@ public class DlgApproveAppointment extends javax.swing.JDialog {
         
         if (cmbMedics.getItemCount() == 0) {
             lblMedicError.setVisible(true);
-            lblMedicError.setText("no medics available");
+            lblMedicError.setText(lang.getString("no_medics_available"));
             return;
         }
         

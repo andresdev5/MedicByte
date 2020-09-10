@@ -11,17 +11,10 @@ import ec.edu.espe.medicbyte.controller.MainController;
 import ec.edu.espe.medicbyte.controller.MedicsController;
 import ec.edu.espe.medicbyte.controller.PatientsController;
 import ec.edu.espe.medicbyte.controller.UserController;
-import ec.edu.espe.medicbyte.model.Location;
-import ec.edu.espe.medicbyte.model.Role;
-import ec.edu.espe.medicbyte.model.User;
-import ec.edu.espe.medicbyte.service.ILocationService;
-import ec.edu.espe.medicbyte.service.IRoleService;
-import ec.edu.espe.medicbyte.service.IUserService;
 import ec.edu.espe.medicbyte.service.impl.AuthService;
 import ec.edu.espe.medicbyte.view.AuthWindow;
 import ec.edu.espe.medicbyte.view.MainWindow;
-import java.util.Arrays;
-import java.util.List;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.UIManager;
@@ -29,7 +22,6 @@ import javax.swing.UnsupportedLookAndFeelException;
 import jiconfont.icons.font_awesome.FontAwesome;
 import jiconfont.icons.font_awesome.FontAwesomeSolid;
 import jiconfont.swing.IconFontSwing;
-import org.springframework.security.crypto.bcrypt.BCrypt;
 
 /**
  *
@@ -80,6 +72,8 @@ public class Application extends Container {
     }
     
     public static void main(String[] args) {
+        Locale.setDefault(new Locale("es"));
+        
         Application app = new Application(new MainModule());
         app.initialize();
     }

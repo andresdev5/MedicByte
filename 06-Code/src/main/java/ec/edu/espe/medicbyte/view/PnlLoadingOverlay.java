@@ -47,7 +47,8 @@ public class PnlLoadingOverlay extends View {
 
         lblLoadingMessage.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
         lblLoadingMessage.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblLoadingMessage.setText("Loading...");
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("ec/edu/espe/medicbyte/view/Bundle"); // NOI18N
+        lblLoadingMessage.setText(bundle.getString("PnlLoadingOverlay.lblLoadingMessage.text")); // NOI18N
         add(lblLoadingMessage, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 

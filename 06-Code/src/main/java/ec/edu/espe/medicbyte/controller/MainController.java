@@ -5,10 +5,10 @@ import ec.edu.espe.medicbyte.common.core.Controller;
 import ec.edu.espe.medicbyte.common.core.Router;
 import ec.edu.espe.medicbyte.common.core.WindowsManager;
 import ec.edu.espe.medicbyte.model.User;
-import ec.edu.espe.medicbyte.model.UserProfile;
 import ec.edu.espe.medicbyte.view.MainWindow;
 import ec.edu.espe.medicbyte.service.IAuthService;
 import ec.edu.espe.medicbyte.service.IUserService;
+import java.util.ResourceBundle;
 import javax.swing.JOptionPane;
 import jiconfont.icons.font_awesome.FontAwesome;
 import jiconfont.icons.font_awesome.FontAwesomeSolid;
@@ -18,6 +18,7 @@ import jiconfont.icons.font_awesome.FontAwesomeSolid;
  * @author Andres Jonathan J.
  */
 public class MainController extends Controller {
+    ResourceBundle lang = ResourceBundle.getBundle("ec/edu/espe/medicbyte/view/Bundle");
     private final Router router;
     private final IAuthService authService;
     private final IUserService userService;
@@ -75,8 +76,8 @@ public class MainController extends Controller {
         mainWindow.listen("logout", (args) -> {
             int confirm = JOptionPane.showConfirmDialog(
                 mainWindow,
-                "Estas seguro que deseas salir?",
-                "Salir",
+                lang.getString("logout_are_you_sure"),
+                lang.getString("exit"),
                 JOptionPane.YES_NO_OPTION
             );
             
@@ -98,7 +99,7 @@ public class MainController extends Controller {
         
         if (user.hasRole("admin")) {
             mainWindow.addMenuItem(new MainWindow.MenuItem(
-                "Manage appointments",
+                lang.getString("manage_appointments"),
                 FontAwesome.CALENDAR_CHECK_O,
                 () -> {
                     router.run("appointments", "manage");
@@ -107,7 +108,7 @@ public class MainController extends Controller {
             ).withKey("manageAppointments"));
             
             mainWindow.addMenuItem(new MainWindow.MenuItem(
-                "Add medic",
+                lang.getString("add_medic"),
                 FontAwesome.USER_PLUS,
                 () -> {
                     router.run("medics", "add");
@@ -116,7 +117,7 @@ public class MainController extends Controller {
             ).withKey("addMedic"));
         } else {
             mainWindow.addMenuItem(new MainWindow.MenuItem(
-                "Appointments",
+                lang.getString("appointments"),
                 FontAwesome.CALENDAR_CHECK_O,
                 () -> {
                     router.run("appointments", "showAll");
@@ -125,7 +126,7 @@ public class MainController extends Controller {
             ).withKey("appointments"));
         
             mainWindow.addMenuItem(new MainWindow.MenuItem(
-                "Request new appointment",
+                lang.getString("request_new_appointment"),
                 FontAwesome.CALENDAR_PLUS_O,
                 () -> {
                     router.run("appointments", "requestAppointment");
@@ -135,7 +136,7 @@ public class MainController extends Controller {
         }
         
         mainWindow.addMenuItem(new MainWindow.MenuItem(
-            "Medics",
+            lang.getString("medics"),
             FontAwesome.USER_MD,
             () -> {
                 router.run("medics", "showAll");
@@ -145,7 +146,7 @@ public class MainController extends Controller {
         
         if (user.hasRole("Admin")) {
             mainWindow.addMenuItem(new MainWindow.MenuItem(
-                "Patients",
+                lang.getString("patients"),
                 FontAwesomeSolid.USER_INJURED,
                 () -> {
                     router.run("patients");

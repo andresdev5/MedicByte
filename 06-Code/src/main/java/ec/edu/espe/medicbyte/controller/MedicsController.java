@@ -18,6 +18,7 @@ import ec.edu.espe.medicbyte.service.IUserService;
 import ec.edu.espe.medicbyte.view.FrmAddMedic;
 import ec.edu.espe.medicbyte.view.FrmMedics;
 import ec.edu.espe.medicbyte.view.MainWindow;
+import java.util.ResourceBundle;
 import javax.swing.JOptionPane;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 
@@ -26,6 +27,7 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
  * @author Michael Cobacango
  */
 public class MedicsController extends Controller {
+    ResourceBundle lang = ResourceBundle.getBundle("ec/edu/espe/medicbyte/view/Bundle");
     private final WindowsManager windowsManager;
     private final IMedicService medicService;
     private final IUserService userService;
@@ -66,7 +68,7 @@ public class MedicsController extends Controller {
             Speciality speciality = args.get(4);
             
             if (userService.exists(username)) {
-                view.emit("showError", FrmAddMedic.Field.USERNAME, "username already taken");
+                view.emit("showError", FrmAddMedic.Field.USERNAME, lang.getString("username_already_taken"));
                 return;
             }
             
@@ -75,7 +77,7 @@ public class MedicsController extends Controller {
                     && user.getEmail().equalsIgnoreCase(email.toLowerCase()));
             
             if (emailExists) {
-                view.emit("showError", FrmAddMedic.Field.EMAIL, "email already taken");
+                view.emit("showError", FrmAddMedic.Field.EMAIL, lang.getString("email_already_taken"));
                 return;
             }
             
@@ -84,8 +86,8 @@ public class MedicsController extends Controller {
             if (medicRole == null) {
                 JOptionPane.showMessageDialog(
                     view,
-                    "Role 'medic' not found. please try again or reinstall application",
-                    "Database Error",
+                    String.format(lang.getString("role_not_found_fatal_error"), "medic"),
+                    lang.getString("database_error_title"),
                     JOptionPane.ERROR_MESSAGE
                 );
                 return;
@@ -107,8 +109,8 @@ public class MedicsController extends Controller {
             if (!created) {
                 JOptionPane.showMessageDialog(
                     view,
-                    "Error while trying to create new user, please try again.",
-                    "Database Error",
+                    lang.getString("error_creating_new_user"),
+                    lang.getString("database_error_title"),
                     JOptionPane.ERROR_MESSAGE
                 );
                 return;

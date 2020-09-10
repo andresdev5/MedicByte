@@ -2,21 +2,48 @@ package ec.edu.espe.medicbyte.view;
 
 import ec.edu.espe.medicbyte.common.core.View;
 import ec.edu.espe.medicbyte.model.Appointment;
+import ec.edu.espe.medicbyte.model.Appointment.Status;
 import ec.edu.espe.medicbyte.model.Speciality;
+import java.awt.Component;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
+import java.util.ResourceBundle;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListCellRenderer;
+import javax.swing.JList;
 
 /**
  *
  * @author Andres Jonathan J.
  */
 public class FrmAppointments extends View {
-    private List<Appointment> appointments;
-    private List<Speciality> specialties;
+    public class StatusListCellRenderer extends DefaultListCellRenderer {
+
+        @Override
+        public Component getListCellRendererComponent(
+                                       JList list,
+                                       Object value,
+                                       int index,
+                                       boolean isSelected,
+                                       boolean cellHasFocus) {
+            if (value instanceof Status) {
+                value = lang.getString(((Status)value).name().toLowerCase());
+            } else if (value == null) {
+                value = lang.getString("all");
+            }
+            
+            super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+            return this;
+        }
+    }
+    
+    ResourceBundle lang = ResourceBundle.getBundle("ec/edu/espe/medicbyte/view/Bundle");
+    private List<Appointment> appointments = new ArrayList<>();
+    private List<Speciality> specialties = new ArrayList<>();
     
     /**
      * Creates new form FrmAppointments
@@ -26,8 +53,18 @@ public class FrmAppointments extends View {
         appointmentsScrollPanel.getVerticalScrollBar().setUnitIncrement(16);
         appointmentsScrollPanel.getViewport().setOpaque(false);
         
-        Arrays.asList(Appointment.Status.values())
-            .forEach(status -> cbxStatuses.addItem(status.name()));
+        cbxStatuses.setRenderer(new StatusListCellRenderer());
+        
+        if (cbxStatuses.getItemCount() == 0) {
+            cbxStatuses.addItem(null);
+        }
+        
+        if (cbxSpecialties.getItemCount() == 0) {
+            cbxSpecialties.addItem(lang.getString("all"));
+        }
+        
+        Arrays.asList(Status.values())
+            .forEach(status -> cbxStatuses.addItem(status));
     }
     
     @Override
@@ -50,7 +87,7 @@ public class FrmAppointments extends View {
         if (name.equals("specialities")) {
             specialties = (List<Speciality>) newValue;
             cbxSpecialties.removeAllItems();
-            cbxSpecialties.addItem("ALL");
+            cbxSpecialties.addItem(lang.getString("all"));
             specialties.forEach(specialty -> cbxSpecialties.addItem(specialty.getName()));
         }
         
@@ -73,19 +110,22 @@ public class FrmAppointments extends View {
     }
     
     private void checkAllAppointmentFilters() {
-        String status = ((String)cbxStatuses.getModel().getSelectedItem()).toLowerCase();
+        Status status = (Status)cbxStatuses.getSelectedItem();
         String specialty = cbxSpecialties.getItemCount() == 0
-            ? "ALL"
+            ? lang.getString("all")
             : ((String)cbxSpecialties.getModel().getSelectedItem()).toLowerCase();
         List<Appointment> filtered = new ArrayList<>(appointments);
+        
+        boolean unselectedStatus = status == null;
+        boolean unselectedSpeciality = cbxSpecialties.getSelectedIndex() == 0;
 
-        if (!status.equalsIgnoreCase("ALL")) {
+        if (!unselectedStatus) {
             filtered = filterAppointments(filtered, (appointment) -> {
-                return appointment.getStatus().name().toLowerCase().equals(status);
+                return appointment.getStatus() == status;
             });
         }
 
-        if (!specialty.equalsIgnoreCase("ALL")) {
+        if (!unselectedSpeciality) {
             filtered = filterAppointments(filtered, (appointment) -> {
                 return appointment.getSpeciality().getName().toLowerCase().equals(specialty);
             });
@@ -201,7 +241,8 @@ public class FrmAppointments extends View {
         jLabel11.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel11.setForeground(new java.awt.Color(153, 153, 153));
         jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel11.setText("No records found");
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("ec/edu/espe/medicbyte/view/Bundle"); // NOI18N
+        jLabel11.setText(bundle.getString("FrmAppointments.jLabel11.text")); // NOI18N
         pnlEmptyRecords.add(jLabel11, java.awt.BorderLayout.CENTER);
 
         setMinimumSize(new java.awt.Dimension(600, 0));
@@ -214,12 +255,11 @@ public class FrmAppointments extends View {
         jPanel2.setOpaque(false);
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel2.setText("Filters");
+        jLabel2.setText(bundle.getString("FrmAppointments.jLabel2.text")); // NOI18N
 
         jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel8.setText("Specialty:");
+        jLabel8.setText(bundle.getString("FrmAppointments.jLabel8.text")); // NOI18N
 
-        cbxSpecialties.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ALL" }));
         cbxSpecialties.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cbxSpecialtiesActionPerformed(evt);
@@ -227,9 +267,8 @@ public class FrmAppointments extends View {
         });
 
         jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel9.setText("Status:");
+        jLabel9.setText(bundle.getString("FrmAppointments.jLabel9.text")); // NOI18N
 
-        cbxStatuses.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ALL" }));
         cbxStatuses.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cbxStatusesActionPerformed(evt);
@@ -237,7 +276,7 @@ public class FrmAppointments extends View {
         });
 
         jLabel10.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel10.setText("Medic:");
+        jLabel10.setText(bundle.getString("FrmAppointments.jLabel10.text")); // NOI18N
 
         txtMedicName.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -299,26 +338,26 @@ public class FrmAppointments extends View {
         jPanel7.setOpaque(false);
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel6.setText("Sort:");
+        jLabel6.setText(bundle.getString("FrmAppointments.jLabel6.text")); // NOI18N
 
         jPanel4.setOpaque(false);
         jPanel4.setLayout(new javax.swing.BoxLayout(jPanel4, javax.swing.BoxLayout.X_AXIS));
 
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jLabel3.setText("Showing");
+        jLabel3.setText(bundle.getString("FrmAppointments.jLabel3.text")); // NOI18N
         jLabel3.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 5, 0, 5));
         jLabel3.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
         jPanel4.add(jLabel3);
 
         lblTotalAppointments.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         lblTotalAppointments.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        lblTotalAppointments.setText("0");
+        lblTotalAppointments.setText(bundle.getString("FrmAppointments.lblTotalAppointments.text")); // NOI18N
         lblTotalAppointments.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 5));
         lblTotalAppointments.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
         jPanel4.add(lblTotalAppointments);
 
         jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jLabel7.setText("result(s)");
+        jLabel7.setText(bundle.getString("FrmAppointments.jLabel7.text")); // NOI18N
         jLabel7.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 5));
         jLabel7.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
         jPanel4.add(jLabel7);
@@ -331,7 +370,7 @@ public class FrmAppointments extends View {
         });
 
         chkSortDescendant.setSelected(true);
-        chkSortDescendant.setText("Descending");
+        chkSortDescendant.setText(bundle.getString("FrmAppointments.chkSortDescendant.text")); // NOI18N
         chkSortDescendant.setAutoscrolls(true);
         chkSortDescendant.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -345,7 +384,7 @@ public class FrmAppointments extends View {
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addGap(6, 6, 6)
-                .addComponent(jSeparator1, javax.swing.GroupLayout.DEFAULT_SIZE, 599, Short.MAX_VALUE)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.DEFAULT_SIZE, 613, Short.MAX_VALUE)
                 .addGap(6, 6, 6))
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -398,10 +437,10 @@ public class FrmAppointments extends View {
         paginationPanel.setOpaque(false);
         paginationPanel.setLayout(new java.awt.BorderLayout());
 
-        jLabel4.setText("1");
+        jLabel4.setText(bundle.getString("FrmAppointments.jLabel4.text")); // NOI18N
         paginationPanel.add(jLabel4, java.awt.BorderLayout.CENTER);
 
-        jLabel5.setText("Page:");
+        jLabel5.setText(bundle.getString("FrmAppointments.jLabel5.text")); // NOI18N
         jLabel5.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 5));
         paginationPanel.add(jLabel5, java.awt.BorderLayout.LINE_START);
 
@@ -417,7 +456,7 @@ public class FrmAppointments extends View {
         jPanel1.add(jPanel3, gridBagConstraints);
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 17)); // NOI18N
-        jLabel1.setText("Appointments");
+        jLabel1.setText(bundle.getString("FrmAppointments.jLabel1.text")); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -475,7 +514,7 @@ public class FrmAppointments extends View {
     private javax.swing.JScrollPane appointmentsScrollPanel;
     private javax.swing.JPanel appointmentsWrapperPanel;
     private javax.swing.JComboBox<String> cbxSpecialties;
-    private javax.swing.JComboBox<String> cbxStatuses;
+    private javax.swing.JComboBox<ec.edu.espe.medicbyte.model.Appointment.Status> cbxStatuses;
     private javax.swing.JCheckBox chkSortDescendant;
     private javax.swing.JComboBox<String> cmbSortType;
     private javax.swing.JLabel jLabel1;

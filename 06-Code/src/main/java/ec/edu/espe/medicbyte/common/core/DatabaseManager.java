@@ -3,6 +3,9 @@ package ec.edu.espe.medicbyte.common.core;
 import com.mongodb.MongoClient;
 import dev.morphia.Datastore;
 import dev.morphia.Morphia;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -63,10 +66,15 @@ public class DatabaseManager {
             return;
         }
         
-        morphia.mapPackage(context.getModelsPackage());
-        client = new MongoClient(context.getHost(), context.getPort());
-        datastore = morphia.createDatastore(client, context.getDatabaseName());
-        datastore.ensureIndexes();
-        configured = true;
+        try {
+            morphia.mapPackage(context.getModelsPackage());
+            client = new MongoClient(context.getHost(), context.getPort());
+            datastore = morphia.createDatastore(client, context.getDatabaseName());
+            datastore.ensureIndexes();
+            configured = true;
+        } catch (Exception exception) {
+            Logger.getLogger(DatabaseManager.class.getName()).log(Level.SEVERE, null, exception);
+            System.exit(-1);
+        }
     }
 }

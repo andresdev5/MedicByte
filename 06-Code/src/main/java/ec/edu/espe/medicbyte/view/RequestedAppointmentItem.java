@@ -6,6 +6,7 @@ import ec.edu.espe.medicbyte.model.Medic;
 import ec.edu.espe.medicbyte.view.DlgApproveAppointment.ApproveContext;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.ResourceBundle;
 import java.util.function.Consumer;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
@@ -17,6 +18,7 @@ import static javax.swing.JOptionPane.YES_NO_OPTION;
  * @author Andres Jonathan J.
  */
 public class RequestedAppointmentItem extends javax.swing.JPanel {
+    ResourceBundle lang = ResourceBundle.getBundle("ec/edu/espe/medicbyte/view/Bundle");
     private final Appointment appointment;
     private Consumer<ApproveContext> approveCallback;
     private Runnable rejectCallback;
@@ -77,43 +79,44 @@ public class RequestedAppointmentItem extends javax.swing.JPanel {
         jPanel10.setBackground(new java.awt.Color(255, 255, 255));
         jPanel10.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(165, 177, 194)));
 
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("ec/edu/espe/medicbyte/view/Bundle"); // NOI18N
+        lblPatient.setText(bundle.getString("RequestedAppointmentItem.lblPatient.text")); // NOI18N
         lblPatient.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        lblPatient.setText("Patient:");
 
-        lblPatientValue.setText("-");
+        lblPatientValue.setText(bundle.getString("RequestedAppointmentItem.lblPatientValue.text")); // NOI18N
 
+        lblRequestedDate.setText(bundle.getString("RequestedAppointmentItem.lblRequestedDate.text")); // NOI18N
         lblRequestedDate.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        lblRequestedDate.setText("Requested date:");
 
-        lblRequestedDateValue.setText("-");
+        lblRequestedDateValue.setText(bundle.getString("RequestedAppointmentItem.lblRequestedDateValue.text")); // NOI18N
 
+        lblSpeciality.setText(bundle.getString("RequestedAppointmentItem.lblSpeciality.text")); // NOI18N
         lblSpeciality.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        lblSpeciality.setText("Speciality:");
 
-        lblSpecialityValue.setText("-");
+        lblSpecialityValue.setText(bundle.getString("RequestedAppointmentItem.lblSpecialityValue.text")); // NOI18N
 
-        btnApprove.setText("Approve");
         btnApprove.setBackground(new java.awt.Color(33, 200, 112));
+        btnApprove.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnApprove.setForeground(new java.awt.Color(255, 255, 255));
+        btnApprove.setText(bundle.getString("RequestedAppointmentItem.btnApprove.text")); // NOI18N
         btnApprove.setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 8, 4, 8));
         btnApprove.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnApprove.setFocusPainted(false);
         btnApprove.setFocusable(false);
-        btnApprove.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnApprove.setForeground(new java.awt.Color(255, 255, 255));
         btnApprove.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnApproveActionPerformed(evt);
             }
         });
 
-        btnReject.setText("Reject");
         btnReject.setBackground(new java.awt.Color(235, 59, 90));
+        btnReject.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnReject.setForeground(new java.awt.Color(255, 255, 255));
+        btnReject.setText(bundle.getString("RequestedAppointmentItem.btnReject.text")); // NOI18N
         btnReject.setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 8, 4, 8));
         btnReject.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnReject.setFocusPainted(false);
         btnReject.setFocusable(false);
-        btnReject.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnReject.setForeground(new java.awt.Color(255, 255, 255));
         btnReject.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnRejectActionPerformed(evt);
@@ -131,7 +134,7 @@ public class RequestedAppointmentItem extends javax.swing.JPanel {
                         .addComponent(lblSpeciality)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lblSpecialityValue)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 369, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 344, Short.MAX_VALUE)
                         .addComponent(btnReject)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnApprove))
@@ -180,8 +183,8 @@ public class RequestedAppointmentItem extends javax.swing.JPanel {
     private void btnRejectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRejectActionPerformed
         int action = JOptionPane.showConfirmDialog(
             this.getRootPane(),
-            "Do you want to reject this appointment?",
-            "Are you sure?",
+            lang.getString("ask_confirm_reject_appointment"),
+            lang.getString("are_you_sure"),
             YES_NO_OPTION
         );
         

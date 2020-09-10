@@ -126,7 +126,8 @@ public class PatientListItem extends JPanel {
 
         jPanel15.setOpaque(false);
 
-        lblPatientName.setText("{{ name }}");
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("ec/edu/espe/medicbyte/view/Bundle"); // NOI18N
+        lblPatientName.setText(bundle.getString("PatientListItem.lblPatientName.text")); // NOI18N
 
         javax.swing.GroupLayout jPanel15Layout = new javax.swing.GroupLayout(jPanel15);
         jPanel15.setLayout(jPanel15Layout);
@@ -135,7 +136,7 @@ public class PatientListItem extends JPanel {
             .addGroup(jPanel15Layout.createSequentialGroup()
                 .addGap(0, 0, 0)
                 .addComponent(lblPatientName)
-                .addGap(0, 43, Short.MAX_VALUE))
+                .addGap(0, 77, Short.MAX_VALUE))
         );
         jPanel15Layout.setVerticalGroup(
             jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -148,9 +149,9 @@ public class PatientListItem extends JPanel {
 
         lblIdentifyCard.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         lblIdentifyCard.setForeground(new java.awt.Color(71, 71, 71));
-        lblIdentifyCard.setText("Identify card:");
+        lblIdentifyCard.setText(bundle.getString("PatientListItem.lblIdentifyCard.text")); // NOI18N
 
-        lblIdentifyCardValue.setText("-");
+        lblIdentifyCardValue.setText(bundle.getString("PatientListItem.lblIdentifyCardValue.text")); // NOI18N
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -178,9 +179,9 @@ public class PatientListItem extends JPanel {
 
         lblRegisteredAt.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         lblRegisteredAt.setForeground(new java.awt.Color(71, 71, 71));
-        lblRegisteredAt.setText("Registered at:");
+        lblRegisteredAt.setText(bundle.getString("PatientListItem.lblRegisteredAt.text")); // NOI18N
 
-        lblRegisteredAtValue.setText("-");
+        lblRegisteredAtValue.setText(bundle.getString("PatientListItem.lblRegisteredAtValue.text")); // NOI18N
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -215,7 +216,7 @@ public class PatientListItem extends JPanel {
         btnPatientReport.setBackground(new java.awt.Color(241, 144, 102));
         btnPatientReport.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnPatientReport.setForeground(new java.awt.Color(255, 255, 255));
-        btnPatientReport.setText("Generate report");
+        btnPatientReport.setText(bundle.getString("PatientListItem.btnPatientReport.text")); // NOI18N
         btnPatientReport.setBorder(javax.swing.BorderFactory.createEmptyBorder(3, 10, 3, 10));
         btnPatientReport.setBorderPainted(false);
         btnPatientReport.setFocusPainted(false);

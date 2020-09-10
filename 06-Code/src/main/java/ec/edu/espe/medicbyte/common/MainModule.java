@@ -43,11 +43,11 @@ public class MainModule extends AbstractModule {
     @Override
     protected void configure() {
         // bind database manager
-        DatabaseContext dbcontext = new DatabaseManager.DatabaseContext(
+        DatabaseContext dbcontext = new DatabaseContext(
             "ec.edu.espe.medicbyte.model",
             "medicbyte",
-            "localhost",
-            27017
+            "200.105.253.153",
+            25017
         );
         
         this.bind(DatabaseManager.class).toInstance(new DatabaseManager(dbcontext));

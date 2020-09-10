@@ -6,6 +6,7 @@ import java.awt.Color;
 import java.awt.Image;
 import java.io.ByteArrayInputStream;
 import java.time.format.DateTimeFormatter;
+import java.util.ResourceBundle;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
@@ -21,6 +22,7 @@ import static javax.swing.JOptionPane.YES_NO_OPTION;
  */
 public class AppointmentItem extends javax.swing.JPanel {
     private Runnable cancelCallback;
+    ResourceBundle lang = ResourceBundle.getBundle("ec/edu/espe/medicbyte/view/Bundle");
     
     /**
      * Creates new form AppointmentItem
@@ -60,34 +62,34 @@ public class AppointmentItem extends javax.swing.JPanel {
             case "PENDENT":
                 lblStatus.setBackground(new Color(208, 212, 215));
                 lblStatus.setForeground(new Color(149, 160, 161));
-                lblStatus.setText("Pendent");
+                lblStatus.setText(lang.getString("pendent"));
                 btnCancel.setVisible(true);
             break;
             case "APPROVED":
                 lblStatus.setBackground(new Color(171, 255, 185));
                 lblStatus.setForeground(new Color(75, 184, 93));
-                lblStatus.setText("Approved");
+                lblStatus.setText(lang.getString("approved"));
                 btnCancel.setVisible(true);
             break;
             case "RESCHEDULED":
                 lblStatus.setBackground(new Color(189, 211, 255));
                 lblStatus.setForeground(new Color(30, 144, 255));
-                lblStatus.setText("Rescheduled");
+                lblStatus.setText(lang.getString("rescheduled"));
             break;
             case "CANCELLED":
                 lblStatus.setBackground(new Color(255, 153, 168));
                 lblStatus.setForeground(new Color(209, 0, 31));
-                lblStatus.setText("Cancelled");
+                lblStatus.setText(lang.getString("cancelled"));
             break;
             case "FINISHED":
                 lblStatus.setBackground(new Color(206, 247, 236));
                 lblStatus.setForeground(new Color(25, 183, 142));
-                lblStatus.setText("Finished");
+                lblStatus.setText(lang.getString("finished"));
             break;
             case "REJECTED":
                 lblStatus.setBackground(new Color(255, 153, 168));
                 lblStatus.setForeground(new Color(209, 0, 31));
-                lblStatus.setText("Rejected");
+                lblStatus.setText(lang.getString("rejected"));
             break;
         }
         
@@ -185,21 +187,22 @@ public class AppointmentItem extends javax.swing.JPanel {
 
         lblDate.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         lblDate.setForeground(new java.awt.Color(71, 71, 71));
-        lblDate.setText("Date:");
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("ec/edu/espe/medicbyte/view/Bundle"); // NOI18N
+        lblDate.setText(bundle.getString("AppointmentItem.lblDate.text")); // NOI18N
 
         lblHour.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         lblHour.setForeground(new java.awt.Color(71, 71, 71));
-        lblHour.setText("Hour:");
+        lblHour.setText(bundle.getString("AppointmentItem.lblHour.text")); // NOI18N
 
         lblLocation.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         lblLocation.setForeground(new java.awt.Color(71, 71, 71));
-        lblLocation.setText("Location:");
+        lblLocation.setText(bundle.getString("AppointmentItem.lblLocation.text")); // NOI18N
 
-        lblDateValue.setText("-");
+        lblDateValue.setText(bundle.getString("AppointmentItem.lblDateValue.text")); // NOI18N
 
-        lblHourValue.setText("-");
+        lblHourValue.setText(bundle.getString("AppointmentItem.lblHourValue.text")); // NOI18N
 
-        lblLocationValue.setText("-");
+        lblLocationValue.setText(bundle.getString("AppointmentItem.lblLocationValue.text")); // NOI18N
 
         javax.swing.GroupLayout jPanel15Layout = new javax.swing.GroupLayout(jPanel15);
         jPanel15.setLayout(jPanel15Layout);
@@ -238,14 +241,14 @@ public class AppointmentItem extends javax.swing.JPanel {
 
         lblMedicName.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         lblMedicName.setForeground(new java.awt.Color(71, 71, 71));
-        lblMedicName.setText("Medic:");
+        lblMedicName.setText(bundle.getString("AppointmentItem.lblMedicName.text")); // NOI18N
 
-        lblMedicNameValue.setText("-");
+        lblMedicNameValue.setText(bundle.getString("AppointmentItem.lblMedicNameValue.text")); // NOI18N
 
         lblSpeciality.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        lblSpeciality.setText("Speciality:");
+        lblSpeciality.setText(bundle.getString("AppointmentItem.lblSpeciality.text")); // NOI18N
 
-        lblSpecialityValue.setText("-");
+        lblSpecialityValue.setText(bundle.getString("AppointmentItem.lblSpecialityValue.text")); // NOI18N
 
         javax.swing.GroupLayout pnlInfo2Layout = new javax.swing.GroupLayout(pnlInfo2);
         pnlInfo2.setLayout(pnlInfo2Layout);
@@ -282,7 +285,7 @@ public class AppointmentItem extends javax.swing.JPanel {
 
         lblStatus.setBackground(new java.awt.Color(208, 212, 215));
         lblStatus.setForeground(new java.awt.Color(149, 160, 161));
-        lblStatus.setText("Pendent");
+        lblStatus.setText(bundle.getString("AppointmentItem.lblStatus.text")); // NOI18N
         lblStatus.setBorder(javax.swing.BorderFactory.createEmptyBorder(3, 7, 3, 7));
         lblStatus.setOpaque(true);
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -305,7 +308,7 @@ public class AppointmentItem extends javax.swing.JPanel {
         btnReschedule.setBackground(new java.awt.Color(142, 192, 255));
         btnReschedule.setFont(new java.awt.Font("SansSerif", 1, 11)); // NOI18N
         btnReschedule.setForeground(new java.awt.Color(255, 255, 255));
-        btnReschedule.setText("Reschedule");
+        btnReschedule.setText(bundle.getString("AppointmentItem.btnReschedule.text")); // NOI18N
         btnReschedule.setAlignmentX(1.0F);
         btnReschedule.setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 7, 4, 5));
         btnReschedule.setBorderPainted(false);
@@ -337,7 +340,7 @@ public class AppointmentItem extends javax.swing.JPanel {
         btnCancel.setBackground(new java.awt.Color(255, 137, 137));
         btnCancel.setFont(new java.awt.Font("SansSerif", 1, 11)); // NOI18N
         btnCancel.setForeground(new java.awt.Color(255, 255, 255));
-        btnCancel.setText("Cancel");
+        btnCancel.setText(bundle.getString("AppointmentItem.btnCancel.text")); // NOI18N
         btnCancel.setAlignmentX(1.0F);
         btnCancel.setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 7, 4, 5));
         btnCancel.setBorderPainted(false);
@@ -409,8 +412,8 @@ public class AppointmentItem extends javax.swing.JPanel {
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
         int action = JOptionPane.showConfirmDialog(
             this.getRootPane(),
-            "Do you want cancel this appointment?",
-            "Are you sure?",
+            lang.getString("confirm_cancel_appointment_msg"),
+            lang.getString("are_you_sure"),
             YES_NO_OPTION
         );
         

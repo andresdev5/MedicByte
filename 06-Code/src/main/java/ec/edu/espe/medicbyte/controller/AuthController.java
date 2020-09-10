@@ -15,6 +15,7 @@ import ec.edu.espe.medicbyte.service.IAuthService;
 import ec.edu.espe.medicbyte.service.IPatientService;
 import ec.edu.espe.medicbyte.service.IRoleService;
 import ec.edu.espe.medicbyte.service.IUserService;
+import java.util.ResourceBundle;
 import javax.swing.JOptionPane;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 
@@ -23,6 +24,7 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
  * @author Andres Jonathan J.
  */
 public class AuthController extends Controller {
+    ResourceBundle lang = ResourceBundle.getBundle("ec/edu/espe/medicbyte/view/Bundle");
     private final Application application;
     private final WindowsManager windowsManager;
     private final IAuthService authService;
@@ -61,11 +63,11 @@ public class AuthController extends Controller {
             char[] password = args.get(1);
             
             if (!userService.exists(username)) {
-                loginView.emit("showError", "username", "User not exists");
+                loginView.emit("showError", "username", lang.getString("user_not_exists"));
                 loginView.emit("setEnabledBtnLogin", true);
                 return;
             } else if (!authService.login(username, String.valueOf(password))) {
-                loginView.emit("showError", "password", "Invalid credentials");
+                loginView.emit("showError", "password", lang.getString("invalid_credentials"));
                 loginView.emit("setEnabledBtnLogin", true);
                 return;
             }
@@ -81,12 +83,12 @@ public class AuthController extends Controller {
             String identifyCard = args.get(3);
             
             if (userService.exists(username)) {
-                signupView.emit("showError", FrmRegister.Field.USERNAME, "username already taken");
+                signupView.emit("showError", FrmRegister.Field.USERNAME, lang.getString("username_already_taken"));
                 return;
             }
             
             if (patientService.get(identifyCard) != null) {
-                signupView.emit("showError", FrmRegister.Field.IDENTIFY_CARD, "Identify card already registered");
+                signupView.emit("showError", FrmRegister.Field.IDENTIFY_CARD, lang.getString("id_card_already_registered"));
                 return;
             }
             
@@ -95,7 +97,7 @@ public class AuthController extends Controller {
                     && user.getEmail().equalsIgnoreCase(email.toLowerCase()));
             
             if (emailExists) {
-                signupView.emit("showError", FrmRegister.Field.EMAIL, "email already taken");
+                signupView.emit("showError", FrmRegister.Field.EMAIL, lang.getString("email_already_taken"));
                 return;
             }
             
@@ -104,7 +106,7 @@ public class AuthController extends Controller {
             if (patientRole == null) {
                 JOptionPane.showMessageDialog(
                     signupView,
-                    "Role 'patient' not found. please contact with administrator or reinstall application",
+                    String.format(lang.getString("role_not_found_fatal_error"), "patient"),
                     "Database Error",
                     JOptionPane.ERROR_MESSAGE
                 );
@@ -125,7 +127,7 @@ public class AuthController extends Controller {
             if (!created) {
                 JOptionPane.showMessageDialog(
                     signupView,
-                    "Error while trying to create new user, please try again.",
+                    lang.getString("error_creating_new_user"),
                     "Database Error",
                     JOptionPane.ERROR_MESSAGE
                 );
@@ -136,7 +138,7 @@ public class AuthController extends Controller {
             loginView.emit(
                 "showStatusMessage",
                 FrmLogin.StatusMessage.SUCCESS,
-                String.format("%s account created successfully", username)
+                String.format(lang.getString("account_created_succesfully"), username)
             );
             signupView.emit("success");
         });

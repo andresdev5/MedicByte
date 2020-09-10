@@ -82,20 +82,21 @@ public class FrmMedics extends View {
         jPanel4.setLayout(new javax.swing.BoxLayout(jPanel4, javax.swing.BoxLayout.X_AXIS));
 
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jLabel3.setText("Showing");
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("ec/edu/espe/medicbyte/view/Bundle"); // NOI18N
+        jLabel3.setText(bundle.getString("FrmMedics.jLabel3.text")); // NOI18N
         jLabel3.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 5, 0, 5));
         jLabel3.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
         jPanel4.add(jLabel3);
 
         lblTotalItems.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         lblTotalItems.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        lblTotalItems.setText("0");
+        lblTotalItems.setText(bundle.getString("FrmMedics.lblTotalItems.text")); // NOI18N
         lblTotalItems.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 5));
         lblTotalItems.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
         jPanel4.add(lblTotalItems);
 
         jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jLabel7.setText("result(s)");
+        jLabel7.setText(bundle.getString("FrmMedics.jLabel7.text")); // NOI18N
         jLabel7.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 5));
         jLabel7.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
         jPanel4.add(jLabel7);
@@ -149,10 +150,10 @@ public class FrmMedics extends View {
         paginationPanel.setOpaque(false);
         paginationPanel.setLayout(new java.awt.BorderLayout());
 
-        jLabel4.setText("1");
+        jLabel4.setText(bundle.getString("FrmMedics.jLabel4.text")); // NOI18N
         paginationPanel.add(jLabel4, java.awt.BorderLayout.CENTER);
 
-        jLabel5.setText("Page:");
+        jLabel5.setText(bundle.getString("FrmMedics.jLabel5.text")); // NOI18N
         jLabel5.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 5));
         paginationPanel.add(jLabel5, java.awt.BorderLayout.LINE_START);
 
@@ -168,7 +169,7 @@ public class FrmMedics extends View {
         jPanel1.add(jPanel3, gridBagConstraints);
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 17)); // NOI18N
-        jLabel1.setText("Medics");
+        jLabel1.setText(bundle.getString("FrmMedics.jLabel1.text")); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);

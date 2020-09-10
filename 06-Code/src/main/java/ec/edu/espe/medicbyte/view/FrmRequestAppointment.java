@@ -121,7 +121,8 @@ public class FrmRequestAppointment extends View {
         jPanel2.setOpaque(false);
         jPanel2.setLayout(new javax.swing.BoxLayout(jPanel2, javax.swing.BoxLayout.Y_AXIS));
 
-        jLabel1.setText("Request new appointment");
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("ec/edu/espe/medicbyte/view/Bundle"); // NOI18N
+        jLabel1.setText(bundle.getString("FrmRequestAppointment.jLabel1.text")); // NOI18N
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 17)); // NOI18N
         jPanel2.add(jLabel1);
         jPanel2.add(jSeparator2);
@@ -145,20 +146,20 @@ public class FrmRequestAppointment extends View {
         lblStatusMessage.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblStatusMessage.setOpaque(true);
 
-        jLabel2.setText("*Specialty:");
+        jLabel2.setText(bundle.getString("FrmRequestAppointment.jLabel2.text")); // NOI18N
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
 
-        jLabel3.setText("*Date:");
+        jLabel3.setText(bundle.getString("FrmRequestAppointment.jLabel3.text")); // NOI18N
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
 
-        btnRequestAppointment.setText("Request appointment");
+        btnRequestAppointment.setText(bundle.getString("FrmRequestAppointment.btnRequestAppointment.text")); // NOI18N
         btnRequestAppointment.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnRequestAppointmentActionPerformed(evt);
             }
         });
 
-        jLabel4.setText("Description:");
+        jLabel4.setText(bundle.getString("FrmRequestAppointment.jLabel4.text")); // NOI18N
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
 
         txaDescription.setColumns(20);
@@ -169,10 +170,10 @@ public class FrmRequestAppointment extends View {
         txaDescription1.setRows(5);
         jScrollPane2.setViewportView(txaDescription1);
 
-        lblSpecialtyError.setText("error");
+        lblSpecialtyError.setText(bundle.getString("FrmRequestAppointment.lblSpecialtyError.text")); // NOI18N
         lblSpecialtyError.setForeground(new java.awt.Color(240, 84, 84));
 
-        lblDateError.setText("error");
+        lblDateError.setText(bundle.getString("FrmRequestAppointment.lblDateError.text")); // NOI18N
         lblDateError.setForeground(new java.awt.Color(240, 84, 84));
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);

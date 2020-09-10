@@ -21,6 +21,7 @@ import ec.edu.espe.medicbyte.view.FrmRequestAppointment;
 import ec.edu.espe.medicbyte.view.MainWindow;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.ResourceBundle;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
 
@@ -29,6 +30,7 @@ import java.util.stream.Collectors;
  * @author Andres Jonathan J.
  */
 public class AppointmentsController extends Controller {
+    ResourceBundle lang = ResourceBundle.getBundle("ec/edu/espe/medicbyte/view/Bundle");
     private final WindowsManager windowsManager;
     private final Router router;
     private final IMedicService medicService;
@@ -170,12 +172,12 @@ public class AppointmentsController extends Controller {
             if (!created) {
                 view.emit("showStatusMessage",
                     FrmRequestAppointment.StatusMessage.ERROR,
-                    "Error while trying to request an appointment, please try again"
+                    lang.getString("error_requesting_appointment")
                 );
             } else {
                 view.emit("showStatusMessage",
                     FrmRequestAppointment.StatusMessage.SUCCESS,
-                    "Appointment request successfully created!"
+                    lang.getString("apppointment_successfully_created")
                 );
                 view.emit("success");
             }

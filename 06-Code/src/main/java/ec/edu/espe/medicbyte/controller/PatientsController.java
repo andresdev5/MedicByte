@@ -23,7 +23,6 @@ import java.io.InputStream;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -91,6 +90,20 @@ public class PatientsController extends Controller {
     @Inject() private IPatientService patientService;
     @Inject() private IAppointmentService appointmentService;
     
+    InputStream reportInput;
+    JasperDesign reportDesign;
+    JasperReport report;
+    
+    public PatientsController() {
+        try {
+            reportInput = getClass().getResourceAsStream("/reports/patient.jrxml");
+            reportDesign = JRXmlLoader.load(reportInput);
+            report = JasperCompileManager.compileReport(reportDesign);
+        } catch (Exception exception) {
+            Logger.getLogger(PatientsController.class.getName()).log(Level.SEVERE, null, exception);
+        }
+    }
+    
     @Override
     public void init() {
         MainWindow mainWindow = windowsManager.getAs(MainWindow.class);
@@ -152,9 +165,7 @@ public class PatientsController extends Controller {
             JRBeanCollectionDataSource bean = new JRBeanCollectionDataSource(data);
             parameters.put("CHART_DATASET", bean);
             
-            InputStream reportInput = getClass().getResourceAsStream("/reports/patient.jrxml");
-            JasperDesign design = JRXmlLoader.load(reportInput);
-            JasperReport report = JasperCompileManager.compileReport(design);
+            
             JasperPrint print = JasperFillManager.fillReport(report, parameters, new JREmptyDataSource());
             JasperViewer viewer = new JasperViewer(print, false);
             viewer.setTitle("Patient report");

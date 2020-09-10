@@ -108,7 +108,8 @@ public class FrmAppointmentsManager extends View {
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(153, 153, 153));
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText("No records found");
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("ec/edu/espe/medicbyte/view/Bundle"); // NOI18N
+        jLabel2.setText(bundle.getString("FrmAppointmentsManager.jLabel2.text")); // NOI18N
         pnlEmptyRecords.add(jLabel2, java.awt.BorderLayout.CENTER);
 
         setPreferredSize(new java.awt.Dimension(600, 454));
@@ -124,28 +125,28 @@ public class FrmAppointmentsManager extends View {
         jPanel1.setOpaque(false);
         jPanel1.setLayout(new javax.swing.BoxLayout(jPanel1, javax.swing.BoxLayout.LINE_AXIS));
 
-        btnPendentForApproval.setText("Pendent for approval");
         btnPendentForApproval.setBackground(new java.awt.Color(75, 101, 132));
+        btnPendentForApproval.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnPendentForApproval.setForeground(new java.awt.Color(255, 255, 255));
+        btnPendentForApproval.setText(bundle.getString("FrmAppointmentsManager.btnPendentForApproval.text")); // NOI18N
         btnPendentForApproval.setBorder(javax.swing.BorderFactory.createEmptyBorder(6, 12, 6, 12));
         btnPendentForApproval.setBorderPainted(false);
         btnPendentForApproval.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnPendentForApproval.setFocusPainted(false);
         btnPendentForApproval.setFocusable(false);
-        btnPendentForApproval.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnPendentForApproval.setForeground(new java.awt.Color(255, 255, 255));
         btnPendentForApproval.setOpaque(true);
         jPanel1.add(btnPendentForApproval);
         jPanel1.add(filler1);
 
-        btnRescheduledRequests.setText("Reschedule requests");
         btnRescheduledRequests.setBackground(new java.awt.Color(215, 221, 228));
+        btnRescheduledRequests.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnRescheduledRequests.setForeground(new java.awt.Color(75, 101, 133));
+        btnRescheduledRequests.setText(bundle.getString("FrmAppointmentsManager.btnRescheduledRequests.text")); // NOI18N
         btnRescheduledRequests.setBorder(javax.swing.BorderFactory.createEmptyBorder(6, 12, 6, 12));
         btnRescheduledRequests.setBorderPainted(false);
         btnRescheduledRequests.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnRescheduledRequests.setFocusPainted(false);
         btnRescheduledRequests.setFocusable(false);
-        btnRescheduledRequests.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnRescheduledRequests.setForeground(new java.awt.Color(75, 101, 133));
         btnRescheduledRequests.setOpaque(true);
         jPanel1.add(btnRescheduledRequests);
 
@@ -196,10 +197,10 @@ public class FrmAppointmentsManager extends View {
         paginationPanel.setOpaque(false);
         paginationPanel.setLayout(new java.awt.BorderLayout());
 
-        jLabel15.setText("1");
+        jLabel15.setText(bundle.getString("FrmAppointmentsManager.jLabel15.text")); // NOI18N
         paginationPanel.add(jLabel15, java.awt.BorderLayout.CENTER);
 
-        jLabel16.setText("Page:");
+        jLabel16.setText(bundle.getString("FrmAppointmentsManager.jLabel16.text")); // NOI18N
         jLabel16.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 5));
         paginationPanel.add(jLabel16, java.awt.BorderLayout.LINE_START);
 
@@ -214,8 +215,8 @@ public class FrmAppointmentsManager extends View {
         gridBagConstraints.weighty = 1.0;
         jPanel5.add(jPanel7, gridBagConstraints);
 
+        jLabel1.setText(bundle.getString("FrmAppointmentsManager.jLabel1.text")); // NOI18N
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 17)); // NOI18N
-        jLabel1.setText("Manage appointments");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);

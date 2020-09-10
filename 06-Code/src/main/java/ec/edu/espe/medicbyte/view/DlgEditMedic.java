@@ -58,9 +58,10 @@ public class DlgEditMedic extends javax.swing.JDialog {
         setResizable(false);
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel1.setText("Speciality:");
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("ec/edu/espe/medicbyte/view/Bundle"); // NOI18N
+        jLabel1.setText(bundle.getString("DlgEditMedic.jLabel1.text")); // NOI18N
 
-        btnSave.setText("Save");
+        btnSave.setText(bundle.getString("DlgEditMedic.btnSave.text")); // NOI18N
         btnSave.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSaveActionPerformed(evt);
@@ -68,7 +69,7 @@ public class DlgEditMedic extends javax.swing.JDialog {
         });
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel2.setText("Medic:");
+        jLabel2.setText(bundle.getString("DlgEditMedic.jLabel2.text")); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);

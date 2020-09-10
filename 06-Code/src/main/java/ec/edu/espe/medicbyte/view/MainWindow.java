@@ -336,7 +336,8 @@ public class MainWindow extends Window {
         lblStatusbarContent = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("MedicByte");
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("ec/edu/espe/medicbyte/view/Bundle"); // NOI18N
+        setTitle(bundle.getString("MainWindow.title")); // NOI18N
         setMinimumSize(new java.awt.Dimension(900, 400));
         setPreferredSize(new java.awt.Dimension(900, 550));
 
@@ -367,7 +368,7 @@ public class MainWindow extends Window {
         txaUsername.setForeground(new java.awt.Color(126, 126, 126));
         txaUsername.setLineWrap(true);
         txaUsername.setRows(5);
-        txaUsername.setText("{{ username }}");
+        txaUsername.setText(bundle.getString("MainWindow.txaUsername.text")); // NOI18N
         txaUsername.setWrapStyleWord(true);
         txaUsername.setBorder(null);
         txaUsername.setOpaque(false);
@@ -381,7 +382,7 @@ public class MainWindow extends Window {
 
         btnEditProfile.setFont(new java.awt.Font("Segoe UI", 0, 11)); // NOI18N
         btnEditProfile.setForeground(new java.awt.Color(126, 126, 126));
-        btnEditProfile.setText("Edit profile");
+        btnEditProfile.setText(bundle.getString("MainWindow.btnEditProfile.text")); // NOI18N
         btnEditProfile.setBorder(null);
         btnEditProfile.setBorderPainted(false);
         btnEditProfile.setContentAreaFilled(false);
@@ -395,7 +396,7 @@ public class MainWindow extends Window {
 
         btnLogout.setFont(new java.awt.Font("Segoe UI", 0, 11)); // NOI18N
         btnLogout.setForeground(new java.awt.Color(126, 126, 126));
-        btnLogout.setText("Logout");
+        btnLogout.setText(bundle.getString("MainWindow.btnLogout.text")); // NOI18N
         btnLogout.setBorder(null);
         btnLogout.setContentAreaFilled(false);
         btnLogout.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -420,7 +421,7 @@ public class MainWindow extends Window {
                         .addGroup(userInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(btnEditProfile)
                             .addComponent(btnLogout))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
                         .addComponent(btnNotifications, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
@@ -493,7 +494,7 @@ public class MainWindow extends Window {
         innerStatusbar.setLayout(new javax.swing.BoxLayout(innerStatusbar, javax.swing.BoxLayout.LINE_AXIS));
 
         lblStatusbarContent.setForeground(new java.awt.Color(100, 112, 113));
-        lblStatusbarContent.setText("Done!");
+        lblStatusbarContent.setText(bundle.getString("MainWindow.lblStatusbarContent.text")); // NOI18N
         innerStatusbar.add(lblStatusbarContent);
 
         statusbar.add(innerStatusbar, java.awt.BorderLayout.CENTER);
@@ -511,7 +512,7 @@ public class MainWindow extends Window {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(root, javax.swing.GroupLayout.DEFAULT_SIZE, 820, Short.MAX_VALUE)
+            .addComponent(root, javax.swing.GroupLayout.DEFAULT_SIZE, 900, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

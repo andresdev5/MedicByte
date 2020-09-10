@@ -7,6 +7,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import javax.swing.JLabel;
@@ -20,6 +21,7 @@ import org.apache.commons.lang3.RandomStringUtils;
  * @author Andres Jonathan J.
  */
 public class FrmAddMedic extends View {
+    ResourceBundle lang = ResourceBundle.getBundle("ec/edu/espe/medicbyte/view/Bundle");
     public static enum MessageStatus { SUCCESS, ERROR }
     public static enum Field { USERNAME, PASSWORD, FULLNAME, EMAIL, SPECIALITY }
     
@@ -148,7 +150,8 @@ public class FrmAddMedic extends View {
         jPanel2.setOpaque(false);
         jPanel2.setLayout(new javax.swing.BoxLayout(jPanel2, javax.swing.BoxLayout.Y_AXIS));
 
-        jLabel1.setText("Add new medic");
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("ec/edu/espe/medicbyte/view/Bundle"); // NOI18N
+        jLabel1.setText(bundle.getString("FrmAddMedic.jLabel1.text")); // NOI18N
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 17)); // NOI18N
         jPanel2.add(jLabel1);
         jPanel2.add(jSeparator2);
@@ -171,10 +174,10 @@ public class FrmAddMedic extends View {
         lblStatusMessage.setOpaque(true);
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel2.setText("Specialty:");
+        jLabel2.setText(bundle.getString("FrmAddMedic.jLabel2.text")); // NOI18N
         jLabel2.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 0, 0, 0));
 
-        cmbSpeciality.setToolTipText("");
+        cmbSpeciality.setToolTipText(bundle.getString("FrmAddMedic.cmbSpeciality.toolTipText")); // NOI18N
         cmbSpeciality.setName("SPECIALITY"); // NOI18N
         cmbSpeciality.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -182,7 +185,7 @@ public class FrmAddMedic extends View {
             }
         });
 
-        btnRegisterMedic.setText("Register medic");
+        btnRegisterMedic.setText(bundle.getString("FrmAddMedic.btnRegisterMedic.text")); // NOI18N
         btnRegisterMedic.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnRegisterMedicActionPerformed(evt);
@@ -194,11 +197,11 @@ public class FrmAddMedic extends View {
         jScrollPane2.setViewportView(txaDescription1);
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel5.setText("Username:");
+        jLabel5.setText(bundle.getString("FrmAddMedic.jLabel5.text")); // NOI18N
         jLabel5.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 0, 0, 0));
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel6.setText("Full name:");
+        jLabel6.setText(bundle.getString("FrmAddMedic.jLabel6.text")); // NOI18N
         jLabel6.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 0, 0, 0));
 
         txtUsername.setName("USERNAME"); // NOI18N
@@ -216,7 +219,7 @@ public class FrmAddMedic extends View {
         });
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel7.setText("Email:");
+        jLabel7.setText(bundle.getString("FrmAddMedic.jLabel7.text")); // NOI18N
         jLabel7.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 0, 0, 0));
 
         txtEmail.setName("EMAIL"); // NOI18N
@@ -227,11 +230,11 @@ public class FrmAddMedic extends View {
         });
 
         jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel8.setText("Password:");
+        jLabel8.setText(bundle.getString("FrmAddMedic.jLabel8.text")); // NOI18N
         jLabel8.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 0, 0, 0));
 
         lblGeneratePassword.setForeground(new java.awt.Color(51, 153, 255));
-        lblGeneratePassword.setText("Generate random password");
+        lblGeneratePassword.setText(bundle.getString("FrmAddMedic.lblGeneratePassword.text")); // NOI18N
         lblGeneratePassword.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         lblGeneratePassword.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -247,23 +250,23 @@ public class FrmAddMedic extends View {
         });
 
         jLabel3.setForeground(new java.awt.Color(255, 102, 102));
-        jLabel3.setText("{{ error_username }}");
+        jLabel3.setText(bundle.getString("FrmAddMedic.jLabel3.text")); // NOI18N
         jLabel3.setName("error:username"); // NOI18N
 
         jLabel4.setForeground(new java.awt.Color(255, 102, 102));
-        jLabel4.setText("{{ error_fullname }}");
+        jLabel4.setText(bundle.getString("FrmAddMedic.jLabel4.text")); // NOI18N
         jLabel4.setName("error:fullname"); // NOI18N
 
         jLabel10.setForeground(new java.awt.Color(255, 102, 102));
-        jLabel10.setText("{{ error_email }}");
+        jLabel10.setText(bundle.getString("FrmAddMedic.jLabel10.text")); // NOI18N
         jLabel10.setName("error:email"); // NOI18N
 
         jLabel11.setForeground(new java.awt.Color(255, 102, 102));
-        jLabel11.setText("{{ error_password }}");
+        jLabel11.setText(bundle.getString("FrmAddMedic.jLabel11.text")); // NOI18N
         jLabel11.setName("error:password"); // NOI18N
 
         lblRevealPassword.setForeground(new java.awt.Color(51, 153, 255));
-        lblRevealPassword.setText("Reveal");
+        lblRevealPassword.setText(bundle.getString("FrmAddMedic.lblRevealPassword.text")); // NOI18N
         lblRevealPassword.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         lblRevealPassword.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -483,7 +486,7 @@ public class FrmAddMedic extends View {
     private FieldValidationStatus validateField(Field field, Component component) {
         if (component instanceof JTextComponent
             && ((JTextComponent)component).getText().trim().isEmpty()) {
-            return new FieldValidationStatus(field, false, "this field is required");
+            return new FieldValidationStatus(field, false, lang.getString("this_field_required"));
         }
         
         switch (field) {
@@ -491,31 +494,31 @@ public class FrmAddMedic extends View {
                String value = ((JTextField)component).getText();
                
                 if(value.length() < 3 || value.length() > 24) {
-                    return new FieldValidationStatus(field, false, "Username must be between 3 and 24 characters");
+                    return new FieldValidationStatus(field, false, String.format(lang.getString("username_length_between"), 3, 24));
                 } else if (!ValidationUtils.isValidUsername(value)) {
-                    return new FieldValidationStatus(field, false, "Username can only have letters, numbers, hyphens or dots");
+                    return new FieldValidationStatus(field, false, lang.getString("username_wrong_format_error"));
                 }
             } break;
             case FULLNAME:
                 String content = ((JTextField)component).getText();
                 if(content.length() < 2) {
-                    return new FieldValidationStatus(field, false, "Full name must have at least 2 characters");
+                    return new FieldValidationStatus(field, false, String.format(lang.getString("fullname_length_error"), 2));
                 } else if (!ValidationUtils.isValidFullName(content)) {
-                    return new FieldValidationStatus(field, false, "Fullname has invalid characters");
+                    return new FieldValidationStatus(field, false, lang.getString("fullname_wrong_format_error"));
                 }
             break;
             case EMAIL: {
                 String value = ((JTextField)component).getText();
                 
                 if (!ValidationUtils.isValidEmail(value)) {
-                    return new FieldValidationStatus(field, false, "Incorrect email");
+                    return new FieldValidationStatus(field, false, lang.getString("wrong_email_error"));
                 }
             } break;
             case PASSWORD: {
                 char[] value = ((JPasswordField)component).getPassword();
                 
                 if(value.length < 4) {
-                    return new FieldValidationStatus(field, false, "The password must have at least 4 characters");
+                    return new FieldValidationStatus(field, false, String.format(lang.getString("password_length_error"), 4));
                 }
             } break;
         }
