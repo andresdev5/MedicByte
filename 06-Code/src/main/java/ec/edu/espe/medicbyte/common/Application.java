@@ -1,6 +1,7 @@
 package ec.edu.espe.medicbyte.common;
 
 import com.formdev.flatlaf.FlatLightLaf;
+import ec.edu.espe.medicbyte.common.core.Config;
 import ec.edu.espe.medicbyte.common.core.Container;
 import ec.edu.espe.medicbyte.common.core.DatabaseManager;
 import ec.edu.espe.medicbyte.common.core.Router;
@@ -14,6 +15,11 @@ import ec.edu.espe.medicbyte.controller.UserController;
 import ec.edu.espe.medicbyte.service.impl.AuthService;
 import ec.edu.espe.medicbyte.view.AuthWindow;
 import ec.edu.espe.medicbyte.view.MainWindow;
+import java.io.File;
+import java.io.IOException;
+import java.lang.management.ManagementFactory;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -37,6 +43,15 @@ public class Application extends Container {
      * initialize the application
      */
     public void initialize() {
+        Config config = resolve(Config.class);
+        
+        try {
+            Locale.setDefault(new Locale(config.get("language", String.class)));
+        } catch (Exception ex) {
+            Logger.getLogger(Application.class.getName()).log(Level.SEVERE, null, ex);
+            Locale.setDefault(new Locale("en"));
+        }
+        
         Router router = resolve(Router.class);
         DatabaseManager database = resolve(DatabaseManager.class);
         AuthService authService = resolve(AuthService.class);
@@ -72,9 +87,38 @@ public class Application extends Container {
     }
     
     public static void main(String[] args) {
-        Locale.setDefault(new Locale("es"));
-        
         Application app = new Application(new MainModule());
         app.initialize();
+    }
+    
+    public static void restart(String[] args) {
+        List<String> jvmArgs = ManagementFactory.getRuntimeMXBean().getInputArguments();
+        ArrayList<String> commands = new ArrayList<>(4 + jvmArgs.size() + args.length);
+
+        commands.add(System.getProperty("java.home") + File.separator + "bin" + File.separator + "java");
+
+        for (String jvmArg : jvmArgs) {
+            commands.add(jvmArg);
+        }
+
+        commands.add("-cp");
+        commands.add(ManagementFactory.getRuntimeMXBean().getClassPath());
+        commands.add(Application.class.getName());
+
+        for (String arg : args) {
+            commands.add(arg);
+        }
+
+        File workingDir = null;
+        String[] env = null;
+        String[] commandArray = new String[commands.size()];
+        commandArray = commands.toArray(commandArray);
+
+        try {
+            Runtime.getRuntime().exec(commandArray, env, workingDir);
+            System.exit(0);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

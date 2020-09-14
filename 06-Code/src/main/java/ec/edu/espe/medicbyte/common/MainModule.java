@@ -3,6 +3,7 @@ package ec.edu.espe.medicbyte.common;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
+import ec.edu.espe.medicbyte.common.core.Config;
 import ec.edu.espe.medicbyte.common.core.DatabaseManager;
 import ec.edu.espe.medicbyte.common.core.DatabaseManager.DatabaseContext;
 import ec.edu.espe.medicbyte.common.core.Router;
@@ -42,14 +43,17 @@ public class MainModule extends AbstractModule {
     
     @Override
     protected void configure() {
+        Config config = Config.getInstance();
+        
         // bind database manager
         DatabaseContext dbcontext = new DatabaseContext(
             "ec.edu.espe.medicbyte.model",
-            "medicbyte",
-            "200.105.253.153",
-            25017
+            config.get("dbname", String.class),
+            config.get("dbhost", String.class),
+            config.get("dbport", Integer.class)
         );
         
+        this.bind(Config.class).toInstance(config);
         this.bind(DatabaseManager.class).toInstance(new DatabaseManager(dbcontext));
         
         // bind windows manager

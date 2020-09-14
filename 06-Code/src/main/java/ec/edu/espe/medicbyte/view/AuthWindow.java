@@ -1,5 +1,7 @@
 package ec.edu.espe.medicbyte.view;
 
+import ec.edu.espe.medicbyte.common.Application;
+import ec.edu.espe.medicbyte.common.core.Config;
 import ec.edu.espe.medicbyte.common.core.View;
 import ec.edu.espe.medicbyte.common.core.Window;
 import java.awt.Color;
@@ -65,6 +67,19 @@ public class AuthWindow extends Window {
         
         URL image = getClass().getResource("/images/auth-wireframe.png");
         lblWireframe.setIcon(new ImageIcon(image));
+        
+        Config config = Config.getInstance();
+        String language = config.get("language", String.class);
+        
+        if (language == null) {
+            cmbLangChooser.setSelectedItem("english");
+        } if (language.equals("en")) {
+            cmbLangChooser.setSelectedItem("english");
+        } else if (language.equals("es")) {
+            cmbLangChooser.setSelectedItem("spanish");
+        } else {
+            cmbLangChooser.setSelectedItem("english");
+        }
     }
     
     /**
@@ -78,11 +93,15 @@ public class AuthWindow extends Window {
         jPanel1 = new javax.swing.JPanel();
         formContainer = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
+        jPanel4 = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        cmbLangChooser = new javax.swing.JComboBox<>();
         lblLogo = new javax.swing.JLabel();
         lblWireframe = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("MedicByte - Authentification");
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("ec/edu/espe/medicbyte/view/Bundle"); // NOI18N
+        setTitle(bundle.getString("AuthWindow.title")); // NOI18N
         setMinimumSize(new java.awt.Dimension(750, 600));
         setResizable(false);
 
@@ -95,11 +114,28 @@ public class AuthWindow extends Window {
         jPanel3.setBackground(new java.awt.Color(250, 250, 250));
         jPanel3.setLayout(new java.awt.BorderLayout());
 
+        jPanel4.setOpaque(false);
+        jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel2.setForeground(new java.awt.Color(153, 153, 153));
+        jLabel2.setText(bundle.getString("AuthWindow.jLabel2.text")); // NOI18N
+        jPanel4.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 10, 60, -1));
+
+        cmbLangChooser.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "english", "spanish" }));
+        cmbLangChooser.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbLangChooserActionPerformed(evt);
+            }
+        });
+        jPanel4.add(cmbLangChooser, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 10, 110, 20));
+
         lblLogo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblLogo.setVerticalAlignment(javax.swing.SwingConstants.TOP);
         lblLogo.setBorder(javax.swing.BorderFactory.createEmptyBorder(40, 1, 1, 1));
         lblLogo.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jPanel3.add(lblLogo, java.awt.BorderLayout.PAGE_START);
+        jPanel4.add(lblLogo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 341, 130));
+
+        jPanel3.add(jPanel4, java.awt.BorderLayout.PAGE_START);
 
         lblWireframe.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
         jPanel3.add(lblWireframe, java.awt.BorderLayout.CENTER);
@@ -110,7 +146,7 @@ public class AuthWindow extends Window {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 682, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -120,10 +156,18 @@ public class AuthWindow extends Window {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void cmbLangChooserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbLangChooserActionPerformed
+        String selected = (String) cmbLangChooser.getSelectedItem();
+        emit("language", selected);
+    }//GEN-LAST:event_cmbLangChooserActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> cmbLangChooser;
     private javax.swing.JPanel formContainer;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JLabel lblLogo;
     private javax.swing.JLabel lblWireframe;
     // End of variables declaration//GEN-END:variables

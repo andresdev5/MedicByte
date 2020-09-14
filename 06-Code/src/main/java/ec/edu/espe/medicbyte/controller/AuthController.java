@@ -2,6 +2,7 @@ package ec.edu.espe.medicbyte.controller;
 
 import com.google.inject.Inject;
 import ec.edu.espe.medicbyte.common.Application;
+import ec.edu.espe.medicbyte.common.core.Config;
 import ec.edu.espe.medicbyte.common.core.Controller;
 import ec.edu.espe.medicbyte.common.core.Router;
 import ec.edu.espe.medicbyte.common.core.View;
@@ -32,6 +33,7 @@ public class AuthController extends Controller {
     private final IRoleService roleService;
     private final IPatientService patientService;
     private final Router router;
+    private final Config config;
     
     @Inject()
     public AuthController(
@@ -41,7 +43,8 @@ public class AuthController extends Controller {
         IUserService userService,
         IRoleService roleService,
         IPatientService patientService,
-        Router router
+        Router router,
+        Config config
     ) {
         this.application = application;
         this.windowsManager = windowsManager;
@@ -50,6 +53,7 @@ public class AuthController extends Controller {
         this.roleService = roleService;
         this.patientService = patientService;
         this.router = router;
+        this.config = config;
     }
     
     @Override
@@ -57,6 +61,32 @@ public class AuthController extends Controller {
         View loginView = new FrmLogin();
         View signupView = new FrmRegister();
         AuthWindow window = windowsManager.getAs(AuthWindow.class);
+        
+        window.listen("language", (args) -> {
+            String language = args.get(0);
+            String lang;
+            
+            if (language == null) {
+                lang = "en";
+            } else if (language.equals("spanish")) {
+                lang = "es";
+            } else if (language.equals("english")) {
+                lang = "en";
+            } else {
+                lang = "en";
+            }
+            
+            String oldLang = config.get("language", String.class);
+            
+            if (oldLang.equals(lang)) {
+                return;
+            }
+            
+            config.set("language", lang);
+            Application.restart(new String[]{
+                "language=" + language
+            });
+        });
         
         loginView.listen("submit", (args) -> {
             String username = args.get(0);
