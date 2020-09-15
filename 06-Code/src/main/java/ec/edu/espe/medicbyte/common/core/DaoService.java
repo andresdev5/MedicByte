@@ -14,7 +14,7 @@ import java.lang.reflect.ParameterizedType;
 /**
  *
  * @author Andres Jonathan J.
- * @param <T>
+ * @param <T> model class
  */
 public abstract class DaoService<T extends Model> implements IDaoService<T> {;
     @Inject() protected DatabaseManager databaseManager;
@@ -78,7 +78,6 @@ public abstract class DaoService<T extends Model> implements IDaoService<T> {;
             .count();
     }
     
-    @Override
     public FieldEnd<? extends Query<T>> field(String field) {
         return databaseManager.getDatastore()
             .find(getModelClass())

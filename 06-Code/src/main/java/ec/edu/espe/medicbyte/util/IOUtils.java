@@ -11,11 +11,13 @@ import java.nio.charset.StandardCharsets;
  */
 public class IOUtils {
     public static String readFile(File file) {
-        String content = new String();
+        String content;
         
         try {
             content = Files.asCharSource(file, StandardCharsets.UTF_8).read();
-        } catch (IOException exception) {}
+        } catch (IOException exception) {
+            return null;
+        }
         
         return content;
     }
