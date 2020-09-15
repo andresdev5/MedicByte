@@ -23,9 +23,11 @@ public class Appointment extends Model {
     private Status status;
     private String description;
 
+
     public LocalDate getDate() {
         return date;
     }
+
 
     public void setDate(LocalDate date) {
         this.date = date;
@@ -39,18 +41,15 @@ public class Appointment extends Model {
         this.hour = hour;
     }
 
-    
+    public Medic getMedic() {
+        return medic;
+    }
 
     public void setMedic(Medic medic) {
         this.medic = medic;
     }
 
-
-    public Medic getMedic() {
-        return medic;
-    }
-
-
+    
     public Patient getPatient() {
         return patient;
     }
