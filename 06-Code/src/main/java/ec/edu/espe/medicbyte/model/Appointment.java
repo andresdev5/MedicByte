@@ -39,13 +39,17 @@ public class Appointment extends Model {
         this.hour = hour;
     }
 
-    public Medic getMedic() {
-        return medic;
-    }
+    
 
     public void setMedic(Medic medic) {
         this.medic = medic;
     }
+
+
+    public Medic getMedic() {
+        return medic;
+    }
+
 
     public Patient getPatient() {
         return patient;
