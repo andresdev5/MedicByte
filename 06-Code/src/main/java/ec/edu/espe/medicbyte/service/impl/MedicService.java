@@ -56,6 +56,9 @@ public class MedicService extends DaoService<Medic> implements IMedicService {
     @Override
     public Medic get(ObjectId id) {
         Medic medic = super.get(id);
+        
+        if (medic == null) return null;
+        
         User jsonUser = userService.get(id);
         
         if (jsonUser != null) {

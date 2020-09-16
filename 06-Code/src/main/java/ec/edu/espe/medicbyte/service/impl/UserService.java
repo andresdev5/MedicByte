@@ -38,7 +38,7 @@ public class UserService extends DaoService<User>  implements IUserService {
             return jsonUser;
         }
         
-        if (jsonUser != null) {
+        if (user != null && jsonUser != null) {
             user.setUsername(jsonUser.getUsername());
             user.setEmail(jsonUser.getEmail());
             user.setPassword(jsonUser.getPassword());
@@ -56,7 +56,7 @@ public class UserService extends DaoService<User>  implements IUserService {
             return jsonUser;
         }
         
-        if (jsonUser != null) {
+        if (user != null && jsonUser != null) {
             user.setUsername(jsonUser.getUsername());
             user.setEmail(jsonUser.getEmail());
             user.setPassword(jsonUser.getPassword());
@@ -88,6 +88,7 @@ public class UserService extends DaoService<User>  implements IUserService {
     public List<User> getAll() {
         List<User> jsonUsers = getAllFromJson();
         List<User> users = super.getAll();
+        boolean update = false;
         
         for (User user : users) {
             User jsonUser = jsonUsers.stream()
@@ -95,11 +96,18 @@ public class UserService extends DaoService<User>  implements IUserService {
                 .findFirst()
                 .orElse(null);
             
-            if (jsonUser == null) continue;
+            if (jsonUser == null) {
+                update = true;
+                continue;
+            }
             
             user.setUsername(jsonUser.getUsername());
             user.setEmail(jsonUser.getEmail());
             user.setPassword(jsonUser.getPassword());
+        }
+        
+        if (update) {
+            saveToJson(users);
         }
         
         return users;

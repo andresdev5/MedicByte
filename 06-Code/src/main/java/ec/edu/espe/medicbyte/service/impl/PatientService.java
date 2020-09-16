@@ -56,6 +56,9 @@ public class PatientService extends DaoService<Patient> implements IPatientServi
     @Override
     public Patient get(String idCard) {
         Patient patient = field("idCard").equal(idCard).first();
+        
+        if (patient == null) return null;
+        
         User jsonUser = userService.get(patient.getId());
         
         if (jsonUser != null) {
@@ -70,6 +73,9 @@ public class PatientService extends DaoService<Patient> implements IPatientServi
     @Override
     public Patient get(ObjectId id) {
         Patient patient = super.get(id);
+        
+        if (patient == null) return null;
+        
         User jsonUser = userService.get(patient.getId());
         
         if (jsonUser != null) {
