@@ -12,11 +12,10 @@ import java.util.ArrayList;
 
 /**
  *
- * @author Adrian Iza
+ * @author Andres Jonathan J.
  */
 @Entity("roles")
 @Indexes(
-
     @Index(fields = @Field("name"), options = @IndexOptions(unique = true))
 )
 public class Role extends Model {
@@ -34,16 +33,14 @@ public class Role extends Model {
         this.permissions = permissions;
     }
 
-     public String getName() {
+    public String getName() {
         return name;
     }
-
 
     public void setName(String name) {
         this.name = name;
     }
 
-       
     public List<Permission> getPermissions() {
         return permissions;
     }

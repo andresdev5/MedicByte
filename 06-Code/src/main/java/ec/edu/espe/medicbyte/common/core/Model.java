@@ -17,6 +17,10 @@ public abstract class Model {
     protected LocalDateTime createdAt;
     protected LocalDateTime updatedAt;
     
+    public void setId(ObjectId id) {
+        this.id = id;
+    }
+    
     public ObjectId getId() {
         return id;
     }
